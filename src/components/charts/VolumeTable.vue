@@ -1,9 +1,5 @@
 <template>
   <span>
-    <p class="is-size-3">
-      {{ exercise }}
-    </p>
-
     <b-table :data="tableData" striped hoverable>
       <template slot-scope="props">
         <b-table-column field="date" label="Date">

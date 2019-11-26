@@ -7,7 +7,7 @@
     <div class="navbar-brand">
       <a
         class="navbar-item has-background-grey-lighter"
-        href="https://www.leadent.digital"
+        href="https://dr-muscle.com/"
         target="_new"
       >
         <img
