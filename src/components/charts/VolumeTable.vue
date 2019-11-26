@@ -4,7 +4,7 @@
       {{ exercise }}
     </p>
 
-    <b-table :data="tableData" striped>
+    <b-table :data="tableData" striped hoverable>
       <template slot-scope="props">
         <b-table-column field="date" label="Date">
           {{ props.row.date }}
