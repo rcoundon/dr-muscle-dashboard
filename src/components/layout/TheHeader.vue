@@ -10,10 +10,7 @@
         href="https://dr-muscle.com/"
         target="_new"
       >
-        <img
-          src="https://dr-muscle.com/wp-content/uploads/2019/08/Dr.-Muscle-logo-and-name-Denton-43-high.png"
-          style="max-height: 5em"
-        />
+        <img src="Dr.-Muscle-logo.png" style="max-height: 5em" />
       </a>
       <a
         role="button"
