@@ -17,7 +17,7 @@
         <b-table-column field="reps" label="Reps" numeric>
           {{ props.row.reps }}
         </b-table-column>
-        <b-table-column field="volume" label="Volume" numeric>
+        <b-table-column field="volume" label="Set Volume" numeric>
           {{ props.row.volume }}
         </b-table-column>
       </template>
