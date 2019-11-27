@@ -27,19 +27,19 @@
 </template>
 
 <script>
-import VolumeWrapper from "@/components/charts/VolumeWrapper";
+import VolumeWrapper from '@/components/charts/VolumeWrapper';
 
-import testData from "../../test-data/volume-over-time.json";
+import testData from '../../test-data/volume-over-time.json';
 
 export default {
-  name: "home",
+  name: 'home',
   components: {
     VolumeWrapper
   },
   data() {
     return {
-      selectedExercise: "",
-      selectedMuscleGroup: ""
+      selectedExercise: '',
+      selectedMuscleGroup: ''
     };
   },
   computed: {
@@ -63,9 +63,9 @@ export default {
     }
   },
   created() {
-    console.log("setting selectedExercise to", this.exercises[0]);
+    console.log('setting selectedExercise to', this.exercises[0]);
     console.log(
-      "setting selectedMuscleGroup to ",
+      'setting selectedMuscleGroup to ',
       this.exercises[0].primaryMuscleGroup
     );
     this.selectedExercise = this.exercises[0];

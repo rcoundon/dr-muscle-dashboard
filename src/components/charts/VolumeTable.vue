@@ -46,7 +46,7 @@ export default {
     exercise: {
       required: true,
       type: String,
-      default: "Unknown"
+      default: 'Unknown'
     }
   },
   data() {
@@ -54,23 +54,23 @@ export default {
       tableData: [],
       columns: [
         {
-          field: "date",
-          label: "Date",
+          field: 'date',
+          label: 'Date',
           numeric: false
         },
         {
-          field: "weight",
-          label: "Weight",
+          field: 'weight',
+          label: 'Weight',
           numeric: true
         },
         {
-          field: "reps",
-          label: "Reps",
+          field: 'reps',
+          label: 'Reps',
           numeric: true
         },
         {
-          field: "volume",
-          label: "Volume",
+          field: 'volume',
+          label: 'Volume',
           numeric: true
         }
       ]

@@ -1,10 +1,10 @@
 <template>
-  <span>
+  <div style="min-height 95vh">
     <p class="is-size-3">
       {{ exercise }}
     </p>
 
-    <div class="columns">
+    <div class="columns" style="min-height: 100vh">
       <div class="column">
         <volume-over-time
           :weight="weight"
@@ -22,12 +22,12 @@
         />
       </div>
     </div>
-  </span>
+  </div>
 </template>
 
 <script>
-import VolumeOverTime from "@/components/charts/VolumeOverTime.vue";
-import VolumeTable from "@/components/charts/VolumeTable.vue";
+import VolumeOverTime from '@/components/charts/VolumeOverTime.vue';
+import VolumeTable from '@/components/charts/VolumeTable.vue';
 
 export default {
   components: {
@@ -53,7 +53,7 @@ export default {
     exercise: {
       required: true,
       type: String,
-      default: "Unknown"
+      default: 'Unknown'
     }
   }
 };

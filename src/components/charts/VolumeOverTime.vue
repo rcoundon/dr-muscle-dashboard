@@ -49,7 +49,21 @@ export default {
           id: "training-data"
         },
         xaxis: {
-          categories: this.dates
+          categories: this.dates,
+          labels: {
+            show: true,
+            rotate: -45,
+            rotateAlways: true,
+            minHeight: "120"
+          },
+          title: {
+            text: "Training Date"
+          }
+        },
+        yaxis: {
+          title: {
+            text: "Volume"
+          }
         }
       },
       series: [
@@ -87,6 +101,9 @@ export default {
         name: this.exercise
       });
       this.series = newData;
+      // let newOptions = Object.assign(this.chartOptions);
+      // newOptions.xaxis.title.text = this.exercise;
+      // this.chartOptions = newOptions;
       this.$forceUpdate();
     }
   }

@@ -55,8 +55,8 @@
 export default {
   computed: {
     email() {
-      if (this.$store.getters["storeAuth/user"]) {
-        return this.$store.getters["storeAuth/user"].email;
+      if (this.$store.getters['storeAuth/user']) {
+        return this.$store.getters['storeAuth/user'].email;
       } else {
         return null;
       }
@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     onLogout() {
-      this.$store.dispatch("storeAuth/logout");
+      this.$store.dispatch('storeAuth/logout');
     }
   }
 };
