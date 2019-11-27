@@ -19,7 +19,7 @@ export default {
     height: {
       required: false,
       type: String,
-      default: "20em"
+      default: '20em'
     },
     reps: {
       required: true,
@@ -34,19 +34,23 @@ export default {
     exercise: {
       required: true,
       type: String,
-      default: "Unknown"
+      default: 'Unknown'
     },
     width: {
       required: false,
       type: String,
-      default: "100%"
+      default: '100%'
     }
   },
   data() {
     return {
       chartOptions: {
         chart: {
-          id: "training-data"
+          id: 'training-data'
+        },
+        stroke: {
+          width: 3,
+          curve: 'smooth'
         },
         xaxis: {
           categories: this.dates,
@@ -54,15 +58,15 @@ export default {
             show: true,
             rotate: -45,
             rotateAlways: true,
-            minHeight: "120"
+            minHeight: '120'
           },
           title: {
-            text: "Training Date"
+            text: 'Training Date'
           }
         },
         yaxis: {
           title: {
-            text: "Volume"
+            text: 'Volume'
           }
         }
       },
@@ -80,7 +84,7 @@ export default {
   watch: {
     reps: {
       handler: function(data) {
-        console.log("watcher", data);
+        console.log('watcher', data);
         this.buildChartData();
         this.$forceUpdate();
       }
@@ -88,7 +92,7 @@ export default {
   },
   methods: {
     buildChartData() {
-      console.log("building ChartData");
+      console.log('building ChartData');
       const data = [];
       this.reps.forEach((value, idx) => {
         let volume = value * this.weight[idx];
