@@ -70,6 +70,13 @@ export default {
       ]
     };
   },
+  watch: {
+    weight: {
+      handler: function() {
+        this.buildTableData();
+      }
+    }
+  },
   created() {
     this.buildTableData();
   },

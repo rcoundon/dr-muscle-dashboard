@@ -5,12 +5,12 @@
     </p>
 
     <div class="columns">
-      <div class="column is-half">
+      <div class="column">
         <volume-over-time
           :weight="weight"
           :reps="reps"
           :dates="dates"
-          :exercise="'Bench Press'"
+          :exercise="exercise"
         />
       </div>
       <div class="column">
@@ -18,7 +18,7 @@
           :weight="weight"
           :reps="reps"
           :dates="dates"
-          :exercise="'Bench Press'"
+          :exercise="exercise"
         />
       </div>
     </div>

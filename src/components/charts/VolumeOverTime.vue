@@ -4,6 +4,7 @@
     type="line"
     :series="series"
     :options="chartOptions"
+    ref="volumechart"
   />
 </template>
 
@@ -14,6 +15,11 @@ export default {
       required: true,
       type: Array,
       default: () => []
+    },
+    height: {
+      required: false,
+      type: String,
+      default: "20em"
     },
     reps: {
       required: true,
@@ -54,28 +60,34 @@ export default {
       ]
     };
   },
-  mounted() {
+  created() {
     this.buildChartData();
   },
   watch: {
     reps: {
-      immediate: true,
       handler: function(data) {
         console.log("watcher", data);
         this.buildChartData();
+        this.$forceUpdate();
       }
     }
   },
   methods: {
     buildChartData() {
-      console.log("buildChartData");
+      console.log("building ChartData");
       const data = [];
       this.reps.forEach((value, idx) => {
         let volume = value * this.weight[idx];
         volume = volume.toFixed(1);
         data.push(volume);
       });
-      this.series[0].data = data;
+      let newData = [];
+      newData.push({
+        data,
+        name: this.exercise
+      });
+      this.series = newData;
+      // console.log(this.$refs.volumechart.updateSeries);
       this.$forceUpdate();
     }
   }
