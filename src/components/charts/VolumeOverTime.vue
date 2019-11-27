@@ -87,7 +87,6 @@ export default {
         name: this.exercise
       });
       this.series = newData;
-      // console.log(this.$refs.volumechart.updateSeries);
       this.$forceUpdate();
     }
   }
