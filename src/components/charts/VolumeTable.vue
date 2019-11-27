@@ -1,6 +1,12 @@
 <template>
   <span>
-    <b-table :data="tableData" striped hoverable>
+    <b-table
+      :data="tableData"
+      striped
+      hoverable
+      :paginated="true"
+      :per-page="5"
+    >
       <template slot-scope="props">
         <b-table-column field="date" label="Date">
           {{ props.row.date }}

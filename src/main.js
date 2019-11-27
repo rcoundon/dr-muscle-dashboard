@@ -10,8 +10,13 @@ import "buefy/dist/buefy.css";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
-import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
-library.add(faArrowUp, faArrowDown);
+import {
+  faArrowUp,
+  faArrowDown,
+  faAngleLeft,
+  faAngleRight
+} from "@fortawesome/free-solid-svg-icons";
+library.add(faArrowUp, faArrowDown, faAngleLeft, faAngleRight);
 
 Vue.component("vue-fontawesome", FontAwesomeIcon);
 
