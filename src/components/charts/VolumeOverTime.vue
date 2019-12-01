@@ -83,8 +83,7 @@ export default {
   },
   watch: {
     reps: {
-      handler: function(data) {
-        console.log('watcher', data);
+      handler: function() {
         this.buildChartData();
         this.$forceUpdate();
       }
@@ -92,7 +91,6 @@ export default {
   },
   methods: {
     buildChartData() {
-      console.log('building ChartData');
       const data = [];
       this.reps.forEach((value, idx) => {
         let volume = value * this.weight[idx];

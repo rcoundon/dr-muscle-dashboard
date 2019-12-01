@@ -15,8 +15,6 @@ export default async function getExerciseCountOverTime(
       Authorization: `Bearer ${token}`
     }
   };
-  console.log('options', options);
   const { data } = await axiosInstance(options);
-  console.log('data', data);
   return data;
 }

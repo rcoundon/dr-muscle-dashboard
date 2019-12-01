@@ -25,7 +25,8 @@ import {
   faAngleRight,
   faAt,
   faKey,
-  faExclamationCircle
+  faExclamationCircle,
+  faDumbbell
 } from '@fortawesome/free-solid-svg-icons';
 library.add(
   faArrowUp,
@@ -34,7 +35,8 @@ library.add(
   faAngleRight,
   faAt,
   faKey,
-  faExclamationCircle
+  faExclamationCircle,
+  faDumbbell
 );
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);

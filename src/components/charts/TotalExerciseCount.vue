@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div style="padding-top: 1em">
     <b-loading
       :is-full-page="true"
       :active.sync="isLoading"
       :can-cancel="false"
     ></b-loading>
+    <p class="has-text-centered is-size-4">Count of exercises performed</p>
     <apexchart
       v-if="series && series.length > 0"
       height="350px"
@@ -21,7 +22,7 @@
 
 <script>
 import fastCopy from 'fast-copy';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 import getExerciseCountOverTime from '@/services/getExerciseCountOverTime.js';
 
@@ -109,23 +110,41 @@ export default {
         newOptions.xaxis.categories = newVal;
         this.chartOptions = newOptions;
       }
+    },
+    rawData: {
+      handler: function(newResults) {
+        if (!newResults || newResults.length === 0) return;
+        const exerciseArray = newResults.map(exercise => {
+          return {
+            id: exercise.Id,
+            Label: exercise.Label
+          };
+        });
+        this.setExercises(exerciseArray);
+      }
     }
   },
   async mounted() {
-    try {
-      this.isLoading = true;
-      this.error = undefined;
-      const result = await getExerciseCountOverTime(
-        this.$axios,
-        this.token,
-        undefined,
-        undefined
-      );
-      this.rawData = result.Result;
-    } catch (err) {
-      this.error = err;
-    } finally {
-      this.isLoading = false;
+    await this.getData();
+  },
+  methods: {
+    ...mapActions('storeExercises', ['setExercises']),
+    async getData() {
+      try {
+        this.isLoading = true;
+        this.error = undefined;
+        const result = await getExerciseCountOverTime(
+          this.$axios,
+          this.token,
+          undefined,
+          undefined
+        );
+        this.rawData = result.Result;
+      } catch (err) {
+        this.error = err;
+      } finally {
+        this.isLoading = false;
+      }
     }
   }
 };
