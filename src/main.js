@@ -24,9 +24,18 @@ import {
   faAngleLeft,
   faAngleRight,
   faAt,
-  faKey
+  faKey,
+  faExclamationCircle
 } from '@fortawesome/free-solid-svg-icons';
-library.add(faArrowUp, faArrowDown, faAngleLeft, faAngleRight, faAt, faKey);
+library.add(
+  faArrowUp,
+  faArrowDown,
+  faAngleLeft,
+  faAngleRight,
+  faAt,
+  faKey,
+  faExclamationCircle
+);
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);
 

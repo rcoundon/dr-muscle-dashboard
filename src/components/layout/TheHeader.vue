@@ -10,7 +10,7 @@
         href="https://dr-muscle.com/"
         target="_new"
       >
-        <!-- <img src="Dr.-Muscle-logo.png" style="max-height: 5em" /> -->
+        <img src="Dr.-Muscle-logo.png" style="max-height: 5em" />
       </a>
       <a
         role="button"
@@ -28,17 +28,12 @@
       <div class="navbar-start"></div>
       <div class="navbar-end">
         <div class="navbar-item">
-          <div class="navbar-item nav-item">
-            <p class="has-text-weight-semibold">
-              Test
-            </p>
-          </div>
           <p class="navbar-item has-text-weight-semibold">
-            Email
+            {{ username }}
           </p>
           <div class="buttons">
-            <div class="navbar-item nav-item">
-              <a class="button is-primary" @click="onLogout">
+            <div class="navbar-item nav-item" v-if="showLogout">
+              <a class="button is-primary" @click="logout">
                 Logout
               </a>
             </div>
@@ -52,19 +47,24 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   computed: {
-    email() {
-      if (this.$store.getters['storeAuth/user']) {
-        return this.$store.getters['storeAuth/user'].email;
-      } else {
-        return null;
-      }
+    ...mapGetters('storeAuth', ['username']),
+    showLogout() {
+      console.log(this.$route.name);
+      return this.$route.name !== 'login';
     }
   },
   methods: {
-    onLogout() {
-      this.$store.dispatch('storeAuth/logout');
+    ...mapActions('storeAuth', ['setToken', 'setUsername']),
+    logout() {
+      this.setToken(undefined);
+      this.setUsername(undefined);
+      this.$router.push({
+        name: 'login'
+      });
     }
   }
 };
