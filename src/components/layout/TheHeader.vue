@@ -10,7 +10,7 @@
         href="https://dr-muscle.com/"
         target="_new"
       >
-        <img src="Dr.-Muscle-logo.png" style="max-height: 5em" />
+        <!-- <img src="Dr.-Muscle-logo.png" style="max-height: 5em" /> -->
       </a>
       <a
         role="button"

@@ -1,6 +1,6 @@
 <template>
   <apexchart
-    v-if="series"
+    v-if="series && series.length > 0"
     height="350px"
     type="bar"
     :series="series"
@@ -10,8 +10,10 @@
 </template>
 
 <script>
-import axios from 'axios';
 import fastCopy from 'fast-copy';
+import { mapGetters } from 'vuex';
+
+import getExerciseCountOverTime from '@/services/getExerciseCountOverTime.js';
 
 export default {
   props: {
@@ -28,6 +30,17 @@ export default {
         chart: {
           type: 'bar'
         },
+        dataLabels: {
+          enabled: true,
+          formatter: val => {
+            return ((val * 100) / this.totalSets).toFixed(1) + '%';
+          },
+          offsetY: -20,
+          style: {
+            fontSize: '12px',
+            colors: ['#304758']
+          }
+        },
         plotOptions: {
           bar: {
             dataLabels: {
@@ -39,7 +52,7 @@ export default {
           categories: this.exercises,
           labels: {
             show: true,
-            rotate: -90,
+            rotate: -45,
             rotateAlways: true
           }
         },
@@ -52,6 +65,12 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('storeAuth', ['token']),
+    totalSets() {
+      return this.rawData.reduce((acc, cur) => {
+        return acc + cur.NoOfTimePerform;
+      }, 0);
+    },
     series() {
       if (!this.rawData) return [];
       const data = this.rawData.map(item => {
@@ -80,19 +99,15 @@ export default {
       }
     }
   },
-  async created() {
-    const options = {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer X`
-      },
-      data: { ExerciseId: null, PeriodSinceToday: '-365.00:00:00.0000020' },
-      url:
-        'http://drmuscle.azurewebsites.net//api/WorkoutLog/GetUserExerciseCount'
-    };
+  async mounted() {
     try {
-      const result = await axios(options);
-      this.rawData = result.data.Result;
+      const result = await getExerciseCountOverTime(
+        this.$axios,
+        this.token,
+        undefined,
+        undefined
+      );
+      this.rawData = result.Result;
     } catch (err) {
       console.log(err);
     }

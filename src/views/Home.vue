@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container" style="padding-top: 2em">
+    <!-- <div class="container" style="padding-top: 2em">
       <b-field grouped>
         <b-select placeholder="Select an exercise" v-model="selectedExercise">
           <option v-for="option in exercises" :value="option" :key="option">
@@ -22,13 +22,13 @@
         :dates="volumeData.dates"
         :exercise="selectedExercise"
       />
-    </div>
+    </div> -->
     <total-exercise-count></total-exercise-count>
   </div>
 </template>
 
 <script>
-import VolumeWrapper from '@/components/charts/VolumeWrapper';
+// import VolumeWrapper from '@/components/charts/VolumeWrapper';
 import TotalExerciseCount from '@/components/charts/TotalExerciseCount';
 
 import testData from '../../test-data/volume-over-time.json';
@@ -36,7 +36,7 @@ import testData from '../../test-data/volume-over-time.json';
 export default {
   name: 'home',
   components: {
-    VolumeWrapper,
+    // VolumeWrapper,
     TotalExerciseCount
   },
   data() {
