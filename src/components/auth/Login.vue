@@ -81,7 +81,7 @@ export default {
           name: 'home'
         });
       } catch (err) {
-        console.error(err.response.data);
+        console.error(err);
         this.loginError = err?.response?.data?.error_description;
       } finally {
         this.isLoading = false;
@@ -93,6 +93,6 @@ export default {
 
 <style scoped>
 .hero {
-  opacity: 0.7;
+  opacity: 0.8;
 }
 </style>
