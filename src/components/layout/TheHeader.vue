@@ -53,15 +53,15 @@ export default {
   computed: {
     ...mapGetters('storeAuth', ['username']),
     showLogout() {
-      console.log(this.$route.name);
       return this.$route.name !== 'login';
     }
   },
   methods: {
-    ...mapActions('storeAuth', ['setToken', 'setUsername']),
+    ...mapActions('storeAuth', ['setToken', 'setUsername', 'setExpiresIn']),
     logout() {
       this.setToken(undefined);
       this.setUsername(undefined);
+      this.setExpiresIn(0);
       this.$router.push({
         name: 'login'
       });

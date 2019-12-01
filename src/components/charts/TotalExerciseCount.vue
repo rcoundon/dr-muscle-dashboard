@@ -1,12 +1,22 @@
 <template>
-  <apexchart
-    v-if="series && series.length > 0"
-    height="350px"
-    type="bar"
-    :series="series"
-    :options="chartOptions"
-    ref="timesperformedchart"
-  />
+  <div>
+    <b-loading
+      :is-full-page="true"
+      :active.sync="isLoading"
+      :can-cancel="false"
+    ></b-loading>
+    <apexchart
+      v-if="series && series.length > 0"
+      height="350px"
+      type="bar"
+      :series="series"
+      :options="chartOptions"
+      ref="timesperformedchart"
+    />
+    <div v-if="error">
+      <p class="is-danger">{{ error }}</p>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -25,6 +35,8 @@ export default {
   },
   data() {
     return {
+      error: undefined,
+      isLoading: false,
       rawData: null,
       chartOptions: {
         chart: {
@@ -101,6 +113,8 @@ export default {
   },
   async mounted() {
     try {
+      this.isLoading = true;
+      this.error = undefined;
       const result = await getExerciseCountOverTime(
         this.$axios,
         this.token,
@@ -109,7 +123,9 @@ export default {
       );
       this.rawData = result.Result;
     } catch (err) {
-      console.log(err);
+      this.error = err;
+    } finally {
+      this.isLoading = false;
     }
   }
 };

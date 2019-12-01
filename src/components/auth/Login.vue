@@ -74,7 +74,6 @@ export default {
       try {
         this.loginError = undefined;
         const token = await login(this.$axios, this.email, this.password);
-        console.log(token);
         await this.setToken(token.access_token);
         await this.setUsername(this.email);
         await this.setExpiresIn(token.expires_in);
