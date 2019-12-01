@@ -105,9 +105,6 @@ export default {
         name: this.exercise
       });
       this.series = newData;
-      // let newOptions = Object.assign(this.chartOptions);
-      // newOptions.xaxis.title.text = this.exercise;
-      // this.chartOptions = newOptions;
       this.$forceUpdate();
     }
   }

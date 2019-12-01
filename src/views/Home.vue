@@ -23,18 +23,21 @@
         :exercise="selectedExercise"
       />
     </div>
+    <total-exercise-count></total-exercise-count>
   </div>
 </template>
 
 <script>
 import VolumeWrapper from '@/components/charts/VolumeWrapper';
+import TotalExerciseCount from '@/components/charts/TotalExerciseCount';
 
 import testData from '../../test-data/volume-over-time.json';
 
 export default {
   name: 'home',
   components: {
-    VolumeWrapper
+    VolumeWrapper,
+    TotalExerciseCount
   },
   data() {
     return {
