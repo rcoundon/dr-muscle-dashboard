@@ -42,7 +42,9 @@
         </b-field>
       </div>
       <div class="column">
-        <total-exercise-count></total-exercise-count>
+        <total-exercise-count
+          @selectedExercise="setSelectedExercise"
+        ></total-exercise-count>
       </div>
     </div>
   </div>
@@ -95,6 +97,12 @@ export default {
   },
   created() {
     // this.selectedExercise = this.exercises[0];
+  },
+  methods: {
+    setSelectedExercise(evt) {
+      console.log('caught', evt);
+      this.selectedExercise = this.exercises[evt].id;
+    }
   }
 };
 </script>

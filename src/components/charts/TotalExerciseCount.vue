@@ -23,7 +23,6 @@
 <script>
 import fastCopy from 'fast-copy';
 import { mapGetters, mapActions } from 'vuex';
-
 import getExerciseCountOverTime from '@/services/getExerciseCountOverTime.js';
 
 export default {
@@ -35,13 +34,21 @@ export default {
     }
   },
   data() {
+    // bind this for use inside chart options click handler
+    const self = this;
     return {
       error: undefined,
       isLoading: false,
       rawData: null,
       chartOptions: {
         chart: {
-          type: 'bar'
+          type: 'bar',
+          events: {
+            click: function(event, chartContext, config) {
+              console.log(config.dataPointIndex);
+              self.$emit('selectedExercise', config.dataPointIndex);
+            }
+          }
         },
         dataLabels: {
           enabled: true,
@@ -129,6 +136,9 @@ export default {
   },
   methods: {
     ...mapActions('storeExercises', ['setExercises']),
+    chartClicked(evt) {
+      console.log(evt);
+    },
     async getData() {
       try {
         this.isLoading = true;
