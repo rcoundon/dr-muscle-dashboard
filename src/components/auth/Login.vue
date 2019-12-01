@@ -80,10 +80,9 @@ export default {
         this.$router.push({
           name: 'home'
         });
-        this.loginError = 'Failed to login';
       } catch (err) {
-        this.err;
-        console.error(err);
+        console.error(err.response.data);
+        this.loginError = err?.response?.data?.error_description;
       } finally {
         this.isLoading = false;
       }
