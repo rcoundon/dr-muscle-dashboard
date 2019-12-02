@@ -1,6 +1,13 @@
 <template>
   <div>
-    <p class="is-size-3">{{ exerciseName }} Volume</p>
+    <b-loading
+      :is-full-page="true"
+      :active.sync="isLoading"
+      :can-cancel="false"
+    ></b-loading>
+
+    <p v-if="name" class="is-size-3">{{ name }} Volume</p>
+    <p class="is-danger" v-if="error">{{ error }}</p>
     <apexchart
       type="line"
       height="300em"
@@ -30,6 +37,9 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
+      error: undefined,
+      name: undefined,
       categories: [],
       displayExercise: undefined,
       chartOptions: {
@@ -134,7 +144,6 @@ export default {
       }
     }
   },
-  async mounted() {},
   methods: {
     ...mapActions('storeExercise', ['setExercise']),
     buildCategories() {
@@ -145,16 +154,26 @@ export default {
       });
     },
     async getData(exerciseId) {
-      const data = await getExerciseHistory(
-        this.$axios,
-        this.token,
-        exerciseId
-      );
-      await this.setExercise({
-        id: exerciseId,
-        data
-      });
-      this.displayExercise = this.exercise(this.exerciseId);
+      this.isLoading = true;
+      this.error = null;
+      this.name = null;
+      try {
+        const data = await getExerciseHistory(
+          this.$axios,
+          this.token,
+          exerciseId
+        );
+        await this.setExercise({
+          id: exerciseId,
+          data
+        });
+        this.displayExercise = this.exercise(this.exerciseId);
+        this.name = this.exerciseName;
+      } catch (err) {
+        this.error = err;
+      } finally {
+        this.isLoading = false;
+      }
     }
   }
 };
