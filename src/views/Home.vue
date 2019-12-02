@@ -48,6 +48,7 @@
         <exercise-history
           v-if="selectedExercise"
           :exerciseId="selectedExercise"
+          :exerciseName="selectedExerciseName"
         />
       </div>
     </div>
@@ -76,7 +77,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('storeExercises', ['exercises'])
+    ...mapGetters('storeExercises', ['exercises']),
     // options() {
     //   return this.exercises.map(exercise => {
 
@@ -93,6 +94,13 @@ export default {
     //     return testData[exercise].primaryMuscleGroup;
     //   });
     // }
+    selectedExerciseName() {
+      if (!this.exercises) return '';
+      const exercise = this.exercises.filter(exercise => {
+        return exercise.id === this.selectedExercise;
+      });
+      return exercise[0] ? exercise[0].Label : '';
+    }
   },
   watch: {
     // selectedExercise: {
