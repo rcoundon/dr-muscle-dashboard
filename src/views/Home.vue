@@ -45,6 +45,10 @@
         <total-exercise-count
           @selectedExercise="setSelectedExercise"
         ></total-exercise-count>
+        <exercise-history
+          v-if="selectedExercise"
+          :exerciseId="selectedExercise"
+        />
       </div>
     </div>
   </div>
@@ -54,6 +58,7 @@
 import { mapGetters } from 'vuex';
 // import VolumeWrapper from '@/components/charts/VolumeWrapper';
 import TotalExerciseCount from '@/components/charts/TotalExerciseCount';
+import ExerciseHistory from '@/components/charts/ExerciseHistory';
 
 // import testData from '../../test-data/volume-over-time.json';
 
@@ -61,7 +66,8 @@ export default {
   name: 'home',
   components: {
     // VolumeWrapper,
-    TotalExerciseCount
+    TotalExerciseCount,
+    ExerciseHistory
   },
   data() {
     return {
