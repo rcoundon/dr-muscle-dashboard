@@ -26,8 +26,10 @@ import {
   faAt,
   faKey,
   faExclamationCircle,
-  faDumbbell
+  faDumbbell,
+  faLongArrowAltRight
 } from '@fortawesome/free-solid-svg-icons';
+
 library.add(
   faArrowUp,
   faArrowDown,
@@ -36,7 +38,8 @@ library.add(
   faAt,
   faKey,
   faExclamationCircle,
-  faDumbbell
+  faDumbbell,
+  faLongArrowAltRight
 );
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);

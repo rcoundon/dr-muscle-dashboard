@@ -40,6 +40,16 @@
             </option>
           </b-select>
         </b-field>
+        <br />
+        <p>Or click a bar on the graph</p>
+        <b-icon
+          pack="fas"
+          icon="long-arrow-alt-right"
+          size="is-large"
+          type="is-success"
+          style="min-width: 10em"
+        >
+        </b-icon>
       </div>
       <div class="column">
         <total-exercise-count
