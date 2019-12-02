@@ -4,17 +4,23 @@
       :is-full-page="true"
       :active.sync="isLoading"
       :can-cancel="false"
-    ></b-loading>
+    />
 
-    <p v-if="name" class="is-size-3">{{ name }} Volume</p>
-    <p class="is-danger" v-if="error">{{ error }}</p>
+    <p v-if="name"
+class="is-size-3">
+{{ name }} Volume
+</p>
+    <p v-if="error"
+class="is-danger">
+      {{ error }}
+    </p>
     <apexchart
+      ref="volumechart"
       type="line"
       height="300em"
       width="1000px"
       :series="series"
       :options="chartOptions"
-      ref="volumechart"
     />
   </div>
 </template>

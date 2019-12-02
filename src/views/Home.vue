@@ -33,32 +33,29 @@
           >
             <option
               v-for="exercise in exercises"
-              :value="exercise.id"
               :key="exercise.id"
+              :value="exercise.id"
             >
               {{ exercise.Label }}
             </option>
           </b-select>
         </b-field>
-        <br />
+        <br >
         <p>Or click a bar on the graph</p>
         <b-icon
           pack="fas"
           icon="long-arrow-alt-right"
-          size="is-large"
+          custom-size="2x"
           type="is-success"
           style="min-width: 10em"
-        >
-        </b-icon>
+        />
       </div>
       <div class="column">
-        <total-exercise-count
-          @selectedExercise="setSelectedExercise"
-        ></total-exercise-count>
+        <total-exercise-count @selectedExercise="setSelectedExercise" />
         <exercise-history
           v-if="selectedExercise"
-          :exerciseId="selectedExercise"
-          :exerciseName="selectedExerciseName"
+          :exercise-id="selectedExercise"
+          :exercise-name="selectedExerciseName"
         />
       </div>
     </div>
@@ -74,7 +71,7 @@ import ExerciseHistory from '@/components/charts/ExerciseHistory';
 // import testData from '../../test-data/volume-over-time.json';
 
 export default {
-  name: 'home',
+  name: 'Home',
   components: {
     // VolumeWrapper,
     TotalExerciseCount,

@@ -15,7 +15,10 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+$icon-svg-width: auto;
+$icon-svg-height: auto;
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
