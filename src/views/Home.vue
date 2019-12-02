@@ -40,7 +40,7 @@
             </option>
           </b-select>
         </b-field>
-        <br >
+        <br />
         <p>Or click a bar on the graph</p>
         <b-icon
           pack="fas"
