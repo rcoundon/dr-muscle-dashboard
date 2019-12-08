@@ -51,6 +51,7 @@
         />
       </div>
       <div class="column">
+        <body-part-volume />
         <total-exercise-count @selectedExercise="setSelectedExercise" />
         <exercise-history
           v-if="selectedExercise"
@@ -67,6 +68,7 @@ import { mapGetters } from 'vuex';
 // import VolumeWrapper from '@/components/charts/VolumeWrapper';
 import TotalExerciseCount from '@/components/charts/TotalExerciseCount';
 import ExerciseHistory from '@/components/charts/ExerciseHistory';
+import BodyPartVolume from '@/components/charts/BodyPartVolume';
 
 // import testData from '../../test-data/volume-over-time.json';
 
@@ -75,7 +77,8 @@ export default {
   components: {
     // VolumeWrapper,
     TotalExerciseCount,
-    ExerciseHistory
+    ExerciseHistory,
+    BodyPartVolume
   },
   data() {
     return {

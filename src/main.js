@@ -56,6 +56,7 @@ Vue.component('apexchart', VueApexCharts);
 import App from './App.vue';
 import router from './router';
 import store from './store/store-modules';
+import './registerServiceWorker'
 
 Vue.config.productionTip = false;
 
