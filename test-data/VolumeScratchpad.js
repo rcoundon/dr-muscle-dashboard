@@ -1,5 +1,5 @@
 const data = require('/Users/rcoundon/Documents/Github/dr-muscle-dashboard/test-data/exercise-history.json');
-import { compareAsc, getDay, getWeek } from 'date-fns';
+import { compareAsc, getWeek } from 'date-fns';
 
 // Sort by workout date with oldest first
 const workouts = data.Result.sort((workoutA, workoutB) => {
@@ -7,11 +7,6 @@ const workouts = data.Result.sort((workoutA, workoutB) => {
   let workoutDateB = new Date(workoutB.WorkoutDate);
   return compareAsc(workoutDateA, workoutDateB);
 }); /* ? */
-
-const bodyPartId = workouts[0].Exercises[0].Sets[0].Exercice.BodyPartId; /* ? */
-
-const dateOfFirstWorkout = new Date(workouts[0].WorkoutDate);
-const dayOfFirstWorkout = getDay(dateOfFirstWorkout); /* ? */
 
 let weekCounter = 0;
 const weeks = [
@@ -30,7 +25,6 @@ const getWeekOptions = {
 // let newWeek = false;
 workouts.forEach((workout, idx) => {
   const workoutDate = new Date(workout.WorkoutDate);
-  const dayOfWeek = getDay(workoutDate); /* ? */
   if (idx > 1) {
     const lastWorkoutDate = new Date(workouts[idx - 1].WorkoutDate);
     // console.log(lastWorkoutDate);
