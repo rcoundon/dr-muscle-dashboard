@@ -9,15 +9,15 @@
     <b-field style="padding-top: 2em">
       <b-select
         v-model="selectedExercise"
-        placeholder="Select an exercise"
-        icon="dumbbell"
+        placeholder="Select a body part"
+        icon="child"
       >
         <option
-          v-for="exercise in exercises"
-          :key="exercise.id"
-          :value="exercise.id"
+          v-for="bodyPart in bodyParts"
+          :key="bodyPart.id"
+          :value="bodyPart.bodyPart"
         >
-          {{ exercise.Label }}
+          {{ bodyPart.bodyPart }}
         </option>
       </b-select>
     </b-field>
@@ -56,11 +56,23 @@ import getExerciseHistory from '@/services/getExerciseHistory';
 import { getBodyPartName } from '@/services/getBodyPartName';
 import { getExerciseName } from '@/services/getExerciseName';
 import { compareAsc, getWeek } from 'date-fns';
+import bodyPartsObj from '../../codes/bodyPartId';
 
 export default {
   computed: {
     ...mapGetters('storeAuth', ['token']),
     ...mapGetters('storeExercises', ['exercises']),
+    bodyParts() {
+      // const bodyPartArray = JSON.parse(bodyPartsObj);
+      const bodyPartKeys = Object.keys(bodyPartsObj);
+      const bodyParts = bodyPartKeys.map(key => {
+        return {
+          id: key,
+          bodyPart: bodyPartsObj[key]
+        };
+      });
+      return bodyParts;
+    },
     tableData() {
       return this.exerciseVolume.filter(exercise => {
         return exercise.exerciseId === this.selectedExercise;
