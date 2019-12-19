@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="card">
     <b-loading
       :is-full-page="false"
       :active.sync="isLoading"
       :can-cancel="false"
     />
-
-    <b-field style="padding-top: 2em">
+    <p class="has-text-centered is-size-4">Total Weight Lifted by Week Number</p>
+    <b-field style="padding-top: 2em; padding-left: 1em">
       <b-select
         v-model="selectedBodyPart"
         placeholder="Select a body part"
@@ -26,7 +26,6 @@
       ref="bodypartvolumechart"
       type="line"
       height="300em"
-      width="1000px"
       :series="series"
       :options="chartOptions"
     />
@@ -83,10 +82,7 @@ export default {
         },
         xaxis: {
           labels: {
-            show: true,
-            rotate: -45,
-            rotateAlways: true,
-            minHeight: '120'
+            show: true
           },
           title: {
             text: 'Training Week'
@@ -141,10 +137,7 @@ export default {
             xaxis: {
               categories: xValues,
               labels: {
-                show: true,
-                rotate: -45,
-                rotateAlways: true,
-                minHeight: '120'
+                show: true
               }
             }
           }

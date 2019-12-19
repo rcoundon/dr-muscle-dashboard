@@ -1,5 +1,5 @@
 <template>
-  <div style="padding-top: 1em">
+  <div class="card" style="padding-top: 1em">
     <b-loading
       :is-full-page="false"
       :active.sync="isLoading"
