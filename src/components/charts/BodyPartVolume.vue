@@ -67,6 +67,13 @@ import { compareAsc, getWeek } from 'date-fns';
 import bodyPartsObj from '../../codes/bodyPartId';
 
 export default {
+  props: {
+    exerciseData: {
+      type: Array,
+      required: true,
+      default: () => []
+    }
+  },
   data() {
     return {
       isLoading: false,
@@ -150,7 +157,6 @@ export default {
   },
   computed: {
     ...mapGetters('storeAuth', ['token']),
-    ...mapGetters('storeExercises', ['exercises']),
     chartData() {
       if (!this.selectedBodyPart) return [];
       const bodyPartData = this.bodyPartTotals[this.selectedBodyPart];
@@ -256,7 +262,7 @@ export default {
   async created() {
     try {
       this.isLoading = true;
-      const responsePromises = this.exercises.map(exercise => {
+      const responsePromises = this.exerciseData.map(exercise => {
         return getExerciseHistory(
           this.$axios,
           this.token,
@@ -304,7 +310,7 @@ export default {
       return getBodyPartName(id);
     },
     getExerciseName(id) {
-      return getExerciseName(this.exercises, id);
+      return getExerciseName(this.exerciseData, id);
     },
     buildAllWorkoutVolumes() {
       this.exerciseVolume = this.exerciseHistory.map(exercise => {

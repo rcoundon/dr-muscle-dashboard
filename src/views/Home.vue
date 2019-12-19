@@ -51,8 +51,10 @@
         />
       </div> -->
       <div class="column">
-        <body-part-volume />
-        <body-part-kg-lifted />
+        <div v-if="exercises">
+          <body-part-volume :exerciseData="exercises"/>
+          <body-part-kg-lifted :exerciseData="exercises"/>
+        </div>
         <total-exercise-count @selectedExercise="setSelectedExercise" />
         <exercise-history
           v-if="selectedExercise"
