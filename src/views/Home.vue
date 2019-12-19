@@ -24,7 +24,7 @@
         :exercise="selectedExercise"
       />
     </div> -->
-      <div class="column is-one-fifth">
+      <!-- <div class="column is-one-fifth">
         <b-field style="padding-top: 2em">
           <b-select
             v-model="selectedExercise"
@@ -49,9 +49,10 @@
           type="is-success"
           style="min-width: 10em"
         />
-      </div>
+      </div> -->
       <div class="column">
         <body-part-volume />
+        <body-part-kg-lifted />
         <total-exercise-count @selectedExercise="setSelectedExercise" />
         <exercise-history
           v-if="selectedExercise"
@@ -69,6 +70,7 @@ import { mapGetters } from 'vuex';
 import TotalExerciseCount from '@/components/charts/TotalExerciseCount';
 import ExerciseHistory from '@/components/charts/ExerciseHistory';
 import BodyPartVolume from '@/components/charts/BodyPartVolume';
+import BodyPartKgLifted from '@/components/charts/BodyPartKgLifted';
 
 // import testData from '../../test-data/volume-over-time.json';
 
@@ -78,7 +80,8 @@ export default {
     // VolumeWrapper,
     TotalExerciseCount,
     ExerciseHistory,
-    BodyPartVolume
+    BodyPartVolume,
+    BodyPartKgLifted
   },
   data() {
     return {

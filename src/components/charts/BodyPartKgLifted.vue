@@ -94,7 +94,7 @@ export default {
         },
         yaxis: {
           title: {
-            text: 'Number of Sets'
+            text: 'Volume (kg)'
           }
         },
         stroke: {
@@ -117,9 +117,9 @@ export default {
         console.log(`tableData is ${newVal}`);
         const xValues = Object.keys(newVal);
         console.log(`xValues is ${JSON.stringify(xValues, null, 2)}`);
-        let yHardSetValues = [];
+        let yTotalKgValues = [];
         xValues.forEach(week => {
-          yHardSetValues.push(parseFloat(newVal[week].totalHardSets));
+          yTotalKgValues.push(parseFloat(newVal[week].totalKgLifted));
         });
         // console.log(`yValues is ${JSON.stringify(yValues, null, 2)}`);
         const newData = [];
@@ -130,8 +130,8 @@ export default {
 
         this.series = [
           {
-            name: 'Hard Sets',
-            data: yHardSetValues
+            name: 'Total Kg Lifted',
+            data: yTotalKgValues
           }
         ];
 
