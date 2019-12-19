@@ -5,7 +5,7 @@
       :active.sync="isLoading"
       :can-cancel="false"
     />
-    <p class="has-text-centered is-size-4">Number of Hard Sets By Week Number</p>
+    <p class="has-text-centered is-size-4 has-text-weight-semibold">Number of Hard Sets By Week Number</p>
     <b-field style="padding-top: 2em; padding-left: 1em">
       <b-select
         v-model="selectedBodyPart"

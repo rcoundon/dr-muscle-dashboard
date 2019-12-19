@@ -5,7 +5,7 @@
       :active.sync="isLoading"
       :can-cancel="false"
     ></b-loading>
-    <p class="has-text-centered is-size-4">Count of exercises performed</p>
+    <p class="has-text-centered is-size-4 has-text-weight-semibold">Count of exercises performed</p>
     <apexchart
       v-if="series && series.length > 0"
       height="350px"

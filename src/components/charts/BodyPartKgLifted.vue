@@ -5,7 +5,7 @@
       :active.sync="isLoading"
       :can-cancel="false"
     />
-    <p class="has-text-centered is-size-4">Total Weight Lifted by Week Number</p>
+    <p class="has-text-centered is-size-4 has-text-weight-semibold">Total Weight Lifted by Week Number</p>
     <b-field style="padding-top: 2em; padding-left: 1em">
       <b-select
         v-model="selectedBodyPart"
