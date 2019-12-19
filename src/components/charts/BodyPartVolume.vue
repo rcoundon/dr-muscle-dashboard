@@ -243,8 +243,7 @@ export default {
       return bodyPartVolumes;
     }
   },
-
-  async mounted() {
+  async created() {
     try {
       this.isLoading = true;
       const responsePromises = this.exercises.map(exercise => {
