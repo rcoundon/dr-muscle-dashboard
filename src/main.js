@@ -27,7 +27,8 @@ import {
   faKey,
   faExclamationCircle,
   faDumbbell,
-  faLongArrowAltRight
+  faLongArrowAltRight,
+  faChild
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -39,7 +40,8 @@ library.add(
   faKey,
   faExclamationCircle,
   faDumbbell,
-  faLongArrowAltRight
+  faLongArrowAltRight,
+  faChild
 );
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);
@@ -56,6 +58,7 @@ Vue.component('apexchart', VueApexCharts);
 import App from './App.vue';
 import router from './router';
 import store from './store/store-modules';
+import './registerServiceWorker';
 
 Vue.config.productionTip = false;
 
