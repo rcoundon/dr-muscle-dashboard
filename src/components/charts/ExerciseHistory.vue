@@ -1,17 +1,15 @@
 <template>
   <div>
     <b-loading
-      :is-full-page="true"
+      :is-full-page="false"
       :active.sync="isLoading"
       :can-cancel="false"
     />
 
-    <p v-if="name"
-class="is-size-3">
-{{ name }} Volume
-</p>
-    <p v-if="error"
-class="is-danger">
+    <p v-if="name" class="is-size-3">
+      {{ name }} Volume
+    </p>
+    <p v-if="error" class="is-danger">
       {{ error }}
     </p>
     <apexchart

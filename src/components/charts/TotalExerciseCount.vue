@@ -1,7 +1,7 @@
 <template>
   <div style="padding-top: 1em">
     <b-loading
-      :is-full-page="true"
+      :is-full-page="false"
       :active.sync="isLoading"
       :can-cancel="false"
     ></b-loading>
