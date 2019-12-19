@@ -8,20 +8,29 @@
 
     <b-field style="padding-top: 2em">
       <b-select
-        v-model="selectedExercise"
+        v-model="selectedBodyPart"
         placeholder="Select a body part"
         icon="child"
       >
         <option
           v-for="bodyPart in bodyParts"
           :key="bodyPart.id"
-          :value="bodyPart.bodyPart"
+          :value="bodyPart.id"
         >
           {{ bodyPart.bodyPart }}
         </option>
       </b-select>
     </b-field>
-    <b-table :data="exerciseVolume">
+
+    <apexchart
+      ref="bodypartvolumechart"
+      type="line"
+      height="300em"
+      width="1000px"
+      :series="series"
+      :options="chartOptions"
+    />
+    <!-- <b-table :data="exerciseVolume">
       <template slot-scope="props">
         <b-table-column field="weekNumber" label="Week No.">
           {{ props.row.weekNumber }}
@@ -46,7 +55,7 @@
           </div>
         </section>
       </template>
-    </b-table>
+    </b-table> -->
   </div>
 </template>
 
@@ -59,9 +68,97 @@ import { compareAsc, getWeek } from 'date-fns';
 import bodyPartsObj from '../../codes/bodyPartId';
 
 export default {
+  data() {
+    return {
+      isLoading: false,
+      exerciseHistory: [],
+      exerciseVolume: [],
+      selectedBodyPart: undefined,
+      chartOptions: {
+        chart: {
+          id: 'bodypartvolumechart'
+        },
+        dataLabels: {
+          enabled: true
+        },
+        xaxis: {
+          labels: {
+            show: true,
+            rotate: -45,
+            rotateAlways: true,
+            minHeight: '120'
+          },
+          title: {
+            text: 'Training Week'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Volume (kg)'
+          }
+        },
+        stroke: {
+          width: 3,
+          curve: 'smooth'
+        }
+      },
+      series: [
+        {
+          name: this?.selectedBodyPart,
+          data: this.tableData
+        }
+      ]
+    };
+  },
+  watch: {
+    chartData: {
+      handler: function(newVal) {
+        if (!newVal) return;
+        console.log(`tableData is ${newVal}`);
+        const xValues = Object.keys(newVal);
+        console.log(`xValues is ${JSON.stringify(xValues, null, 2)}`);
+        let yValues = [];
+        xValues.forEach(week => {
+          yValues.push(parseFloat(newVal[week].totalKgLifted));
+        });
+        console.log(`yValues is ${JSON.stringify(yValues, null, 2)}`);
+        const newData = [];
+        newData.push({
+          data: xValues,
+          name: 'test'
+        });
+
+        this.series = [
+          {
+            data: yValues
+          }
+        ];
+
+        this.chartOptions = {
+          ...this.chartOptions,
+          ...{
+            xaxis: {
+              categories: xValues,
+              labels: {
+                show: true,
+                rotate: -45,
+                rotateAlways: true,
+                minHeight: '120'
+              }
+            }
+          }
+        };
+      }
+    }
+  },
   computed: {
     ...mapGetters('storeAuth', ['token']),
     ...mapGetters('storeExercises', ['exercises']),
+    chartData() {
+      if (!this.selectedBodyPart) return [];
+      const bodyPartData = this.bodyPartTotals[this.selectedBodyPart];
+      return bodyPartData ? bodyPartData : [];
+    },
     bodyParts() {
       // const bodyPartArray = JSON.parse(bodyPartsObj);
       const bodyPartKeys = Object.keys(bodyPartsObj);
@@ -146,14 +243,7 @@ export default {
       return bodyPartVolumes;
     }
   },
-  data() {
-    return {
-      isLoading: false,
-      exerciseHistory: [],
-      exerciseVolume: [],
-      selectedExercise: undefined
-    };
-  },
+
   async mounted() {
     try {
       this.isLoading = true;
