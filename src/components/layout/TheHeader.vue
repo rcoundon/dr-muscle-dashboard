@@ -1,49 +1,63 @@
 <template>
-  <nav
-    class="navbar has-background-grey-lighter"
-    role="navigation"
-    aria-label="main navigation"
-  >
-    <div class="navbar-brand">
-      <a
-        class="navbar-item has-background-grey-lighter"
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a
+        class="navbar-item"
         href="https://dr-muscle.com/"
         target="_new"
       >
         <img src="Dr.-Muscle-logo.png" style="max-height: 5em" />
-      </a>
-      <a
-        role="button"
-        class="navbar-burger burger"
-        aria-label="menu"
-        aria-expanded="false"
-        data-target="portal-navbar"
-      >
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
+    </a>
+    <div class="navbar-item" v-if="showLogout">
+      <div class="buttons">
+        <a class="button is-primary"  @click="logout">
+          Logout
+        </a>
+      </div>
     </div>
-    <div id="portal-navbar" class="navbar-menu has-background-grey-lighter">
-      <div class="navbar-start"></div>
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <p class="navbar-item has-text-weight-semibold">
-            {{ username }}
-          </p>
-          <div class="buttons">
-            <div class="navbar-item nav-item" v-if="showLogout">
-              <a class="button is-primary" @click="logout">
-                Logout
-              </a>
-            </div>
-            <div class="navbar-item nav-item"></div>
-            <div class="navbar-item nav-item"></div>
-          </div>
+
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" @click="showMenu">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu" ref="navbarMenu">
+    <div class="navbar-start">
+      <a class="navbar-item">
+        Home
+      </a>
+
+      <a class="navbar-item">
+        Documentation
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+
+        <div class="navbar-dropdown">
+          <a class="navbar-item">
+            About
+          </a>
+          <a class="navbar-item">
+            Jobs
+          </a>
+          <a class="navbar-item">
+            Contact
+          </a>
+          <hr class="navbar-divider">
+          <a class="navbar-item">
+            Report an issue
+          </a>
         </div>
       </div>
     </div>
-  </nav>
+
+    <div class="navbar-end">
+    </div>
+  </div>
+</nav>
 </template>
 
 <script>
@@ -65,6 +79,15 @@ export default {
       this.$router.push({
         name: 'login'
       });
+    },
+    showMenu() {
+      // const nav = this.$refs.navbarMenu;
+      // const className = nav.getAttribute('class');
+      // if (className == 'nav-right nav-menu') {
+      //   nav.className = 'nav-right nav-menu is-active';
+      // } else {
+      //   nav.className = 'nav-right nav-menu';
+      // }
     }
   }
 };
