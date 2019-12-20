@@ -16,7 +16,6 @@
       ref="volumechart"
       type="line"
       height="300em"
-      width="1000px"
       :series="series"
       :options="chartOptions"
     />
