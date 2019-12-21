@@ -26,13 +26,13 @@
 
   <div id="navbarBasicExample" class="navbar-menu" ref="navbarMenu">
     <div class="navbar-start">
-      <a class="navbar-item">
+      <!-- <a class="navbar-item">
         Home
-      </a>
+      </a> -->
 
-      <a class="navbar-item">
+      <!-- <a class="navbar-item">
         Documentation
-      </a>
+      </a> -->
 
       <div class="navbar-item has-dropdown is-hoverable">
 

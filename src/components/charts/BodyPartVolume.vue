@@ -29,7 +29,7 @@
       :series="series"
       :options="chartOptions"
     />
-    <!-- <b-table :data="exerciseVolume">
+    <!-- <b-table :data="tableData">
       <template slot-scope="props">
         <b-table-column field="weekNumber" label="Week No.">
           {{ props.row.weekNumber }}
@@ -175,8 +175,8 @@ export default {
       return bodyParts;
     },
     tableData() {
-      return this.exerciseVolume.filter(exercise => {
-        return exercise.exerciseId === this.selectedExercise;
+      return this.exerciseVolume.filter((exercise, idx) => {
+        return idx === this.selectedBodyPart;
       });
     },
     bodyPartTotals() {
