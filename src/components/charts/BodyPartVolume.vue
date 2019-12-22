@@ -64,6 +64,7 @@ import getExerciseHistory from '@/services/getExerciseHistory';
 import { getBodyPartName } from '@/services/getBodyPartName';
 import { getExerciseName } from '@/services/getExerciseName';
 import { calculateBodyPartTotals } from '@/services/calculateBodyPartTotals';
+import { getFitLine } from '@/services/calculateTrendLine';
 
 import { compareAsc, getWeek } from 'date-fns';
 import bodyPartsObj from '../../codes/bodyPartId';
@@ -91,7 +92,8 @@ export default {
         },
         xaxis: {
           labels: {
-            show: true
+            show: true,
+            hideOverlappingLabels: true
           },
           title: {
             text: 'Training Week'
@@ -119,14 +121,14 @@ export default {
     chartData: {
       handler: function(newVal) {
         if (!newVal) return;
-        // console.log(`tableData is ${newVal}`);
+
         const xValues = Object.keys(newVal);
-        // console.log(`xValues is ${JSON.stringify(xValues, null, 2)}`);
         let yHardSetValues = [];
         xValues.forEach(week => {
           yHardSetValues.push(parseFloat(newVal[week].totalHardSets));
         });
-        // console.log(`yValues is ${JSON.stringify(yValues, null, 2)}`);
+        // Calculate lines for fit
+        const yFitValues = getFitLine(yHardSetValues);
         const newData = [];
         newData.push({
           data: xValues,
@@ -137,6 +139,10 @@ export default {
           {
             name: 'Hard Sets',
             data: yHardSetValues
+          },
+          {
+            name: 'Trend',
+            data: yFitValues
           }
         ];
 
