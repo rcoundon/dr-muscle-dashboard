@@ -19,7 +19,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-// import VolumeWrapper from '@/components/charts/VolumeWrapper';
 import TotalExerciseCount from '@/components/charts/TotalExerciseCount';
 import ExerciseHistory from '@/components/charts/ExerciseHistory';
 import BodyPartVolume from '@/components/charts/BodyPartVolume';
@@ -30,7 +29,6 @@ import BodyPartKgLifted from '@/components/charts/BodyPartKgLifted';
 export default {
   name: 'Home',
   components: {
-    // VolumeWrapper,
     TotalExerciseCount,
     ExerciseHistory,
     BodyPartVolume,
@@ -44,22 +42,6 @@ export default {
   },
   computed: {
     ...mapGetters('storeExercises', ['exercises']),
-    // options() {
-    //   return this.exercises.map(exercise => {
-
-    //   })
-    // }
-    // exercises() {
-    //   return Object.keys(testData);
-    // },
-    // volumeData() {
-    //   return testData[this.selectedExercise];
-    // },
-    // muscleGroups() {
-    //   return this.exercises.map(exercise => {
-    //     return testData[exercise].primaryMuscleGroup;
-    //   });
-    // }
     selectedExerciseName() {
       if (!this.exercises) return '';
       const exercise = this.exercises.filter(exercise => {
@@ -67,16 +49,6 @@ export default {
       });
       return exercise[0] ? exercise[0].Label : '';
     }
-  },
-  watch: {
-    // selectedExercise: {
-    //   handler: function() {
-    //     this.selectedMuscleGroup = this.volumeData.primaryMuscleGroup;
-    //   }
-    // }
-  },
-  created() {
-    // this.selectedExercise = this.exercises[0];
   },
   methods: {
     setSelectedExercise(evt) {
