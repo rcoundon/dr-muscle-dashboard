@@ -29,32 +29,6 @@
       :series="series"
       :options="chartOptions"
     />
-    <!-- <b-table :data="exerciseVolume">
-      <template slot-scope="props">
-        <b-table-column field="weekNumber" label="Week No.">
-          {{ props.row.weekNumber }}
-        </b-table-column>
-        <b-table-column field="exerciseId" label="ExerciseId">
-          {{ getExerciseName(props.row.exerciseId) }}
-        </b-table-column>
-        <b-table-column field="bodyPartId" label="Body Part Id">
-          {{ getBodyPartName(props.row.bodyPartId) }}
-        </b-table-column>
-        <b-table-column field="totalKgLifted" label="Total Kg Lifted">
-          {{ props.row.totalKgLifted }}
-        </b-table-column>
-        <b-table-column field="totalLbLifted" label="Total Lb Lifted">
-          {{ props.row.totalLbLifted }}
-        </b-table-column>
-      </template>
-      <template slot="empty">
-        <section class="section">
-          <div class="content has-text-grey has-text-centered">
-            <p>Nothing here yet...</p>
-          </div>
-        </section>
-      </template>
-    </b-table> -->
   </div>
 </template>
 
@@ -162,11 +136,12 @@ export default {
     ...mapGetters('storeAuth', ['token']),
     chartData() {
       if (!this.selectedBodyPart) return [];
-      const bodyPartData = this.bodyPartTotals[this.selectedBodyPart];
+      const bodyPartData = this.bodyPartTotals.bodyPartVolumes[
+        this.selectedBodyPart
+      ];
       return bodyPartData ? bodyPartData : [];
     },
     bodyParts() {
-      // const bodyPartArray = JSON.parse(bodyPartsObj);
       const bodyPartKeys = Object.keys(bodyPartsObj);
       const bodyParts = bodyPartKeys.map(key => {
         return {
@@ -253,8 +228,6 @@ export default {
       let weekCounter = 0;
       const exerciseInWeek = [
         {
-          // bodyPartId: workouts[0].Exercises[0].Sets[0].Exercice.BodyPartId,
-          // exerciseId: workouts[0].Exercises[0].Exercise.Id,
           weekNumber: weekCounter,
           workouts: []
         }
@@ -263,7 +236,6 @@ export default {
       const getWeekOptions = {
         weekStartsOn: 1
       };
-      // let newWeek = false;
       workouts.forEach((workout, idx) => {
         const workoutDate = new Date(workout.WorkoutDate);
         const weekNumber = getWeek(workoutDate, getWeekOptions);
@@ -286,9 +258,6 @@ export default {
           week.weekNumber = weekNumber;
           week.workouts.push(workout);
         }
-        // Need to determine the first time we pass from the 1st week to the 2nd week
-        // as we'll be calculating volume on a weekly basis starting on Monday (1)
-        //const lastWorkoutDate
       });
 
       exerciseInWeek.forEach(week => {
@@ -300,12 +269,10 @@ export default {
         week.workouts.forEach(workout => {
           if (workout.Exercises[0] && workout.Exercises[0].TotalWeight) {
             if (workout.Exercises[0] && workout.Exercises[0].Sets) {
-              let ids = this.findIdsFromSets(workout.Exercises[0].Sets);
+              const ids = this.findIdsFromSets(workout.Exercises[0].Sets);
               bodyPartId = ids.bodyPartId;
               exerciseId = ids.exerciseId;
             }
-            // console.log(workout.Exercises[0].TotalWeight.Kg);
-            // console.log(workout.Exercises[0].TotalWeight.Lb);
             totalKgLifted += workout.Exercises[0].TotalWeight.Kg;
             totalLbLifted += workout.Exercises[0].TotalWeight.Lb;
             totalHardSets += workout.Exercises[0].Series;

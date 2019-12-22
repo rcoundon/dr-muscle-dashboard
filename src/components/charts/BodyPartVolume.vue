@@ -29,22 +29,16 @@
       :series="series"
       :options="chartOptions"
     />
-    <!-- <b-table :data="tableData">
+     <b-table :data="exerciseTotals"
+      :default-sort-direction="'desc'"
+      default-sort="count"
+    >
       <template slot-scope="props">
-        <b-table-column field="weekNumber" label="Week No.">
-          {{ props.row.weekNumber }}
+        <b-table-column sortable field="exerciseName" label="Exercise">
+          {{ props.row.exerciseName }}
         </b-table-column>
-        <b-table-column field="exerciseId" label="ExerciseId">
-          {{ getExerciseName(props.row.exerciseId) }}
-        </b-table-column>
-        <b-table-column field="bodyPartId" label="Body Part Id">
-          {{ getBodyPartName(props.row.bodyPartId) }}
-        </b-table-column>
-        <b-table-column field="totalKgLifted" label="Total Kg Lifted">
-          {{ props.row.totalKgLifted }}
-        </b-table-column>
-        <b-table-column field="totalLbLifted" label="Total Lb Lifted">
-          {{ props.row.totalLbLifted }}
+        <b-table-column sortable field="count" label="Appeared in # Workouts">
+          {{ props.row.count }}
         </b-table-column>
       </template>
       <template slot="empty">
@@ -54,7 +48,7 @@
           </div>
         </section>
       </template>
-    </b-table> -->
+    </b-table>
   </div>
 </template>
 
@@ -167,7 +161,9 @@ export default {
     ...mapGetters('storeAuth', ['token']),
     chartData() {
       if (!this.selectedBodyPart) return [];
-      const bodyPartData = this.bodyPartTotals[this.selectedBodyPart];
+      const bodyPartData = this.bodyPartTotals.bodyPartVolumes[
+        this.selectedBodyPart
+      ];
       return bodyPartData ? bodyPartData : [];
     },
     bodyParts() {
@@ -187,6 +183,29 @@ export default {
     },
     bodyPartTotals() {
       return calculateBodyPartTotals(this.exerciseVolume);
+    },
+    exerciseTotals() {
+      if (
+        !this.selectedBodyPart ||
+        !this.bodyPartTotals ||
+        !this.bodyPartTotals.exerciseTotals ||
+        !this.bodyPartTotals.exerciseTotals[+this.selectedBodyPart]
+      )
+        return [];
+      const exerciseIds = Object.keys(
+        this.bodyPartTotals.exerciseTotals[+this.selectedBodyPart]
+      );
+
+      return exerciseIds.map(exercise => {
+        console.log(+exercise);
+        const exerciseName = this.getExerciseName(+exercise);
+        return {
+          exerciseName,
+          count: this.bodyPartTotals.exerciseTotals[+this.selectedBodyPart][
+            +exercise
+          ]
+        };
+      });
     }
   },
   async created() {

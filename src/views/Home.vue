@@ -1,58 +1,9 @@
 <template>
   <div class="container is-fluid">
     <div class="columns">
-      <!-- <div class="container" style="padding-top: 2em">
-      <b-field grouped>
-        <b-select placeholder="Select an exercise" v-model="selectedExercise">
-          <option v-for="option in exercises" :value="option" :key="option">
-            {{ option }}
-          </option>
-        </b-select>
-        <b-select
-          placeholder="Select a muscle group"
-          v-model="selectedMuscleGroup"
-        >
-          <option v-for="option in muscleGroups" :value="option" :key="option">
-            {{ option }}
-          </option>
-        </b-select>
-      </b-field>
-      <volume-wrapper
-        :weight="volumeData.weight"
-        :reps="volumeData.reps"
-        :dates="volumeData.dates"
-        :exercise="selectedExercise"
-      />
-    </div> -->
-      <!-- <div class="column is-one-fifth">
-        <b-field style="padding-top: 2em">
-          <b-select
-            v-model="selectedExercise"
-            placeholder="Select an exercise"
-            icon="dumbbell"
-          >
-            <option
-              v-for="exercise in exercises"
-              :key="exercise.id"
-              :value="exercise.id"
-            >
-              {{ exercise.Label }}
-            </option>
-          </b-select>
-        </b-field>
-        <br />
-        <p>Or click a bar on the graph</p>
-        <b-icon
-          pack="fas"
-          icon="long-arrow-alt-right"
-          custom-size="2x"
-          type="is-success"
-          style="min-width: 10em"
-        />
-      </div> -->
       <div class="column">
         <div v-if="exercises">
-          <body-part-volume :exerciseData="exercises"/>
+          <body-part-volume :exerciseData="exercises" style="margin-bottom: 1rem"/>
           <body-part-kg-lifted :exerciseData="exercises"/>
         </div>
         <total-exercise-count @selectedExercise="setSelectedExercise" />
