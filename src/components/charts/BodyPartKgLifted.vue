@@ -64,6 +64,7 @@ import getExerciseHistory from '@/services/getExerciseHistory';
 import { getBodyPartName } from '@/services/getBodyPartName';
 import { getExerciseName } from '@/services/getExerciseName';
 import { calculateBodyPartTotals } from '@/services/calculateBodyPartTotals';
+import { getFitLine } from '@/services/calculateTrendLine';
 import { compareAsc, getWeek } from 'date-fns';
 import bodyPartsObj from '../../codes/bodyPartId';
 
@@ -123,6 +124,9 @@ export default {
         xValues.forEach(week => {
           yTotalKgValues.push(parseFloat(newVal[week].totalKgLifted));
         });
+        // Calculate lines for fit
+        const yFitValues = getFitLine(yTotalKgValues);
+
         const newData = [];
         newData.push({
           data: xValues,
@@ -133,6 +137,10 @@ export default {
           {
             name: 'Total Kg Lifted',
             data: yTotalKgValues
+          },
+          {
+            name: 'Trend',
+            data: yFitValues
           }
         ];
 
