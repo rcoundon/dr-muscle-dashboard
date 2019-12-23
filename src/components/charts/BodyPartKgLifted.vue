@@ -1,21 +1,7 @@
 <template>
   <div class="card">
     <p class="has-text-centered is-size-4 has-text-weight-semibold">Total Weight Lifted by Week Number</p>
-    <b-field style="padding-top: 2em; padding-left: 1em">
-      <b-select
-        v-model="selectedBodyPart"
-        placeholder="Select a body part"
-        icon="child"
-      >
-        <option
-          v-for="bodyPart in bodyParts"
-          :key="bodyPart.id"
-          :value="bodyPart.id"
-        >
-          {{ bodyPart.bodyPart }}
-        </option>
-      </b-select>
-    </b-field>
+
 
     <apexchart
       ref="bodypartvolumechart"
@@ -34,7 +20,6 @@ import { getExerciseName } from '@/services/getExerciseName';
 import { calculateBodyPartTotals } from '@/services/calculateBodyPartTotals';
 import { getFitLine } from '@/services/calculateTrendLine';
 import { compareAsc, getWeek } from 'date-fns';
-import bodyPartsObj from '../../codes/bodyPartId';
 
 export default {
   props: {
@@ -47,12 +32,15 @@ export default {
       type: Array,
       required: true,
       default: () => []
+    },
+    selectedBodyPart: {
+      type: Number,
+      required: true
     }
   },
   data() {
     return {
       exerciseVolume: [],
-      selectedBodyPart: undefined,
       chartOptions: {
         chart: {
           id: 'bodypartvolumechart'
@@ -89,7 +77,7 @@ export default {
   watch: {
     chartData: {
       handler: function(newVal) {
-        if (!newVal) return;
+        if (!newVal || !this.bodyPartTotals) return;
         const xValues = Object.keys(newVal);
         let yTotalKgValues = [];
         xValues.forEach(week => {
@@ -132,21 +120,16 @@ export default {
   computed: {
     ...mapGetters('storeAuth', ['token']),
     chartData() {
-      if (!this.selectedBodyPart) return [];
+      if (
+        !this.selectedBodyPart ||
+        !this.bodyPartTotals ||
+        !this.bodyPartTotals.bodyPartVolumes
+      )
+        return [];
       const bodyPartData = this.bodyPartTotals.bodyPartVolumes[
         this.selectedBodyPart
       ];
       return bodyPartData ? bodyPartData : [];
-    },
-    bodyParts() {
-      const bodyPartKeys = Object.keys(bodyPartsObj);
-      const bodyParts = bodyPartKeys.map(key => {
-        return {
-          id: key,
-          bodyPart: bodyPartsObj[key]
-        };
-      });
-      return bodyParts;
     },
     tableData() {
       return this.exerciseVolume.filter(exercise => {
@@ -157,11 +140,8 @@ export default {
       return calculateBodyPartTotals(this.exerciseVolume);
     }
   },
-  created() {
-    this.buildAllWorkoutVolumes();
-  },
   mounted() {
-    this.selectedBodyPart = 2;
+    this.buildAllWorkoutVolumes();
   },
   methods: {
     findIdsFromSets(sets) {
