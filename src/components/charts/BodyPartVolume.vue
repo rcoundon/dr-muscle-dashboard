@@ -1,10 +1,5 @@
 <template>
   <div class="card">
-    <b-loading
-      :is-full-page="false"
-      :active.sync="isLoading"
-      :can-cancel="false"
-    />
     <p class="has-text-centered is-size-4 has-text-weight-semibold">Number of Hard Sets By Week Number</p>
     <b-field style="padding-top: 2em; padding-left: 1em">
       <b-select
@@ -54,7 +49,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import getExerciseHistory from '@/services/getExerciseHistory';
 import { getBodyPartName } from '@/services/getBodyPartName';
 import { getExerciseName } from '@/services/getExerciseName';
 import { calculateBodyPartTotals } from '@/services/calculateBodyPartTotals';
@@ -69,12 +63,15 @@ export default {
       type: Array,
       required: true,
       default: () => []
+    },
+    exerciseHistory: {
+      type: Array,
+      required: true,
+      default: () => []
     }
   },
   data() {
     return {
-      isLoading: false,
-      exerciseHistory: [],
       exerciseVolume: [],
       selectedBodyPart: undefined,
       chartOptions: {
@@ -209,28 +206,7 @@ export default {
     }
   },
   async created() {
-    try {
-      this.isLoading = true;
-      const responsePromises = this.exerciseData.map(exercise => {
-        return getExerciseHistory(
-          this.$axios,
-          this.token,
-          exercise.id,
-          undefined
-        ).then(data => {
-          return {
-            exerciseId: exercise.id,
-            data
-          };
-        });
-      });
-      this.exerciseHistory = await Promise.all(responsePromises);
-      this.buildAllWorkoutVolumes();
-    } catch (err) {
-      console.log(err);
-    } finally {
-      this.isLoading = false;
-    }
+    this.buildAllWorkoutVolumes();
   },
   methods: {
     findIdsFromSets(sets) {
@@ -276,8 +252,6 @@ export default {
       let weekCounter = 0;
       const exerciseInWeek = [
         {
-          // bodyPartId: workouts[0].Exercises[0].Sets[0].Exercice.BodyPartId,
-          // exerciseId: workouts[0].Exercises[0].Exercise.Id,
           weekNumber: weekCounter,
           workouts: []
         }
@@ -286,7 +260,6 @@ export default {
       const getWeekOptions = {
         weekStartsOn: 1
       };
-      // let newWeek = false;
       workouts.forEach((workout, idx) => {
         const workoutDate = new Date(workout.WorkoutDate);
         const weekNumber = getWeek(workoutDate, getWeekOptions);
@@ -309,9 +282,6 @@ export default {
           week.weekNumber = weekNumber;
           week.workouts.push(workout);
         }
-        // Need to determine the first time we pass from the 1st week to the 2nd week
-        // as we'll be calculating volume on a weekly basis starting on Monday (1)
-        //const lastWorkoutDate
       });
 
       exerciseInWeek.forEach(week => {
@@ -323,12 +293,10 @@ export default {
         week.workouts.forEach(workout => {
           if (workout.Exercises[0] && workout.Exercises[0].TotalWeight) {
             if (workout.Exercises[0] && workout.Exercises[0].Sets) {
-              let ids = this.findIdsFromSets(workout.Exercises[0].Sets);
+              const ids = this.findIdsFromSets(workout.Exercises[0].Sets);
               bodyPartId = ids.bodyPartId;
               exerciseId = ids.exerciseId;
             }
-            // console.log(workout.Exercises[0].TotalWeight.Kg);
-            // console.log(workout.Exercises[0].TotalWeight.Lb);
             totalKgLifted += workout.Exercises[0].TotalWeight.Kg;
             totalLbLifted += workout.Exercises[0].TotalWeight.Lb;
             totalHardSets += workout.Exercises[0].Series;
@@ -348,5 +316,3 @@ export default {
   }
 };
 </script>
-
-<style></style>
