@@ -160,6 +160,9 @@ export default {
   created() {
     this.buildAllWorkoutVolumes();
   },
+  mounted() {
+    this.selectedBodyPart = 2;
+  },
   methods: {
     findIdsFromSets(sets) {
       // Use for loop so we can break out early
