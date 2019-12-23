@@ -1,10 +1,5 @@
 <template>
   <div class="card">
-    <b-loading
-      :is-full-page="false"
-      :active.sync="isLoading"
-      :can-cancel="false"
-    />
     <p class="has-text-centered is-size-4 has-text-weight-semibold">Total Weight Lifted by Week Number</p>
     <b-field style="padding-top: 2em; padding-left: 1em">
       <b-select
@@ -34,7 +29,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import getExerciseHistory from '@/services/getExerciseHistory';
 import { getBodyPartName } from '@/services/getBodyPartName';
 import { getExerciseName } from '@/services/getExerciseName';
 import { calculateBodyPartTotals } from '@/services/calculateBodyPartTotals';
@@ -48,12 +42,15 @@ export default {
       type: Array,
       required: true,
       default: () => []
+    },
+    exerciseHistory: {
+      type: Array,
+      required: true,
+      default: () => []
     }
   },
   data() {
     return {
-      isLoading: false,
-      exerciseHistory: [],
       exerciseVolume: [],
       selectedBodyPart: undefined,
       chartOptions: {
@@ -160,29 +157,8 @@ export default {
       return calculateBodyPartTotals(this.exerciseVolume);
     }
   },
-  async created() {
-    try {
-      this.isLoading = true;
-      const responsePromises = this.exerciseData.map(exercise => {
-        return getExerciseHistory(
-          this.$axios,
-          this.token,
-          exercise.id,
-          undefined
-        ).then(data => {
-          return {
-            exerciseId: exercise.id,
-            data
-          };
-        });
-      });
-      this.exerciseHistory = await Promise.all(responsePromises);
-      this.buildAllWorkoutVolumes();
-    } catch (err) {
-      console.log(err);
-    } finally {
-      this.isLoading = false;
-    }
+  created() {
+    this.buildAllWorkoutVolumes();
   },
   methods: {
     findIdsFromSets(sets) {
@@ -214,6 +190,7 @@ export default {
       return getExerciseName(this.exerciseData, id);
     },
     buildAllWorkoutVolumes() {
+      if (!this.exerciseHistory) this.exerciseVolume = [];
       this.exerciseVolume = this.exerciseHistory.map(exercise => {
         return this.buildWorkoutVolumeByWeek(exercise);
       });
@@ -292,5 +269,3 @@ export default {
   }
 };
 </script>
-
-<style></style>

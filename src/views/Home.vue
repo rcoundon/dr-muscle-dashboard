@@ -1,10 +1,16 @@
 <template>
   <div class="container is-fluid">
+    <b-loading
+      :is-full-page="true"
+      :active.sync="isLoading"
+      :can-cancel="false"
+    />
+
     <div class="columns">
       <div class="column">
-        <div v-if="exercises">
-          <body-part-volume :exerciseData="exercises" style="margin-bottom: 1rem"/>
-          <body-part-kg-lifted :exerciseData="exercises"/>
+        <div v-if="exercises && exerciseHistory.length > 0">
+          <body-part-volume :exerciseData="exercises" :exerciseHistory="exerciseHistory" style="margin-bottom: 1rem"/>
+          <body-part-kg-lifted :exerciseData="exercises" :exerciseHistory="exerciseHistory"/>
         </div>
         <total-exercise-count @selectedExercise="setSelectedExercise" />
         <exercise-history
@@ -23,6 +29,7 @@ import TotalExerciseCount from '@/components/charts/TotalExerciseCount';
 import ExerciseHistory from '@/components/charts/ExerciseHistory';
 import BodyPartVolume from '@/components/charts/BodyPartVolume';
 import BodyPartKgLifted from '@/components/charts/BodyPartKgLifted';
+import getExerciseHistory from '@/services/getExerciseHistory';
 
 // import testData from '../../test-data/volume-over-time.json';
 
@@ -37,17 +44,41 @@ export default {
   data() {
     return {
       selectedExercise: undefined,
-      selectedMuscleGroup: ''
+      selectedMuscleGroup: '',
+      exerciseHistory: [],
+      isLoading: false
     };
   },
   computed: {
     ...mapGetters('storeExercises', ['exercises']),
+    ...mapGetters('storeAuth', ['token']),
     selectedExerciseName() {
       if (!this.exercises) return '';
       const exercise = this.exercises.filter(exercise => {
         return exercise.id === this.selectedExercise;
       });
       return exercise[0] ? exercise[0].Label : '';
+    }
+  },
+  async mounted() {
+    try {
+      this.isLoading = true;
+      const responsePromises = this.exercises.map(exercise => {
+        return getExerciseHistory(
+          this.$axios,
+          this.token,
+          exercise.id,
+          undefined
+        ).then(data => {
+          return {
+            exerciseId: exercise.id,
+            data
+          };
+        });
+      });
+      this.exerciseHistory = await Promise.all(responsePromises);
+    } finally {
+      this.isLoading = false;
     }
   },
   methods: {
