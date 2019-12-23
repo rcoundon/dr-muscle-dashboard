@@ -8,9 +8,25 @@
 
     <div class="columns">
       <div class="column">
-        <div v-if="exercises && exerciseHistory.length > 0">
-          <body-part-volume :exerciseData="exercises" :exerciseHistory="exerciseHistory" style="margin-bottom: 1rem"/>
-          <body-part-kg-lifted :exerciseData="exercises" :exerciseHistory="exerciseHistory"/>
+      <b-field style="padding-top: 2em; padding-left: 1em">
+          <b-select
+            v-model="selectedBodyPart"
+            placeholder="Select a body part"
+            icon="child"
+          >
+            <option
+              v-for="bodyPart in bodyParts"
+              :key="bodyPart.id"
+              :value="bodyPart.id"
+            >
+              {{ bodyPart.bodyPart }}
+            </option>
+          </b-select>
+        </b-field>
+
+        <div v-if="exercises && exerciseHistory.length > 0 && selectedBodyPart">
+          <body-part-volume :exerciseData="exercises" :exerciseHistory="exerciseHistory" :selectedBodyPart="selectedBodyPart" style="margin-bottom: 1rem"/>
+          <body-part-kg-lifted :exerciseData="exercises" :exerciseHistory="exerciseHistory" :selectedBodyPart="selectedBodyPart"/>
         </div>
         <total-exercise-count @selectedExercise="setSelectedExercise" />
         <exercise-history
@@ -30,6 +46,7 @@ import ExerciseHistory from '@/components/charts/ExerciseHistory';
 import BodyPartVolume from '@/components/charts/BodyPartVolume';
 import BodyPartKgLifted from '@/components/charts/BodyPartKgLifted';
 import getExerciseHistory from '@/services/getExerciseHistory';
+import bodyPartsObj from '../codes/bodyPartId';
 
 // import testData from '../../test-data/volume-over-time.json';
 
@@ -46,7 +63,8 @@ export default {
       selectedExercise: undefined,
       selectedMuscleGroup: '',
       exerciseHistory: [],
-      isLoading: false
+      isLoading: false,
+      selectedBodyPart: 2
     };
   },
   computed: {
@@ -58,6 +76,16 @@ export default {
         return exercise.id === this.selectedExercise;
       });
       return exercise[0] ? exercise[0].Label : '';
+    },
+    bodyParts() {
+      const bodyPartKeys = Object.keys(bodyPartsObj);
+      const bodyParts = bodyPartKeys.map(key => {
+        return {
+          id: +key,
+          bodyPart: bodyPartsObj[key]
+        };
+      });
+      return bodyParts;
     }
   },
   watch: {
@@ -69,7 +97,6 @@ export default {
   },
   methods: {
     setSelectedExercise(evt) {
-      console.log('caught', evt);
       this.selectedExercise = this.exercises[evt].id;
     },
     async buildHistory() {

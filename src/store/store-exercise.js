@@ -10,7 +10,6 @@ export default {
   },
   mutations: {
     SET_EXERCISE(state, exercise) {
-      console.log(exercise);
       state.performedExercises[exercise.id] = exercise.data.Result;
     }
   },

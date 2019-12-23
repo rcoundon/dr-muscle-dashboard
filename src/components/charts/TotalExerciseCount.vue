@@ -45,7 +45,6 @@ export default {
           type: 'bar',
           events: {
             click: function(event, chartContext, config) {
-              console.log(config.dataPointIndex);
               self.$emit('selectedExercise', config.dataPointIndex);
             }
           }
@@ -136,9 +135,7 @@ export default {
   },
   methods: {
     ...mapActions('storeExercises', ['setExercises']),
-    chartClicked(evt) {
-      console.log(evt);
-    },
+    chartClicked() {},
     async getData() {
       try {
         this.isLoading = true;
