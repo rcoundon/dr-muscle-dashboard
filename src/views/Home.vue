@@ -60,31 +60,40 @@ export default {
       return exercise[0] ? exercise[0].Label : '';
     }
   },
-  async mounted() {
-    try {
-      this.isLoading = true;
-      const responsePromises = this.exercises.map(exercise => {
-        return getExerciseHistory(
-          this.$axios,
-          this.token,
-          exercise.id,
-          undefined
-        ).then(data => {
-          return {
-            exerciseId: exercise.id,
-            data
-          };
-        });
-      });
-      this.exerciseHistory = await Promise.all(responsePromises);
-    } finally {
-      this.isLoading = false;
+  watch: {
+    exercises: {
+      handler: async function() {
+        this.buildHistory();
+      }
     }
   },
   methods: {
     setSelectedExercise(evt) {
       console.log('caught', evt);
       this.selectedExercise = this.exercises[evt].id;
+    },
+    async buildHistory() {
+      try {
+        this.isLoading = true;
+        const responsePromises = this.exercises.map(exercise => {
+          return getExerciseHistory(
+            this.$axios,
+            this.token,
+            exercise.id,
+            undefined
+          ).then(data => {
+            return {
+              exerciseId: exercise.id,
+              data
+            };
+          });
+        });
+        this.exerciseHistory = await Promise.all(responsePromises);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        this.isLoading = false;
+      }
     }
   }
 };
