@@ -17,7 +17,10 @@
           {{ props.row.exerciseName }}
         </b-table-column>
         <b-table-column sortable field="count" label="Appeared in # Workouts">
-          {{ props.row.count }}
+          {{ props.row.count.totalWorkouts }}
+        </b-table-column>
+        <b-table-column sortable field="count" label="Total Hard Sets">
+          {{ props.row.count.totalHardSets }}
         </b-table-column>
       </template>
       <template slot="empty">
@@ -168,8 +171,9 @@ export default {
         !this.bodyPartTotals ||
         !this.bodyPartTotals.exerciseTotals ||
         !this.bodyPartTotals.exerciseTotals[+this.selectedBodyPart]
-      )
+      ) {
         return [];
+      }
       const exerciseIds = Object.keys(
         this.bodyPartTotals.exerciseTotals[+this.selectedBodyPart]
       );
