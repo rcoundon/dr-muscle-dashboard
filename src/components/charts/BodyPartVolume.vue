@@ -10,16 +10,16 @@
     />
      <b-table :data="exerciseTotals"
       :default-sort-direction="'desc'"
-      default-sort="count"
+      default-sort="count.totalHardSets"
     >
       <template slot-scope="props">
         <b-table-column sortable field="exerciseName" label="Exercise">
           {{ props.row.exerciseName }}
         </b-table-column>
-        <b-table-column sortable field="count" label="Appeared in # Workouts">
+        <b-table-column sortable field="count.totalWorkouts" label="Appeared in # Workouts">
           {{ props.row.count.totalWorkouts }}
         </b-table-column>
-        <b-table-column sortable field="count" label="Total Hard Sets">
+        <b-table-column sortable field="count.totalHardSets" label="Total Hard Sets">
           {{ props.row.count.totalHardSets }}
         </b-table-column>
       </template>
