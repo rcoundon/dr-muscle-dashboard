@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 export function calculateBodyPartTotals(exerciseVolume) {
   if (exerciseVolume.length === 0) return [];
   const output = {
@@ -41,14 +42,33 @@ export function calculateBodyPartTotals(exerciseVolume) {
           exercise.weekNumber
         ].totalHardSets = exercise.totalHardSets;
       }
+
+      // Build exercise totals - include each instance of an exercise against the
+      // corresponding body part
+      // If we haven't seen this body part before add an object to hold the details
       if (!output.exerciseTotals[exercise.bodyPartId]) {
         output.exerciseTotals[exercise.bodyPartId] = {};
       }
 
+      // debugger;
+      if (!output.exerciseTotals[exercise.bodyPartId]) {
+        output.exerciseTotals[exercise.bodyPartId] = {};
+      }
+      // If we haven't seen this exercise before for this body part, add it
       if (!output.exerciseTotals[exercise.bodyPartId][exercise.exerciseId]) {
-        output.exerciseTotals[exercise.bodyPartId][exercise.exerciseId] = 1;
+        // debugger;
+        output.exerciseTotals[exercise.bodyPartId][exercise.exerciseId] = {
+          totalWorkouts: 1,
+          totalHardSets: exercise.totalHardSets
+        };
       } else {
-        output.exerciseTotals[exercise.bodyPartId][exercise.exerciseId]++;
+        // debugger;
+        // We've seen this body part/exercise combination before, so add the hard sets to the existing value
+        output.exerciseTotals[exercise.bodyPartId][exercise.exerciseId]
+          .totalWorkouts++;
+        output.exerciseTotals[exercise.bodyPartId][
+          exercise.exerciseId
+        ].totalHardSets += exercise.totalHardSets;
       }
 
       if (
