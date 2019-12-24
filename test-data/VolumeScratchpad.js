@@ -32,7 +32,6 @@ function buildVolume(data) {
         getWeek(workoutDate, getWeekOptions) !==
         getWeek(lastWorkoutDate, getWeekOptions)
       ) {
-        console.log('true');
         weeks.push({
           weekNumber,
           workouts: []
@@ -52,14 +51,11 @@ function buildVolume(data) {
   });
 
   weeks.forEach(week => {
-    console.log(week);
     let totalKgLifted = 0;
     let totalLbLifted = 0;
     // const numberOfWorkouts = week.workouts.length;
     week.workouts.forEach(workout => {
       if (workout.Exercises[0] && workout.Exercises[0].TotalWeight) {
-        console.log(workout.Exercises[0].TotalWeight.Kg);
-        console.log(workout.Exercises[0].TotalWeight.Lb);
         totalKgLifted += workout.Exercises[0].TotalWeight.Kg;
         totalLbLifted += workout.Exercises[0].TotalWeight.Lb; /* ? */
       }
@@ -78,7 +74,6 @@ function bodyPartTotals(exerciseVolume) {
   exerciseVolume.forEach(exerciseGroup => {
     exerciseGroup.forEach(exercise => {
       const bodyPartKeys = Object.keys(bodyPartVolumes); /* ? */
-      console.log(bodyPartKeys);
       if (!bodyPartKeys.includes(exercise.bodyPartId)) {
         bodyPartVolumes[exercise.bodyPartId] = {};
       }
@@ -100,16 +95,13 @@ function bodyPartTotals(exerciseVolume) {
           exercise.exerciseId
         ]++;
       }
-      console.log(bodyPartVolumes[exercise.bodyPartId]);
       if (
         bodyPartVolumes[exercise.bodyPartId][exercise.weekNumber].totalKgLifted
       ) {
-        console.log('adding');
         bodyPartVolumes[exercise.bodyPartId][
           exercise.weekNumber
         ].totalKgLifted += exercise.totalKgLifted;
       } else {
-        console.log('new');
         bodyPartVolumes[exercise.bodyPartId][
           exercise.weekNumber
         ].totalKgLifted = exercise.totalKgLifted;
@@ -122,4 +114,3 @@ function bodyPartTotals(exerciseVolume) {
 
 const volume = buildVolume(volumeData);
 bodyPartTotals(volume);
-console.log(volume);

@@ -9,7 +9,7 @@
         <div class="tile is-parent">
           <div class="has-text-centered tile is-ancestor">
             <div class="tile is-parent"></div>
-            <div id="signup" class="tile is-parent is-12">
+            <div id="signup" class="tile is-parent">
               <div class="signin-form box">
                 <slot name="authForm"></slot>
               </div>
@@ -61,7 +61,7 @@ export default {
 }
 
 .signin-form {
-  width: 500px;
+  width: 70vw;
   margin: 30px auto;
   border: 1px solid #eee;
   padding: 20px;

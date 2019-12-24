@@ -1,6 +1,8 @@
 <template>
   <div class="card">
-    <p class="has-text-centered is-size-4 has-text-weight-semibold">Number of Hard Sets By Week Number</p>
+    <p class="has-text-centered is-size-4 has-text-weight-semibold">Total Weight Lifted by Week Number</p>
+
+
     <apexchart
       ref="bodypartvolumechart"
       type="line"
@@ -8,29 +10,6 @@
       :series="series"
       :options="chartOptions"
     />
-     <b-table :data="exerciseTotals"
-      :default-sort-direction="'desc'"
-      default-sort="count.totalHardSets"
-    >
-      <template slot-scope="props">
-        <b-table-column sortable field="exerciseName" label="Exercise">
-          {{ props.row.exerciseName }}
-        </b-table-column>
-        <b-table-column sortable field="count.totalWorkouts" label="Appeared in # Workouts">
-          {{ props.row.count.totalWorkouts }}
-        </b-table-column>
-        <b-table-column sortable field="count.totalHardSets" label="Total Hard Sets">
-          {{ props.row.count.totalHardSets }}
-        </b-table-column>
-      </template>
-      <template slot="empty">
-        <section class="section">
-          <div class="content has-text-grey has-text-centered">
-            <p>Nothing here yet...</p>
-          </div>
-        </section>
-      </template>
-    </b-table>
   </div>
 </template>
 
@@ -40,7 +19,6 @@ import { getBodyPartName } from '@/services/getBodyPartName';
 import { getExerciseName } from '@/services/getExerciseName';
 import { calculateBodyPartTotals } from '@/services/calculateBodyPartTotals';
 import { getFitLine } from '@/services/calculateTrendLine';
-
 import { compareAsc, getWeek } from 'date-fns';
 
 export default {
@@ -72,8 +50,7 @@ export default {
         },
         xaxis: {
           labels: {
-            show: true,
-            hideOverlappingLabels: true
+            show: true
           },
           title: {
             text: 'Training Week'
@@ -81,7 +58,7 @@ export default {
         },
         yaxis: {
           title: {
-            text: 'Number of Sets'
+            text: 'Volume (kg)'
           }
         },
         stroke: {
@@ -100,15 +77,15 @@ export default {
   watch: {
     chartData: {
       handler: function(newVal) {
-        if (!newVal) return;
-
+        if (!newVal || !this.bodyPartTotals) return;
         const xValues = Object.keys(newVal);
-        let yHardSetValues = [];
+        let yTotalKgValues = [];
         xValues.forEach(week => {
-          yHardSetValues.push(parseFloat(newVal[week].totalHardSets));
+          yTotalKgValues.push(parseFloat(newVal[week].totalKgLifted));
         });
         // Calculate lines for fit
-        const yFitValues = getFitLine(yHardSetValues);
+        const yFitValues = getFitLine(yTotalKgValues);
+
         const newData = [];
         newData.push({
           data: xValues,
@@ -117,8 +94,8 @@ export default {
 
         this.series = [
           {
-            name: 'Hard Sets',
-            data: yHardSetValues
+            name: 'Total Kg Lifted',
+            data: yTotalKgValues
           },
           {
             name: 'Trend',
@@ -131,9 +108,6 @@ export default {
           ...{
             xaxis: {
               categories: xValues,
-              title: {
-                text: 'Training Week'
-              },
               labels: {
                 show: true
               }
@@ -158,35 +132,12 @@ export default {
       return bodyPartData ? bodyPartData : [];
     },
     tableData() {
-      return this.exerciseVolume.filter((exercise, idx) => {
-        return idx === this.selectedBodyPart;
+      return this.exerciseVolume.filter(exercise => {
+        return exercise.exerciseId === this.selectedExercise;
       });
     },
     bodyPartTotals() {
       return calculateBodyPartTotals(this.exerciseVolume);
-    },
-    exerciseTotals() {
-      if (
-        !this.selectedBodyPart ||
-        !this.bodyPartTotals ||
-        !this.bodyPartTotals.exerciseTotals ||
-        !this.bodyPartTotals.exerciseTotals[+this.selectedBodyPart]
-      ) {
-        return [];
-      }
-      const exerciseIds = Object.keys(
-        this.bodyPartTotals.exerciseTotals[+this.selectedBodyPart]
-      );
-
-      return exerciseIds.map(exercise => {
-        const exerciseName = this.getExerciseName(+exercise);
-        return {
-          exerciseName,
-          count: this.bodyPartTotals.exerciseTotals[+this.selectedBodyPart][
-            +exercise
-          ]
-        };
-      });
     }
   },
   mounted() {
@@ -222,6 +173,7 @@ export default {
       return getExerciseName(this.exerciseData, id);
     },
     buildAllWorkoutVolumes() {
+      if (!this.exerciseHistory) this.exerciseVolume = [];
       this.exerciseVolume = this.exerciseHistory.map(exercise => {
         return this.buildWorkoutVolumeByWeek(exercise);
       });

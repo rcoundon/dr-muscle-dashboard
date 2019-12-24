@@ -1,11 +1,11 @@
 <template>
-  <div style="padding-top: 1em">
+  <div class="card" style="padding-top: 1em">
     <b-loading
-      :is-full-page="true"
+      :is-full-page="false"
       :active.sync="isLoading"
       :can-cancel="false"
     ></b-loading>
-    <p class="has-text-centered is-size-4">Count of exercises performed</p>
+    <p class="has-text-centered is-size-4 has-text-weight-semibold">Count of exercises performed</p>
     <apexchart
       v-if="series && series.length > 0"
       height="350px"
@@ -45,7 +45,6 @@ export default {
           type: 'bar',
           events: {
             click: function(event, chartContext, config) {
-              console.log(config.dataPointIndex);
               self.$emit('selectedExercise', config.dataPointIndex);
             }
           }
@@ -132,14 +131,13 @@ export default {
     }
   },
   async mounted() {
-    await this.getData();
+    await this.getExerciseCountData();
   },
   methods: {
     ...mapActions('storeExercises', ['setExercises']),
-    chartClicked(evt) {
-      console.log(evt);
-    },
-    async getData() {
+    chartClicked() {},
+    async getExerciseCountData() {
+      console.time('getExerciseCountData');
       try {
         this.isLoading = true;
         this.error = undefined;
@@ -153,6 +151,7 @@ export default {
       } catch (err) {
         this.error = err;
       } finally {
+        console.timeEnd('getExerciseCountData');
         this.isLoading = false;
       }
     }
