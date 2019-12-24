@@ -100,8 +100,10 @@ export default {
       this.selectedExercise = this.exercises[evt].id;
     },
     async buildHistory() {
+      console.time('buildHistory');
       try {
         this.isLoading = true;
+        // Retrieve history data for all exercises performed
         const responsePromises = this.exercises.map(exercise => {
           return getExerciseHistory(
             this.$axios,
@@ -119,6 +121,7 @@ export default {
       } catch (err) {
         console.error(err);
       } finally {
+        console.timeEnd('buildHistory');
         this.isLoading = false;
       }
     }

@@ -131,12 +131,13 @@ export default {
     }
   },
   async mounted() {
-    await this.getData();
+    await this.getExerciseCountData();
   },
   methods: {
     ...mapActions('storeExercises', ['setExercises']),
     chartClicked() {},
-    async getData() {
+    async getExerciseCountData() {
+      console.time('getExerciseCountData');
       try {
         this.isLoading = true;
         this.error = undefined;
@@ -150,6 +151,7 @@ export default {
       } catch (err) {
         this.error = err;
       } finally {
+        console.timeEnd('getExerciseCountData');
         this.isLoading = false;
       }
     }
