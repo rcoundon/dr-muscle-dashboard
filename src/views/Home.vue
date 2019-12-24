@@ -6,10 +6,10 @@
       :can-cancel="false"
     />
     <div v-if="isLoading">
-      <p class="is-size-4 is-primary has-text-weight-semibold">Loading full history...</p>
+      <p class="is-size-4 is-primary has-text-weight-semibold">Loading the detail of your workout history...</p>
       <p class="is-size-4 is-primary ">If you've been working out a while</p>
       <p class="is-size-4 is-primary ">This could take up to 30s (but it's worth it!)</p>
-      <p class="is-size-4 processing">Downloading<span>.</span><span>.</span><span>.</span></p>
+      <p class="is-size-4 processing">Processing<span>.</span><span>.</span><span>.</span></p>
     </div>
     <div class="columns">
       <div class="column">
