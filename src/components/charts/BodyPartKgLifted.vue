@@ -17,7 +17,7 @@ import { getBodyPartName } from '@/services/getBodyPartName';
 import { getExerciseName } from '@/services/getExerciseName';
 import { calculateBodyPartTotals } from '@/services/calculateBodyPartTotals';
 import { getFitLine } from '@/services/calculateTrendLine';
-import { compareAsc, getWeek } from 'date-fns';
+import { buildWorkoutVolumeByWeek } from '@/services/buildWorkoutVolumeByWeek';
 
 export default {
   props: {
@@ -62,6 +62,9 @@ export default {
         stroke: {
           width: 3,
           curve: 'smooth'
+        },
+        subtitle: {
+          text: 'x-axis label format is #Week-year'
         }
       },
       series: [
@@ -145,28 +148,6 @@ export default {
     this.buildAllWorkoutVolumes();
   },
   methods: {
-    findIdsFromSets(sets) {
-      // Use for loop so we can break out early
-      let bodyPartId;
-      let exerciseId;
-      if (!sets || sets.length === 0) {
-        return {
-          bodyPartId,
-          exerciseId
-        };
-      }
-      for (let i = 0; i < sets.length; i++) {
-        bodyPartId = sets[i]?.Exercice?.BodyPartId;
-        exerciseId = sets[i]?.Exercice?.Id;
-        if (bodyPartId && exerciseId) {
-          break;
-        }
-      }
-      return {
-        bodyPartId,
-        exerciseId
-      };
-    },
     getBodyPartName(id) {
       return getBodyPartName(id);
     },
@@ -176,79 +157,8 @@ export default {
     buildAllWorkoutVolumes() {
       if (!this.exerciseHistory) this.exerciseVolume = [];
       this.exerciseVolume = this.exerciseHistory.map(exercise => {
-        return this.buildWorkoutVolumeByWeek(exercise);
+        return buildWorkoutVolumeByWeek(exercise);
       });
-    },
-    buildWorkoutVolumeByWeek(instance) {
-      const workouts = instance.data.Result.sort((workoutA, workoutB) => {
-        let workoutDateA = new Date(workoutA.WorkoutDate);
-        let workoutDateB = new Date(workoutB.WorkoutDate);
-        return compareAsc(workoutDateA, workoutDateB);
-      });
-
-      let weekCounter = 0;
-      const exerciseInWeek = [
-        {
-          weekNumber: weekCounter,
-          workouts: []
-        }
-      ];
-
-      const getWeekOptions = {
-        weekStartsOn: 1
-      };
-      workouts.forEach((workout, idx) => {
-        const workoutDate = new Date(workout.WorkoutDate);
-        const weekNumber = getWeek(workoutDate, getWeekOptions);
-        if (idx > 1) {
-          const lastWorkoutDate = new Date(workouts[idx - 1].WorkoutDate);
-          if (
-            getWeek(workoutDate, getWeekOptions) !==
-            getWeek(lastWorkoutDate, getWeekOptions)
-          ) {
-            exerciseInWeek.push({
-              weekNumber,
-              workouts: []
-            });
-          }
-          // add workout to latest week in exerciseInWeek array
-          const week = exerciseInWeek[exerciseInWeek.length - 1];
-          week.workouts.push(workout);
-        } else {
-          const week = exerciseInWeek[0];
-          week.weekNumber = weekNumber;
-          week.workouts.push(workout);
-        }
-      });
-
-      exerciseInWeek.forEach(week => {
-        let totalKgLifted = 0;
-        let totalLbLifted = 0;
-        let totalHardSets = 0;
-        let bodyPartId, exerciseId;
-
-        week.workouts.forEach(workout => {
-          if (workout.Exercises[0] && workout.Exercises[0].TotalWeight) {
-            if (workout.Exercises[0] && workout.Exercises[0].Sets) {
-              const ids = this.findIdsFromSets(workout.Exercises[0].Sets);
-              bodyPartId = ids.bodyPartId;
-              exerciseId = ids.exerciseId;
-            }
-            totalKgLifted += workout.Exercises[0].TotalWeight.Kg;
-            totalLbLifted += workout.Exercises[0].TotalWeight.Lb;
-            totalHardSets += workout.Exercises[0].Series;
-          }
-        });
-        week.bodyPartId = bodyPartId;
-        week.exerciseId = exerciseId;
-        week.totalHardSets = totalHardSets;
-        week.totalKgLifted = totalKgLifted.toFixed(1);
-        week.totalLbLifted = totalLbLifted.toFixed(1);
-      });
-      const exerciseInWeekWithId = exerciseInWeek.filter(exercise => {
-        return exercise.exerciseId;
-      });
-      return exerciseInWeekWithId;
     }
   }
 };
