@@ -1,9 +1,7 @@
 <template>
   <div class="card">
     <p class="has-text-centered is-size-4 has-text-weight-semibold">Total Weight Lifted by Week Number</p>
-
-
-    <apexchart
+    <apexchart v-if="showChart"
       ref="bodypartvolumechart"
       type="line"
       height="300em"
@@ -119,6 +117,9 @@ export default {
   },
   computed: {
     ...mapGetters('storeAuth', ['token']),
+    showChart(){
+      return this.series && this.series[0] && this.series[0].data && this.series[0].data.length > 0
+    },
     chartData() {
       if (
         !this.selectedBodyPart ||
