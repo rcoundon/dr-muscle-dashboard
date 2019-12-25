@@ -41,7 +41,7 @@ import { getExerciseName } from '@/services/getExerciseName';
 import { calculateBodyPartTotals } from '@/services/calculateBodyPartTotals';
 import { getFitLine } from '@/services/calculateTrendLine';
 
-import { compareAsc, getWeek } from 'date-fns';
+import { compareAsc, getWeek, getYear } from 'date-fns';
 
 export default {
   props: {
@@ -87,6 +87,9 @@ export default {
         stroke: {
           width: 3,
           curve: 'smooth'
+        },
+        subtitle: {
+          text: 'x-axis label format is #Week-year'
         }
       },
       series: [
@@ -250,14 +253,17 @@ export default {
       workouts.forEach((workout, idx) => {
         const workoutDate = new Date(workout.WorkoutDate);
         const weekNumber = getWeek(workoutDate, getWeekOptions);
+        const year = getYear(workoutDate);
+        const weekYear = weekNumber + '-' + year;
         if (idx > 1) {
           const lastWorkoutDate = new Date(workouts[idx - 1].WorkoutDate);
-          if (
-            getWeek(workoutDate, getWeekOptions) !==
-            getWeek(lastWorkoutDate, getWeekOptions)
-          ) {
+          const lastYear = getYear(lastWorkoutDate);
+          const lastWeek = getWeek(lastWorkoutDate, getWeekOptions);
+          const lastWeekYear = lastWeek + '-' + lastYear;
+
+          if (lastWeekYear !== weekYear) {
             exerciseInWeek.push({
-              weekNumber,
+              weekNumber: weekYear,
               workouts: []
             });
           }
@@ -266,7 +272,7 @@ export default {
           week.workouts.push(workout);
         } else {
           const week = exerciseInWeek[0];
-          week.weekNumber = weekNumber;
+          week.weekNumber = weekYear;
           week.workouts.push(workout);
         }
       });
