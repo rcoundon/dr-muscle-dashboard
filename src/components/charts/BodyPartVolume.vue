@@ -145,8 +145,8 @@ export default {
   },
   computed: {
     ...mapGetters('storeAuth', ['token']),
-    showChart(){
-      return this.series && this.series[0] && this.series[0].data && this.series[0].data.length > 0
+    showChart() {
+      return this?.series[0]?.data?.length > 0;
     },
     chartData() {
       if (
