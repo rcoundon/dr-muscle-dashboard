@@ -102,7 +102,9 @@ export default {
   },
   methods: {
     setSelectedExercise(evt) {
-      this.selectedExercise = this.exercises[evt].id;
+      if (evt && this?.exercises[evt]?.id) {
+        this.selectedExercise = this.exercises[evt].id;
+      }
     },
     async buildHistory() {
       console.time('buildHistory');
