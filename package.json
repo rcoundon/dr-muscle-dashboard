@@ -1,11 +1,15 @@
 {
   "name": "dr-muscle-dashboard",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
     "lint": "vue-cli-service lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rcoundon/dr-muscle-dashboard.git"
   },
   "dependencies": {
     "@bugsnag/js": "^6.5.0",

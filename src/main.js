@@ -62,7 +62,7 @@ import router from './router';
 import store from './store/store-modules';
 
 const bugsnagClient = bugsnag({
-  appVersion: '0.0.2',
+  appVersion: '0.0.3',
   apiKey: 'edc6bef4ba5072a2d6781cd94c75be7c'
 });
 bugsnagClient.use(bugsnagVue, Vue);
