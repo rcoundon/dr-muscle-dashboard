@@ -28,8 +28,8 @@ module.exports = {
       }),
       new BugsnagBuildReporterPlugin(
         {
-          apiKey: 'YOUR_API_KEY',
-          appVersion: '0.0.2'
+          apiKey: 'edc6bef4ba5072a2d6781cd94c75be7c',
+          appVersion: '0.0.3'
         },
         {
           /* opts */
