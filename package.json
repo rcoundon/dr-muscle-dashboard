@@ -43,7 +43,8 @@
     "eslint-plugin-vue": "^6.0.1",
     "node-sass": "^4.13.0",
     "sass-loader": "^8.0.0",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "webpack-bugsnag-plugins": "^1.4.2"
   },
   "eslintConfig": {
     "root": true,

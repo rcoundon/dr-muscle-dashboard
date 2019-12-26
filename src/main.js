@@ -61,7 +61,10 @@ import App from './App.vue';
 import router from './router';
 import store from './store/store-modules';
 
-const bugsnagClient = bugsnag('edc6bef4ba5072a2d6781cd94c75be7c');
+const bugsnagClient = bugsnag({
+  appVersion: '0.0.2',
+  apiKey: 'edc6bef4ba5072a2d6781cd94c75be7c'
+});
 bugsnagClient.use(bugsnagVue, Vue);
 
 Vue.config.productionTip = false;
