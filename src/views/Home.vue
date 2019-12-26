@@ -28,11 +28,12 @@
           <body-part-kg-lifted :exerciseData="exercises" :exerciseHistory="exerciseHistory" :selectedBodyPart="selectedBodyPart"/>
         </div>
         <total-exercise-count @selectedExercise="setSelectedExercise" />
-        <exercise-history
+        <OneRepMax v-if="exerciseMaxes && exerciseMaxes.length > 0" :exerciseMaxes="exerciseMaxes" :exerciseName="selectedExerciseName"/>
+        <!-- <exercise-history
           v-if="selectedExercise"
           :exercise-id="selectedExercise"
           :exercise-name="selectedExerciseName"
-        />
+        /> -->
         <div v-if="isLoading" style="padding-top: 1em">
           <p class="is-size-4 is-primary has-text-weight-semibold">Loading the detail of your workout history...</p>
           <p class="is-size-4 is-primary ">If you've been working out a while</p>
@@ -46,11 +47,14 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { compareAsc } from 'date-fns';
 import TotalExerciseCount from '@/components/charts/TotalExerciseCount';
-import ExerciseHistory from '@/components/charts/ExerciseHistory';
+// import ExerciseHistory from '@/components/charts/ExerciseHistory';
 import BodyPartVolume from '@/components/charts/BodyPartVolume';
 import BodyPartKgLifted from '@/components/charts/BodyPartKgLifted';
+import OneRepMax from '@/components/charts/Exercise1RM';
 import getExerciseHistory from '@/services/getExerciseHistory';
+import buildOneRepMaxes from '@/services/buildOneRepMaxes';
 import bodyPartsObj from '../codes/bodyPartId';
 
 // import testData from '../../test-data/volume-over-time.json';
@@ -59,15 +63,17 @@ export default {
   name: 'Home',
   components: {
     TotalExerciseCount,
-    ExerciseHistory,
+    // ExerciseHistory,
     BodyPartVolume,
-    BodyPartKgLifted
+    BodyPartKgLifted,
+    OneRepMax
   },
   data() {
     return {
       selectedExercise: undefined,
       selectedMuscleGroup: '',
       exerciseHistory: [],
+      exerciseMaxes: [],
       isLoading: false,
       selectedBodyPart: 2
     };
@@ -101,9 +107,28 @@ export default {
     }
   },
   methods: {
-    setSelectedExercise(evt) {
-      if (evt && this?.exercises[evt]?.id) {
-        this.selectedExercise = this.exercises[evt].id;
+    async setSelectedExercise(evt) {
+      try {
+        this.isLoading = true;
+        if (evt && this?.exercises[evt]?.id) {
+          this.selectedExercise = this.exercises[evt].id;
+          const data = await getExerciseHistory(
+            this.$axios,
+            this.token,
+            this.selectedExercise,
+            undefined
+          );
+          const oneRepMaxData = buildOneRepMaxes(data, this.selectedExercise);
+          this.exerciseMaxes = oneRepMaxData.sort((workoutA, workoutB) => {
+            const workoutDateA = new Date(workoutA.workoutDate);
+            const workoutDateB = new Date(workoutB.workoutDate);
+            return compareAsc(workoutDateA, workoutDateB);
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        this.isLoading = false;
       }
     },
     async buildHistory() {

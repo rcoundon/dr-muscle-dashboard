@@ -42,6 +42,13 @@ export default {
       rawData: null,
       chartOptions: {
         chart: {
+          selection: {
+            enabled: true,
+            fill: {
+              color: '#24292e',
+              opacity: 0.1
+            }
+          },
           type: 'bar',
           events: {
             click: function(event, chartContext, config) {
