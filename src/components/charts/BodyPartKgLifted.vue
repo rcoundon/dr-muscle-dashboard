@@ -56,7 +56,7 @@ export default {
         },
         yaxis: {
           title: {
-            text: 'Volume (Kg)'
+            text: 'Volume (kg)'
           }
         },
         stroke: {
