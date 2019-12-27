@@ -1,25 +1,41 @@
 <template>
   <div class="card">
-    <p class="has-text-centered is-size-4 has-text-weight-semibold">Number of Hard Sets By Week Number</p>
-    <apexchart v-if="showChart"
+    <p class="has-text-centered is-size-4 has-text-weight-semibold">
+      Number of Hard Sets By Week Number
+    </p>
+    <apexchart
+      v-if="showChart"
       ref="bodypartvolumechart"
       type="line"
       height="300em"
       :series="series"
       :options="chartOptions"
     />
-     <b-table :data="exerciseTotals"
+    <b-table
+      :data="exerciseTotals"
       :default-sort-direction="'desc'"
       default-sort="count.totalHardSets"
     >
       <template slot-scope="props">
-        <b-table-column sortable field="exerciseName" label="Exercise">
+        <b-table-column
+          sortable
+          field="exerciseName"
+          label="Exercise"
+        >
           {{ props.row.exerciseName }}
         </b-table-column>
-        <b-table-column sortable field="count.totalWorkouts" label="Appeared in # Workouts">
+        <b-table-column
+          sortable
+          field="count.totalWorkouts"
+          label="Appeared in # Workouts"
+        >
           {{ props.row.count.totalWorkouts }}
         </b-table-column>
-        <b-table-column sortable field="count.totalHardSets" label="Total Hard Sets">
+        <b-table-column
+          sortable
+          field="count.totalHardSets"
+          label="Total Hard Sets"
+        >
           {{ props.row.count.totalHardSets }}
         </b-table-column>
       </template>
@@ -99,52 +115,6 @@ export default {
       ]
     };
   },
-  watch: {
-    chartData: {
-      handler: function(newVal) {
-        if (!newVal) return;
-
-        const xValues = Object.keys(newVal);
-        let yHardSetValues = [];
-        xValues.forEach(week => {
-          yHardSetValues.push(parseFloat(newVal[week].totalHardSets));
-        });
-        // Calculate lines for fit
-        const yFitValues = getFitLine(yHardSetValues);
-        const newData = [];
-        newData.push({
-          data: xValues,
-          name: 'test'
-        });
-
-        this.series = [
-          {
-            name: 'Hard Sets',
-            data: yHardSetValues
-          },
-          {
-            name: 'Trend',
-            data: yFitValues
-          }
-        ];
-
-        this.chartOptions = {
-          ...this.chartOptions,
-          ...{
-            xaxis: {
-              categories: xValues,
-              title: {
-                text: 'Training Week'
-              },
-              labels: {
-                show: true
-              }
-            }
-          }
-        };
-      }
-    }
-  },
   computed: {
     ...mapGetters('storeAuth', ['token']),
     showChart() {
@@ -192,6 +162,52 @@ export default {
           ]
         };
       });
+    }
+  },
+  watch: {
+    chartData: {
+      handler: function(newVal) {
+        if (!newVal) return;
+
+        const xValues = Object.keys(newVal);
+        let yHardSetValues = [];
+        xValues.forEach(week => {
+          yHardSetValues.push(parseFloat(newVal[week].totalHardSets));
+        });
+        // Calculate lines for fit
+        const yFitValues = getFitLine(yHardSetValues);
+        const newData = [];
+        newData.push({
+          data: xValues,
+          name: 'test'
+        });
+
+        this.series = [
+          {
+            name: 'Hard Sets',
+            data: yHardSetValues
+          },
+          {
+            name: 'Trend',
+            data: yFitValues
+          }
+        ];
+
+        this.chartOptions = {
+          ...this.chartOptions,
+          ...{
+            xaxis: {
+              categories: xValues,
+              title: {
+                text: 'Training Week'
+              },
+              labels: {
+                show: true
+              }
+            }
+          }
+        };
+      }
     }
   },
   mounted() {

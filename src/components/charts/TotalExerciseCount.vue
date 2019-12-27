@@ -1,22 +1,34 @@
 <template>
-  <div class="card" style="padding-top: 1em">
+  <div
+    class="card"
+    style="padding-top: 1em"
+  >
     <b-loading
       :is-full-page="false"
       :active.sync="isLoading"
       :can-cancel="false"
-    ></b-loading>
-    <p class="has-text-centered is-size-4 has-text-weight-semibold">Count of exercises performed</p>
-    <p v-if="!isLoading" class="is-italic has-text-primary has-text-centered is-size-5 has-text-weight-semibold">Tap on an exercise for your history of 1RM</p>
+    />
+    <p class="has-text-centered is-size-4 has-text-weight-semibold">
+      Count of exercises performed
+    </p>
+    <p
+      v-if="!isLoading"
+      class="is-italic has-text-primary has-text-centered is-size-5 has-text-weight-semibold"
+    >
+      Tap on an exercise for your history of 1RM
+    </p>
     <apexchart
       v-if="series && series.length > 0"
+      ref="timesperformedchart"
       height="350px"
       type="bar"
       :series="series"
       :options="chartOptions"
-      ref="timesperformedchart"
     />
     <div v-if="error">
-      <p class="is-danger">{{ error }}</p>
+      <p class="is-danger">
+        {{ error }}
+      </p>
     </div>
   </div>
 </template>

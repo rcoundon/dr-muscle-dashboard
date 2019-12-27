@@ -7,7 +7,7 @@
     />
     <div class="columns">
       <div class="column">
-      <b-field style="padding-top: 2em; padding-left: 1em">
+        <b-field style="padding-top: 2em; padding-left: 1em">
           <b-select
             v-model="selectedBodyPart"
             placeholder="Select a body part"
@@ -24,21 +24,45 @@
         </b-field>
 
         <div v-if="exercises && exerciseHistory.length > 0 && selectedBodyPart">
-          <body-part-volume :exerciseData="exercises" :exerciseHistory="exerciseHistory" :selectedBodyPart="selectedBodyPart" style="margin-bottom: 1rem"/>
-          <body-part-kg-lifted :exerciseData="exercises" :exerciseHistory="exerciseHistory" :selectedBodyPart="selectedBodyPart"/>
+          <body-part-volume
+            :exercise-data="exercises"
+            :exercise-history="exerciseHistory"
+            :selected-body-part="selectedBodyPart"
+            style="margin-bottom: 1rem"
+          />
+          <body-part-kg-lifted
+            :exercise-data="exercises"
+            :exercise-history="exerciseHistory"
+            :selected-body-part="selectedBodyPart"
+          />
         </div>
         <total-exercise-count @selectedExercise="setSelectedExercise" />
-        <OneRepMax v-if="exerciseMaxes && exerciseMaxes.length > 0" :exerciseMaxes="exerciseMaxes" :exerciseName="selectedExerciseName"/>
+        <OneRepMax
+          v-if="exerciseMaxes && exerciseMaxes.length > 0"
+          :exercise-maxes="exerciseMaxes"
+          :exercise-name="selectedExerciseName"
+        />
         <!-- <exercise-history
           v-if="selectedExercise"
           :exercise-id="selectedExercise"
           :exercise-name="selectedExerciseName"
         /> -->
-        <div v-if="isLoading" style="padding-top: 1em">
-          <p class="is-size-4 is-primary has-text-weight-semibold">Loading the detail of your workout history...</p>
-          <p class="is-size-4 is-primary ">If you've been working out a while</p>
-          <p class="is-size-4 is-primary ">This could take up to 30s (but it's worth it!)</p>
-          <p class="is-size-4 processing">Loading<span>.</span><span>.</span><span>.</span></p>
+        <div
+          v-if="isLoading"
+          style="padding-top: 1em"
+        >
+          <p class="is-size-4 is-primary has-text-weight-semibold">
+            Loading the detail of your workout history...
+          </p>
+          <p class="is-size-4 is-primary ">
+            If you've been working out a while
+          </p>
+          <p class="is-size-4 is-primary ">
+            This could take up to 30s (but it's worth it!)
+          </p>
+          <p class="is-size-4 processing">
+            Loading<span>.</span><span>.</span><span>.</span>
+          </p>
         </div>
       </div>
     </div>

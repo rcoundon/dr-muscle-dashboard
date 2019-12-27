@@ -13,7 +13,7 @@
           placeholder="Email"
           autocomplete="email"
           icon="at"
-        ></b-input>
+        />
       </b-field>
       <label class="label has-text-left">Password</label>
       <b-field>
@@ -24,7 +24,7 @@
           placeholder="Password"
           autocomplete="current-password"
           icon="key"
-        ></b-input>
+        />
       </b-field>
       <div class="control">
         <button
@@ -35,7 +35,7 @@
           Login
         </button>
       </div>
-      <br />
+      <br>
     </form>
     <div v-if="loginError">
       <span
