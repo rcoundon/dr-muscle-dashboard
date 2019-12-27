@@ -79,7 +79,7 @@ export default {
 
         this.series = [
           {
-            name: '1RM (Kg)',
+            name: '1RM (kg)',
             data: yValues
           },
           {

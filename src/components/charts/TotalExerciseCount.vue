@@ -6,6 +6,7 @@
       :can-cancel="false"
     ></b-loading>
     <p class="has-text-centered is-size-4 has-text-weight-semibold">Count of exercises performed</p>
+    <p v-if="!isLoading" class="is-italic has-text-primary has-text-centered is-size-5 has-text-weight-semibold">Tap on an exercise for your history of 1RM</p>
     <apexchart
       v-if="series && series.length > 0"
       height="350px"

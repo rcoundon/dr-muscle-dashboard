@@ -76,9 +76,12 @@ export default {
       this.setToken(undefined);
       this.setUsername(undefined);
       this.setExpiresIn(0);
-      this.$router.push({
-        name: 'login'
-      });
+      this.$router
+        .push({
+          name: 'login'
+        })
+        // eslint-disable-next-line no-unused-vars
+        .catch(err => {});
     },
     showMenu() {
       // const nav = this.$refs.navbarMenu;

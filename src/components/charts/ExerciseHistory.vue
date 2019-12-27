@@ -5,7 +5,7 @@
       :active.sync="isLoading"
       :can-cancel="false"
     />
-    <p class="has-text-centered is-size-4 has-text-weight-semibold">{{ name }} Weight (Kg) Volume</p>
+    <p class="has-text-centered is-size-4 has-text-weight-semibold">{{ name }} Weight (kg) Volume</p>
 
     <p v-if="error" class="is-danger">
       {{ error }}

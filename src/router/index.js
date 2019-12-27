@@ -45,9 +45,12 @@ router.beforeEach((to, from, next) => {
   const token = store.getters['storeAuth/token'];
 
   if (requiresAuth && !token) {
-    router.push({
-      name: 'login'
-    });
+    router
+      .push({
+        name: 'login'
+      })
+      // eslint-disable-next-line no-unused-vars
+      .catch(err => {});
   }
   next();
 });

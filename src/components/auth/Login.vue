@@ -77,9 +77,12 @@ export default {
         await this.setToken(token.access_token);
         await this.setUsername(this.email);
         await this.setExpiresIn(token.expires_in);
-        this.$router.push({
-          name: 'home'
-        });
+        this.$router
+          .push({
+            name: 'home'
+          })
+          // eslint-disable-next-line no-unused-vars
+          .catch(err => {});
       } catch (err) {
         console.error(err);
         this.loginError = err?.response?.data?.error_description;

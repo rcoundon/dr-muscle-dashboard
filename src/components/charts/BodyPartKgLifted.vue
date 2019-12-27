@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <p class="has-text-centered is-size-4 has-text-weight-semibold">Total Weight Lifted by Week Number</p>
+    <p class="has-text-centered is-size-4 has-text-weight-semibold">Total Weight Lifted (kg) by Week Number</p>
     <apexchart v-if="showChart"
       ref="bodypartvolumechart"
       type="line"
@@ -56,7 +56,7 @@ export default {
         },
         yaxis: {
           title: {
-            text: 'Volume (kg)'
+            text: 'Volume (Kg)'
           }
         },
         stroke: {
@@ -95,7 +95,7 @@ export default {
 
         this.series = [
           {
-            name: 'Total Kg Lifted',
+            name: 'Total kg Lifted',
             data: yTotalKgValues
           },
           {
