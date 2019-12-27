@@ -2,7 +2,13 @@ import { linearRegression, linearRegressionLine } from 'simple-statistics';
 
 function getLineDrawer(data) {
   const dataToFit = data.map((volumeEntry, idx) => {
-    return [idx + 1, volumeEntry];
+    let valToFit;
+    if (typeof volumeEntry === 'string') {
+      valToFit = parseFloat(volumeEntry);
+    } else {
+      valToFit = volumeEntry;
+    }
+    return [idx + 1, valToFit];
   });
 
   const lr = linearRegression(dataToFit);

@@ -30,7 +30,8 @@ import {
   faExclamationCircle,
   faDumbbell,
   faLongArrowAltRight,
-  faChild
+  faChild,
+  faWeight
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -43,7 +44,8 @@ library.add(
   faExclamationCircle,
   faDumbbell,
   faLongArrowAltRight,
-  faChild
+  faChild,
+  faWeight
 );
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);

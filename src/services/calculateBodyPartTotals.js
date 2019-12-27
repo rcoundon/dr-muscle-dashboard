@@ -82,11 +82,18 @@ export function calculateBodyPartTotals(exerciseVolume) {
       ) {
         bodyPartVolumes[exercise.bodyPartId][
           exercise.weekNumber
-        ].totalKgLifted += exercise.totalKgLifted;
+        ].totalKgLifted += exercise.totalLbLifted;
+        bodyPartVolumes[exercise.bodyPartId][
+          exercise.weekNumber
+        ].totalLbLifted += exercise.totalKgLifted * 2.2;
       } else {
         bodyPartVolumes[exercise.bodyPartId][
           exercise.weekNumber
         ].totalKgLifted = exercise.totalKgLifted;
+
+        bodyPartVolumes[exercise.bodyPartId][
+          exercise.weekNumber
+        ].totalLbLifted = exercise.totalKgLifted * 2.2;
       }
     });
   });

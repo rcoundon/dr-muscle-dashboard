@@ -15,7 +15,7 @@
       v-if="!isLoading"
       class="is-italic has-text-primary has-text-centered is-size-5 has-text-weight-semibold"
     >
-      Tap on an exercise for your history of 1RM
+      Tap on an exercise for your 1RM history
     </p>
     <apexchart
       v-if="series && series.length > 0"

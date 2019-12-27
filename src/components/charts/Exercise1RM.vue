@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <p class="has-text-centered is-size-4 has-text-weight-semibold">
-      1RM for {{ exerciseName }}
+      {{ `1RM (${units}s) for ${exerciseName}` }}
     </p>
     <apexchart
       v-if="exerciseMaxes && exerciseMaxes.length > 0"
@@ -27,6 +27,11 @@ export default {
     exerciseName: {
       type: String,
       required: true
+    },
+    units: {
+      type: String,
+      required: false,
+      default: 'kg'
     }
   },
   data() {
@@ -48,7 +53,7 @@ export default {
         },
         yaxis: {
           title: {
-            text: '1RM'
+            text: `1RM (${this.units})`
           }
         },
         stroke: {
@@ -65,44 +70,62 @@ export default {
     };
   },
   watch: {
+    units: {
+      handler() {
+        this.buildChartData();
+      }
+    },
     exerciseMaxes: {
       immediate: true,
-      handler: function(newVal) {
-        if (!newVal) return;
+      handler() {
+        this.buildChartData();
+      }
+    }
+  },
+  methods: {
+    buildChartData() {
+      if (!this.exerciseMaxes) return;
 
-        const xValues = [];
-        const yValues = [];
-        // Calculate lines for fit
+      const xValues = [];
+      const yValues = [];
 
-        newVal.forEach(records => {
-          yValues.push(records.oneRepMaxKg);
-          xValues.push(records.workoutDate);
-        });
-        const yFitValues = getFitLine(yValues);
+      this.exerciseMaxes.forEach(records => {
+        const yValue =
+          this.units === 'kg' ? records.oneRepMaxKg : records.oneRepMaxKg * 2.2;
+        yValues.push(yValue.toFixed(1));
+        xValues.push(records.workoutDate);
+      });
 
-        this.series = [
-          {
-            name: '1RM (kg)',
-            data: yValues
+      // Calculate lines for fit
+      const yFitValues = getFitLine(yValues);
+
+      this.series = [
+        {
+          name: `1RM (${this.units})`,
+          data: yValues
+        },
+        {
+          name: 'Trend',
+          data: yFitValues
+        }
+      ];
+
+      this.chartOptions = {
+        ...this.chartOptions,
+        ...{
+          xaxis: {
+            categories: xValues,
+            labels: {
+              show: true
+            }
           },
-          {
-            name: 'Trend',
-            data: yFitValues
-          }
-        ];
-
-        this.chartOptions = {
-          ...this.chartOptions,
-          ...{
-            xaxis: {
-              categories: xValues,
-              labels: {
-                show: true
-              }
+          yaxis: {
+            title: {
+              text: `1RM (${this.units})`
             }
           }
-        };
-      }
+        }
+      };
     }
   }
 };
