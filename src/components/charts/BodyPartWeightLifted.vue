@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <p class="has-text-centered is-size-4 has-text-weight-semibold">
-      Total Weight Lifted (kg) by Week Number
+      {{ `Total Weight Lifted (${units}) by Week Number` }}
     </p>
     <apexchart
       v-if="showChart"
@@ -37,6 +37,10 @@ export default {
     selectedBodyPart: {
       type: Number,
       required: true
+    },
+    units: {
+      type: String,
+      default: 'kg'
     }
   },
   data() {
@@ -59,7 +63,7 @@ export default {
         },
         yaxis: {
           title: {
-            text: 'Volume (kg)'
+            text: `Volume (${this.units})`
           }
         },
         stroke: {
@@ -87,9 +91,11 @@ export default {
       if (
         !this.selectedBodyPart ||
         !this.bodyPartTotals ||
-        !this.bodyPartTotals.bodyPartVolumes
-      )
+        !this.bodyPartTotals.bodyPartVolumes ||
+        !this.units
+      ) {
         return [];
+      }
       const bodyPartData = this.bodyPartTotals.bodyPartVolumes[
         this.selectedBodyPart
       ];
@@ -105,45 +111,14 @@ export default {
     }
   },
   watch: {
+    units: {
+      handler() {
+        this.buildChartData();
+      }
+    },
     chartData: {
-      handler: function(newVal) {
-        if (!newVal || !this.bodyPartTotals) return;
-        const xValues = Object.keys(newVal);
-        let yTotalKgValues = [];
-        xValues.forEach(week => {
-          yTotalKgValues.push(parseFloat(newVal[week].totalKgLifted));
-        });
-        // Calculate lines for fit
-        const yFitValues = getFitLine(yTotalKgValues);
-
-        const newData = [];
-        newData.push({
-          data: xValues,
-          name: 'test'
-        });
-
-        this.series = [
-          {
-            name: 'Total kg Lifted',
-            data: yTotalKgValues
-          },
-          {
-            name: 'Trend',
-            data: yFitValues
-          }
-        ];
-
-        this.chartOptions = {
-          ...this.chartOptions,
-          ...{
-            xaxis: {
-              categories: xValues,
-              labels: {
-                show: true
-              }
-            }
-          }
-        };
+      handler() {
+        this.buildChartData();
       }
     }
   },
@@ -152,6 +127,49 @@ export default {
     this.buildAllWorkoutVolumes();
   },
   methods: {
+    buildChartData() {
+      if (!this.chartData || !this.bodyPartTotals) return;
+      const xValues = Object.keys(this.chartData);
+      let yTotalWeightValues = [];
+      xValues.forEach(week => {
+        const yValue =
+          this.units === 'kg'
+            ? parseFloat(this.chartData[week].totalKgLifted).toFixed(1)
+            : parseFloat(this.chartData[week].totalLbLifted).toFixed(1);
+        yTotalWeightValues.push(yValue);
+      });
+      // Calculate lines for fit
+      const yFitValues = getFitLine(yTotalWeightValues);
+
+      const newData = [];
+      newData.push({
+        data: xValues,
+        name: 'test'
+      });
+
+      this.series = [
+        {
+          name: `Total ${this.units} Lifted`,
+          data: yTotalWeightValues
+        },
+        {
+          name: 'Trend',
+          data: yFitValues
+        }
+      ];
+
+      this.chartOptions = {
+        ...this.chartOptions,
+        ...{
+          xaxis: {
+            categories: xValues,
+            labels: {
+              show: true
+            }
+          }
+        }
+      };
+    },
     getBodyPartName(id) {
       return getBodyPartName(id);
     },

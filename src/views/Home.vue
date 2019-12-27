@@ -7,20 +7,51 @@
     />
     <div class="columns">
       <div class="column">
-        <b-field style="padding-top: 2em; padding-left: 1em">
-          <b-select
-            v-model="selectedBodyPart"
-            placeholder="Select a body part"
-            icon="child"
+        <b-field
+          grouped
+          style="padding-top: 1em"
+        >
+          <b-field
+
+            style="padding-left: 1em"
           >
-            <option
-              v-for="bodyPart in bodyParts"
-              :key="bodyPart.id"
-              :value="bodyPart.id"
+            <b-select
+              v-model="selectedBodyPart"
+              placeholder="Select a body part"
+              icon="child"
             >
-              {{ bodyPart.bodyPart }}
-            </option>
-          </b-select>
+              <option
+                v-for="bodyPart in bodyParts"
+                :key="bodyPart.id"
+                :value="bodyPart.id"
+              >
+                {{ bodyPart.bodyPart }}
+              </option>
+            </b-select>
+          </b-field>
+          <b-field
+
+            style="padding-left: 1em"
+          >
+            <b-select
+              v-model="weightUnits"
+              placeholder="Kg or Lb?"
+              icon="weight"
+            >
+              <option
+                key="kg"
+                value="kg"
+              >
+                kg
+              </option>
+              <option
+                key="lb"
+                value="lb"
+              >
+                lb
+              </option>
+            </b-select>
+          </b-field>
         </b-field>
 
         <div v-if="exercises && exerciseHistory.length > 0 && selectedBodyPart">
@@ -30,10 +61,11 @@
             :selected-body-part="selectedBodyPart"
             style="margin-bottom: 1rem"
           />
-          <body-part-kg-lifted
+          <body-part-weight-lifted
             :exercise-data="exercises"
             :exercise-history="exerciseHistory"
             :selected-body-part="selectedBodyPart"
+            :units="weightUnits"
           />
         </div>
         <total-exercise-count @selectedExercise="setSelectedExercise" />
@@ -41,6 +73,7 @@
           v-if="exerciseMaxes && exerciseMaxes.length > 0"
           :exercise-maxes="exerciseMaxes"
           :exercise-name="selectedExerciseName"
+          :units="weightUnits"
         />
         <!-- <exercise-history
           v-if="selectedExercise"
@@ -75,7 +108,7 @@ import { compareAsc } from 'date-fns';
 import TotalExerciseCount from '@/components/charts/TotalExerciseCount';
 // import ExerciseHistory from '@/components/charts/ExerciseHistory';
 import BodyPartVolume from '@/components/charts/BodyPartVolume';
-import BodyPartKgLifted from '@/components/charts/BodyPartKgLifted';
+import BodyPartWeightLifted from '@/components/charts/BodyPartWeightLifted';
 import OneRepMax from '@/components/charts/Exercise1RM';
 import getExerciseHistory from '@/services/getExerciseHistory';
 import buildOneRepMaxes from '@/services/buildOneRepMaxes';
@@ -89,11 +122,12 @@ export default {
     TotalExerciseCount,
     // ExerciseHistory,
     BodyPartVolume,
-    BodyPartKgLifted,
+    BodyPartWeightLifted,
     OneRepMax
   },
   data() {
     return {
+      weightUnits: 'kg',
       selectedExercise: undefined,
       selectedMuscleGroup: '',
       exerciseHistory: [],
