@@ -1,7 +1,10 @@
 <template>
   <div class="card">
-    <p class="has-text-centered is-size-4 has-text-weight-semibold">1RM for {{ exerciseName }}</p>
-    <apexchart v-if="exerciseMaxes && exerciseMaxes.length > 0"
+    <p class="has-text-centered is-size-4 has-text-weight-semibold">
+      1RM for {{ exerciseName }}
+    </p>
+    <apexchart
+      v-if="exerciseMaxes && exerciseMaxes.length > 0"
       ref="1rmchart"
       type="line"
       height="300em"

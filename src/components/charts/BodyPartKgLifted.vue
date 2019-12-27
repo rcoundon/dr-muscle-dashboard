@@ -1,7 +1,10 @@
 <template>
   <div class="card">
-    <p class="has-text-centered is-size-4 has-text-weight-semibold">Total Weight Lifted (kg) by Week Number</p>
-    <apexchart v-if="showChart"
+    <p class="has-text-centered is-size-4 has-text-weight-semibold">
+      Total Weight Lifted (kg) by Week Number
+    </p>
+    <apexchart
+      v-if="showChart"
       ref="bodypartvolumechart"
       type="line"
       height="300em"
@@ -75,6 +78,32 @@ export default {
       ]
     };
   },
+  computed: {
+    ...mapGetters('storeAuth', ['token']),
+    showChart() {
+      return this?.series[0]?.data?.length > 0;
+    },
+    chartData() {
+      if (
+        !this.selectedBodyPart ||
+        !this.bodyPartTotals ||
+        !this.bodyPartTotals.bodyPartVolumes
+      )
+        return [];
+      const bodyPartData = this.bodyPartTotals.bodyPartVolumes[
+        this.selectedBodyPart
+      ];
+      return bodyPartData ? bodyPartData : [];
+    },
+    tableData() {
+      return this.exerciseVolume.filter(exercise => {
+        return exercise.exerciseId === this.selectedExercise;
+      });
+    },
+    bodyPartTotals() {
+      return calculateBodyPartTotals(this.exerciseVolume);
+    }
+  },
   watch: {
     chartData: {
       handler: function(newVal) {
@@ -118,32 +147,7 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapGetters('storeAuth', ['token']),
-    showChart() {
-      return this?.series[0]?.data?.length > 0;
-    },
-    chartData() {
-      if (
-        !this.selectedBodyPart ||
-        !this.bodyPartTotals ||
-        !this.bodyPartTotals.bodyPartVolumes
-      )
-        return [];
-      const bodyPartData = this.bodyPartTotals.bodyPartVolumes[
-        this.selectedBodyPart
-      ];
-      return bodyPartData ? bodyPartData : [];
-    },
-    tableData() {
-      return this.exerciseVolume.filter(exercise => {
-        return exercise.exerciseId === this.selectedExercise;
-      });
-    },
-    bodyPartTotals() {
-      return calculateBodyPartTotals(this.exerciseVolume);
-    }
-  },
+
   mounted() {
     this.buildAllWorkoutVolumes();
   },
