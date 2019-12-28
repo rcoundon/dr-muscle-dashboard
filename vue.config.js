@@ -2,6 +2,7 @@
 //   .BundleAnalyzerPlugin;
 const CompressionPlugin = require('compression-webpack-plugin');
 const { BugsnagBuildReporterPlugin } = require('webpack-bugsnag-plugins');
+const version = require('./package.json').version;
 
 module.exports = {
   productionSourceMap: true,
@@ -29,7 +30,7 @@ module.exports = {
       new BugsnagBuildReporterPlugin(
         {
           apiKey: 'edc6bef4ba5072a2d6781cd94c75be7c',
-          appVersion: '0.0.3'
+          appVersion: version
         },
         {
           /* opts */
