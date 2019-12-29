@@ -57,6 +57,7 @@ import { getExerciseName } from '@/services/getExerciseName';
 import { calculateBodyPartTotals } from '@/services/calculateBodyPartTotals';
 import { getFitLine } from '@/services/calculateTrendLine';
 import { buildWorkoutVolumeByWeek } from '@/services/buildWorkoutVolumeByWeek';
+import sortWeekAndYear from '@/services/sortWeekAndYear';
 
 export default {
   props: {
@@ -170,16 +171,17 @@ export default {
         if (!newVal) return;
 
         const xValues = Object.keys(newVal);
+        const sortedXValues = sortWeekAndYear(xValues);
+
         let yHardSetValues = [];
-        xValues.forEach(week => {
+        sortedXValues.forEach(week => {
           yHardSetValues.push(parseFloat(newVal[week].totalHardSets));
         });
         // Calculate lines for fit
         const yFitValues = getFitLine(yHardSetValues);
         const newData = [];
         newData.push({
-          data: xValues,
-          name: 'test'
+          data: sortedXValues
         });
 
         this.series = [
@@ -197,7 +199,7 @@ export default {
           ...this.chartOptions,
           ...{
             xaxis: {
-              categories: xValues,
+              categories: sortedXValues,
               title: {
                 text: 'Training Week'
               },
