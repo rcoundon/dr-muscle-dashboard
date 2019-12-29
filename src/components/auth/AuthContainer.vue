@@ -5,19 +5,22 @@
   <section class="hero">
     <div class="hero-body grayscale">
       <div class="tile is-ancestor">
-        <div class="tile is-parent"></div>
+        <div class="tile is-parent" />
         <div class="tile is-parent">
           <div class="has-text-centered tile is-ancestor">
-            <div class="tile is-parent"></div>
-            <div id="signup" class="tile is-parent">
+            <div class="tile is-parent" />
+            <div
+              id="signup"
+              class="tile is-parent"
+            >
               <div class="signin-form box">
-                <slot name="authForm"></slot>
+                <slot name="authForm" />
               </div>
             </div>
-            <div class="tile is-parent"></div>
+            <div class="tile is-parent" />
           </div>
         </div>
-        <div class="tile is-parent"></div>
+        <div class="tile is-parent" />
       </div>
     </div>
   </section>

@@ -21,6 +21,7 @@ import { getExerciseName } from '@/services/getExerciseName';
 import { calculateBodyPartTotals } from '@/services/calculateBodyPartTotals';
 import { getFitLine } from '@/services/calculateTrendLine';
 import { buildWorkoutVolumeByWeek } from '@/services/buildWorkoutVolumeByWeek';
+import sortWeekAndYear from '@/services/sortWeekAndYear';
 
 export default {
   props: {
@@ -130,8 +131,9 @@ export default {
     buildChartData() {
       if (!this.chartData || !this.bodyPartTotals) return;
       const xValues = Object.keys(this.chartData);
+      const sortedXValues = sortWeekAndYear(xValues);
       let yTotalWeightValues = [];
-      xValues.forEach(week => {
+      sortedXValues.forEach(week => {
         const yValue =
           this.units === 'kg'
             ? parseFloat(this.chartData[week].totalKgLifted).toFixed(1)
@@ -143,8 +145,7 @@ export default {
 
       const newData = [];
       newData.push({
-        data: xValues,
-        name: 'test'
+        data: sortedXValues
       });
 
       this.series = [
@@ -162,7 +163,7 @@ export default {
         ...this.chartOptions,
         ...{
           xaxis: {
-            categories: xValues,
+            categories: sortedXValues,
             labels: {
               show: true
             }
