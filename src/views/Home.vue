@@ -53,6 +53,8 @@
           </b-field>
           <b-field
             style="padding-left: 1em"
+            label="Date From"
+            label-position="on-border"
           >
             <b-select
               v-model="weekFrom"
@@ -70,6 +72,8 @@
           </b-field>
           <b-field
             style="padding-left: 1em"
+            label="Date To"
+            label-position="on-border"
           >
             <b-select
               v-model="weekTo"
