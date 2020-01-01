@@ -65,6 +65,7 @@ export default {
           type: 'bar',
           events: {
             click: function(event, chartContext, config) {
+              if (config.dataPointIndex === -1) return;
               self.$emit('selectedExercise', config.dataPointIndex);
             }
           }
