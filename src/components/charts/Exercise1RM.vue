@@ -16,6 +16,7 @@
 
 <script>
 import { getFitLine } from '@/services/calculateTrendLine';
+import { format } from 'date-fns';
 
 export default {
   props: {
@@ -45,7 +46,8 @@ export default {
         },
         xaxis: {
           labels: {
-            show: true
+            show: true,
+            rotateAlways: true
           },
           title: {
             text: 'Workout Date'
@@ -93,7 +95,7 @@ export default {
         const yValue =
           this.units === 'kg' ? records.oneRepMaxKg : records.oneRepMaxKg * 2.2;
         yValues.push(yValue.toFixed(1));
-        xValues.push(records.workoutDate);
+        xValues.push(format(records.workoutDate, 'd LLL yyyy'));
       });
 
       // Calculate lines for fit
@@ -116,7 +118,8 @@ export default {
           xaxis: {
             categories: xValues,
             labels: {
-              show: true
+              show: true,
+              rotateAlways: true
             }
           },
           yaxis: {
