@@ -12,7 +12,6 @@
           style="padding-top: 1em"
         >
           <b-field
-
             style="padding-left: 1em"
           >
             <b-select
@@ -52,13 +51,50 @@
               </option>
             </b-select>
           </b-field>
+          <b-field
+            style="padding-left: 1em"
+          >
+            <b-select
+              v-model="weekFrom"
+              placeholder="Start of training period"
+              icon="calendar"
+            >
+              <option
+                v-for="weekNumber in weekNumbers"
+                :key="weekNumber"
+                :value="weekNumber"
+              >
+                {{ weekNumber }}
+              </option>
+            </b-select>
+          </b-field>
+          <b-field
+            style="padding-left: 1em"
+          >
+            <b-select
+              v-model="weekTo"
+              placeholder="End of training period"
+              icon="calendar"
+            >
+              <option
+                v-for="weekNumber in weekNumbers"
+                :key="weekNumber"
+                :value="weekNumber"
+              >
+                {{ weekNumber }}
+              </option>
+            </b-select>
+          </b-field>
         </b-field>
+
 
         <div v-if="exercises && exerciseHistory.length > 0 && selectedBodyPart">
           <body-part-volume
             :exercise-data="exercises"
             :exercise-history="exerciseHistory"
             :selected-body-part="selectedBodyPart"
+            :week-year-from="weekFrom"
+            :week-year-to="weekTo"
             style="margin-bottom: 1rem"
           />
           <body-part-weight-lifted
@@ -75,11 +111,6 @@
           :exercise-name="selectedExerciseName"
           :units="weightUnits"
         />
-        <!-- <exercise-history
-          v-if="selectedExercise"
-          :exercise-id="selectedExercise"
-          :exercise-name="selectedExerciseName"
-        /> -->
         <div
           v-if="isLoading"
           style="padding-top: 1em"
@@ -106,7 +137,6 @@
 import { mapGetters } from 'vuex';
 import { compareAsc } from 'date-fns';
 import TotalExerciseCount from '@/components/charts/TotalExerciseCount';
-// import ExerciseHistory from '@/components/charts/ExerciseHistory';
 import BodyPartVolume from '@/components/charts/BodyPartVolume';
 import BodyPartWeightLifted from '@/components/charts/BodyPartWeightLifted';
 import OneRepMax from '@/components/charts/Exercise1RM';
@@ -120,7 +150,6 @@ export default {
   name: 'Home',
   components: {
     TotalExerciseCount,
-    // ExerciseHistory,
     BodyPartVolume,
     BodyPartWeightLifted,
     OneRepMax
@@ -133,11 +162,13 @@ export default {
       exerciseHistory: [],
       exerciseMaxes: [],
       isLoading: false,
-      selectedBodyPart: 2
+      selectedBodyPart: 2,
+      weekFrom: '',
+      weekTo: ''
     };
   },
   computed: {
-    ...mapGetters('storeExercises', ['exercises']),
+    ...mapGetters('storeExercises', ['exercises', 'weekNumbers']),
     ...mapGetters('storeAuth', ['token']),
     selectedExerciseName() {
       if (!this.exercises) return '';
