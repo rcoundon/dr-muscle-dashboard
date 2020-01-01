@@ -62,7 +62,7 @@
           class="has-text-left has-text-weight-semibold"
           style="padding-left: 1em; padding-bottom: 1em"
         >
-          Select the start and end dates to be displayed in the charts.  Format is WeekNumber'Year
+          Select the start and end dates to be displayed in the charts.  Format is WeekNumber-Year
         </p>
         <b-field grouped>
           <b-field
