@@ -55,7 +55,6 @@ import { mapGetters } from 'vuex';
 import VolumeCalculationMixin from '@/mixins/VolumeCalculationMixin.js';
 import { getExerciseName } from '@/services/getExerciseName';
 import { getFitLine } from '@/services/calculateTrendLine';
-import convertWeekNumberAndYearToDate from '@/services/convertWeekNumberAndYearToDate';
 
 export default {
   mixins: [VolumeCalculationMixin],
