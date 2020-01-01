@@ -51,6 +51,8 @@
               </option>
             </b-select>
           </b-field>
+        </b-field>
+        <b-field grouped>
           <b-field
             style="padding-left: 1em"
             label="Date From"
@@ -90,7 +92,6 @@
             </b-select>
           </b-field>
         </b-field>
-
 
         <div v-if="exercises && exerciseHistory.length > 0 && selectedBodyPart">
           <body-part-volume
