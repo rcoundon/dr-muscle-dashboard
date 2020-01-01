@@ -36,6 +36,16 @@ export default {
       type: Number,
       required: true
     },
+    weekYearFrom: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    weekYearTo: {
+      type: String,
+      required: false,
+      default: ''
+    },
     units: {
       type: String,
       default: 'kg'
@@ -47,8 +57,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('storeAuth', ['token']),
-    ...mapGetters('storeExercises', ['weekNumbers']),
     chartOptions() {
       let baseOptions = {
         chart: {
@@ -96,7 +104,7 @@ export default {
     },
     yTotalWeightValues() {
       const yVals = [];
-      this.sortedXValues.forEach(week => {
+      this.filteredXValues.forEach(week => {
         const yValue =
           this.units === 'kg'
             ? parseFloat(this.bodyPartData[week].totalKgLifted).toFixed(1)

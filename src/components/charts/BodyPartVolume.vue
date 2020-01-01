@@ -80,7 +80,6 @@ export default {
     },
     weekYearTo: {
       type: String,
-
       required: false,
       default: ''
     }
@@ -91,8 +90,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('storeAuth', ['token']),
-    ...mapGetters('storeExercises', ['weekNumbers']),
     chartOptions() {
       let baseOptions = {
         chart: {

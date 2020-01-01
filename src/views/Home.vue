@@ -101,6 +101,8 @@
             :exercise-data="exercises"
             :exercise-history="exerciseHistory"
             :selected-body-part="selectedBodyPart"
+            :week-year-from="weekFrom"
+            :week-year-to="weekTo"
             :units="weightUnits"
           />
         </div>

@@ -155,7 +155,6 @@ export default {
   },
   methods: {
     ...mapActions('storeExercises', ['setExercises']),
-    chartClicked() {},
     async getExerciseCountData() {
       console.time('getExerciseCountData');
       try {

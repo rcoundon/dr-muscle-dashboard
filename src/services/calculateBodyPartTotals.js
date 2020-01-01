@@ -1,6 +1,7 @@
 /* eslint-disable no-debugger */
 export function calculateBodyPartTotals(exerciseVolume) {
-  console.time('calculateBodyPartTotals');
+  let id = getRandomInt(1, 100);
+  console.time('calculateBodyPartTotals-' + id);
   if (exerciseVolume.length === 0) return [];
 
   // Build an object to hold the set and weight volumes for all exercises performed
@@ -99,6 +100,12 @@ export function calculateBodyPartTotals(exerciseVolume) {
   });
 
   output.bodyPartVolumes = bodyPartVolumes;
-  console.timeEnd('calculateBodyPartTotals');
+  console.timeEnd('calculateBodyPartTotals-' + id);
   return output;
+}
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
 }

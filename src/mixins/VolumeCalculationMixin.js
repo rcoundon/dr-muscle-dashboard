@@ -1,8 +1,10 @@
 import { mapActions } from 'vuex';
 import sortWeekAndYear from '@/services/sortWeekAndYear';
+import { differenceInDays } from 'date-fns';
 import { buildWorkoutVolumeByWeek } from '@/services/buildWorkoutVolumeByWeek';
 import { calculateBodyPartTotals } from '@/services/calculateBodyPartTotals';
 import { getExerciseName } from '@/services/getExerciseName';
+import convertWeekNumberAndYearToDate from '@/services/convertWeekNumberAndYearToDate';
 
 export default {
   mounted() {
@@ -26,13 +28,20 @@ export default {
     filteredXValues() {
       let returnVal;
       if (this.weekYearFrom && this.weekYearTo) {
-        returnVal = this.sortedXValues.map(week => {
+        returnVal = this.sortedXValues.filter(week => {
           const thisWeek = convertWeekNumberAndYearToDate(week);
-          if (differenceInDays(this.dateFrom, thisWeek) >= 0) {
-            if (differenceInDays(thisWeek, this.dateTo) >= 0) {
-              return week;
+          const differenceFromToTest = differenceInDays(
+            this.dateFrom,
+            thisWeek
+          );
+          const differenceTestToTo = differenceInDays(thisWeek, this.dateTo);
+
+          if (differenceFromToTest <= 0) {
+            if (differenceTestToTo <= 0) {
+              return true;
             }
           }
+          return false;
         });
       } else {
         returnVal = [...this.sortedXValues];
@@ -52,7 +61,7 @@ export default {
     }
   },
   watch: {
-    filteredXValues: {
+    sortedXValues: {
       handler: function(newVal) {
         this.setWeekNumbers(newVal);
       }
