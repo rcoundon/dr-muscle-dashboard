@@ -7,6 +7,12 @@
     />
     <div class="columns">
       <div class="column">
+        <p
+          class="has-text-left has-text-weight-semibold"
+          style="padding-left: 1em; "
+        >
+          Select a body part to display your specific training volume
+        </p>
         <b-field
           grouped
           style="padding-top: 1em"
@@ -52,6 +58,12 @@
             </b-select>
           </b-field>
         </b-field>
+        <p
+          class="has-text-left has-text-weight-semibold"
+          style="padding-left: 1em; padding-bottom: 1em"
+        >
+          Select the start and end dates to be displayed in the charts.  Format is WeekNumber'Year
+        </p>
         <b-field grouped>
           <b-field
             style="padding-left: 1em"
