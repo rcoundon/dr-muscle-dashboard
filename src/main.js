@@ -33,7 +33,8 @@ import {
   faDumbbell,
   faLongArrowAltRight,
   faChild,
-  faWeight
+  faWeight,
+  faCalendar
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -47,7 +48,8 @@ library.add(
   faDumbbell,
   faLongArrowAltRight,
   faChild,
-  faWeight
+  faWeight,
+  faCalendar
 );
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);

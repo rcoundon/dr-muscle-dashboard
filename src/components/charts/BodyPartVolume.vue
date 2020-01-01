@@ -52,14 +52,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { getBodyPartName } from '@/services/getBodyPartName';
+import VolumeCalculationMixin from '@/mixins/VolumeCalculationMixin.js';
 import { getExerciseName } from '@/services/getExerciseName';
-import { calculateBodyPartTotals } from '@/services/calculateBodyPartTotals';
 import { getFitLine } from '@/services/calculateTrendLine';
-import { buildWorkoutVolumeByWeek } from '@/services/buildWorkoutVolumeByWeek';
-import sortWeekAndYear from '@/services/sortWeekAndYear';
 
 export default {
+  mixins: [VolumeCalculationMixin],
   props: {
     exerciseData: {
       type: Array,
@@ -74,12 +72,26 @@ export default {
     selectedBodyPart: {
       type: Number,
       required: true
+    },
+    weekYearFrom: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    weekYearTo: {
+      type: String,
+      required: false,
+      default: ''
     }
   },
   data() {
     return {
-      exerciseVolume: [],
-      chartOptions: {
+      exerciseVolume: []
+    };
+  },
+  computed: {
+    chartOptions() {
+      let baseOptions = {
         chart: {
           id: 'bodypartvolumechart'
         },
@@ -107,39 +119,48 @@ export default {
         subtitle: {
           text: 'x-axis label format is #Week-year'
         }
-      },
-      series: [
-        {
-          name: this?.selectedBodyPart,
-          data: this.tableData
+      };
+      return {
+        ...baseOptions,
+        ...{
+          xaxis: {
+            categories: this.filteredXValues,
+            title: {
+              text: 'Training Week'
+            },
+            labels: {
+              show: true
+            }
+          }
         }
-      ]
-    };
-  },
-  computed: {
-    ...mapGetters('storeAuth', ['token']),
-    showChart() {
-      return this?.series[0]?.data?.length > 0;
+      };
     },
-    chartData() {
-      if (
-        !this.selectedBodyPart ||
-        !this.bodyPartTotals ||
-        !this.bodyPartTotals.bodyPartVolumes
-      )
-        return [];
-      const bodyPartData = this.bodyPartTotals.bodyPartVolumes[
-        this.selectedBodyPart
+    yHardSetValues() {
+      const hardSetValues = [];
+      this.filteredXValues.forEach(week => {
+        hardSetValues.push(parseFloat(this.bodyPartData[week].totalHardSets));
+      });
+      return hardSetValues;
+    },
+    yFitValues() {
+      return getFitLine(this.yHardSetValues);
+    },
+    series() {
+      return [
+        {
+          name: 'Hard Sets',
+          data: this.yHardSetValues
+        },
+        {
+          name: 'Trend',
+          data: this.yFitValues
+        }
       ];
-      return bodyPartData ? bodyPartData : [];
     },
     tableData() {
       return this.exerciseVolume.filter((exercise, idx) => {
         return idx === this.selectedBodyPart;
       });
-    },
-    bodyPartTotals() {
-      return calculateBodyPartTotals(this.exerciseVolume);
     },
     exerciseTotals() {
       if (
@@ -153,7 +174,6 @@ export default {
       const exerciseIds = Object.keys(
         this.bodyPartTotals.exerciseTotals[+this.selectedBodyPart]
       );
-
       return exerciseIds.map(exercise => {
         const exerciseName = this.getExerciseName(+exercise);
         return {
@@ -162,69 +182,6 @@ export default {
             +exercise
           ]
         };
-      });
-    }
-  },
-  watch: {
-    chartData: {
-      handler: function(newVal) {
-        if (!newVal) return;
-
-        const xValues = Object.keys(newVal);
-        const sortedXValues = sortWeekAndYear(xValues);
-
-        let yHardSetValues = [];
-        sortedXValues.forEach(week => {
-          yHardSetValues.push(parseFloat(newVal[week].totalHardSets));
-        });
-        // Calculate lines for fit
-        const yFitValues = getFitLine(yHardSetValues);
-        const newData = [];
-        newData.push({
-          data: sortedXValues
-        });
-
-        this.series = [
-          {
-            name: 'Hard Sets',
-            data: yHardSetValues
-          },
-          {
-            name: 'Trend',
-            data: yFitValues
-          }
-        ];
-
-        this.chartOptions = {
-          ...this.chartOptions,
-          ...{
-            xaxis: {
-              categories: sortedXValues,
-              title: {
-                text: 'Training Week'
-              },
-              labels: {
-                show: true
-              }
-            }
-          }
-        };
-      }
-    }
-  },
-  mounted() {
-    this.buildAllWorkoutVolumes();
-  },
-  methods: {
-    getBodyPartName(id) {
-      return getBodyPartName(id);
-    },
-    getExerciseName(id) {
-      return getExerciseName(this.exerciseData, id);
-    },
-    buildAllWorkoutVolumes() {
-      this.exerciseVolume = this.exerciseHistory.map(exercise => {
-        return buildWorkoutVolumeByWeek(exercise);
       });
     }
   }

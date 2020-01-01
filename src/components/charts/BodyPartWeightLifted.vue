@@ -16,14 +16,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { getBodyPartName } from '@/services/getBodyPartName';
-import { getExerciseName } from '@/services/getExerciseName';
-import { calculateBodyPartTotals } from '@/services/calculateBodyPartTotals';
+import VolumeCalculationMixin from '@/mixins/VolumeCalculationMixin.js';
 import { getFitLine } from '@/services/calculateTrendLine';
-import { buildWorkoutVolumeByWeek } from '@/services/buildWorkoutVolumeByWeek';
-import sortWeekAndYear from '@/services/sortWeekAndYear';
 
 export default {
+  mixins: [VolumeCalculationMixin],
   props: {
     exerciseData: {
       type: Array,
@@ -39,6 +36,16 @@ export default {
       type: Number,
       required: true
     },
+    weekYearFrom: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    weekYearTo: {
+      type: String,
+      required: false,
+      default: ''
+    },
     units: {
       type: String,
       default: 'kg'
@@ -46,8 +53,12 @@ export default {
   },
   data() {
     return {
-      exerciseVolume: [],
-      chartOptions: {
+      exerciseVolume: []
+    };
+  },
+  computed: {
+    chartOptions() {
+      let baseOptions = {
         chart: {
           id: 'bodypartvolumechart'
         },
@@ -56,7 +67,8 @@ export default {
         },
         xaxis: {
           labels: {
-            show: true
+            show: true,
+            hideOverlappingLabels: true
           },
           title: {
             text: 'Training Week'
@@ -74,96 +86,15 @@ export default {
         subtitle: {
           text: 'x-axis label format is #Week-year'
         }
-      },
-      series: [
-        {
-          name: this?.selectedBodyPart,
-          data: this.tableData
-        }
-      ]
-    };
-  },
-  computed: {
-    ...mapGetters('storeAuth', ['token']),
-    showChart() {
-      return this?.series[0]?.data?.length > 0;
-    },
-    chartData() {
-      if (
-        !this.selectedBodyPart ||
-        !this.bodyPartTotals ||
-        !this.bodyPartTotals.bodyPartVolumes ||
-        !this.units
-      ) {
-        return [];
-      }
-      const bodyPartData = this.bodyPartTotals.bodyPartVolumes[
-        this.selectedBodyPart
-      ];
-      return bodyPartData ? bodyPartData : [];
-    },
-    tableData() {
-      return this.exerciseVolume.filter(exercise => {
-        return exercise.exerciseId === this.selectedExercise;
-      });
-    },
-    bodyPartTotals() {
-      return calculateBodyPartTotals(this.exerciseVolume);
-    }
-  },
-  watch: {
-    units: {
-      handler() {
-        this.buildChartData();
-      }
-    },
-    chartData: {
-      handler() {
-        this.buildChartData();
-      }
-    }
-  },
-
-  mounted() {
-    this.buildAllWorkoutVolumes();
-  },
-  methods: {
-    buildChartData() {
-      if (!this.chartData || !this.bodyPartTotals) return;
-      const xValues = Object.keys(this.chartData);
-      const sortedXValues = sortWeekAndYear(xValues);
-      let yTotalWeightValues = [];
-      sortedXValues.forEach(week => {
-        const yValue =
-          this.units === 'kg'
-            ? parseFloat(this.chartData[week].totalKgLifted).toFixed(1)
-            : parseFloat(this.chartData[week].totalLbLifted).toFixed(1);
-        yTotalWeightValues.push(yValue);
-      });
-      // Calculate lines for fit
-      const yFitValues = getFitLine(yTotalWeightValues);
-
-      const newData = [];
-      newData.push({
-        data: sortedXValues
-      });
-
-      this.series = [
-        {
-          name: `Total ${this.units} Lifted`,
-          data: yTotalWeightValues
-        },
-        {
-          name: 'Trend',
-          data: yFitValues
-        }
-      ];
-
-      this.chartOptions = {
-        ...this.chartOptions,
+      };
+      return {
+        ...baseOptions,
         ...{
           xaxis: {
-            categories: sortedXValues,
+            categories: this.filteredXValues,
+            title: {
+              text: 'Training Week'
+            },
             labels: {
               show: true
             }
@@ -171,16 +102,35 @@ export default {
         }
       };
     },
-    getBodyPartName(id) {
-      return getBodyPartName(id);
+    yTotalWeightValues() {
+      const yVals = [];
+      this.filteredXValues.forEach(week => {
+        const yValue =
+          this.units === 'kg'
+            ? parseFloat(this.bodyPartData[week].totalKgLifted).toFixed(1)
+            : parseFloat(this.bodyPartData[week].totalLbLifted).toFixed(1);
+        yVals.push(yValue);
+      });
+      return yVals;
     },
-    getExerciseName(id) {
-      return getExerciseName(this.exerciseData, id);
+    yFitValues() {
+      return getFitLine(this.yTotalWeightValues);
     },
-    buildAllWorkoutVolumes() {
-      if (!this.exerciseHistory) this.exerciseVolume = [];
-      this.exerciseVolume = this.exerciseHistory.map(exercise => {
-        return buildWorkoutVolumeByWeek(exercise);
+    series() {
+      return [
+        {
+          name: `Total ${this.units} Lifted`,
+          data: this.yTotalWeightValues
+        },
+        {
+          name: 'Trend',
+          data: this.yFitValues
+        }
+      ];
+    },
+    tableData() {
+      return this.exerciseVolume.filter((exercise, idx) => {
+        return idx === this.selectedBodyPart;
       });
     }
   }
