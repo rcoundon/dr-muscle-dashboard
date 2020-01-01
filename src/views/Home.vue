@@ -129,7 +129,7 @@
             If you've been working out a while
           </p>
           <p class="is-size-4 is-primary ">
-            This could take up to 30s (but it's worth it!)
+            this could take around a minute (but it's worth it!)
           </p>
           <p class="is-size-4 processing">
             Loading<span>.</span><span>.</span><span>.</span>
