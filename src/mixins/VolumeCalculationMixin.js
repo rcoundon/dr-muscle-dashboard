@@ -5,6 +5,7 @@ import { buildWorkoutVolumeByWeek } from '@/services/buildWorkoutVolumeByWeek';
 import { calculateBodyPartTotals } from '@/services/calculateBodyPartTotals';
 import { getExerciseName } from '@/services/getExerciseName';
 import convertWeekNumberAndYearToDate from '@/services/convertWeekNumberAndYearToDate';
+import getBodyPartName from '@/services/getBodyPartName';
 
 export default {
   mounted() {
@@ -20,9 +21,11 @@ export default {
       return this.bodyPartTotals.bodyPartVolumes[this.selectedBodyPart];
     },
     xValues() {
+      if (!this.bodyPartData) return [];
       return Object.keys(this.bodyPartData);
     },
     sortedXValues() {
+      if (!this.xValues || this.xValues.length === 0) return [];
       return sortWeekAndYear(this.xValues);
     },
     filteredXValues() {
@@ -57,7 +60,11 @@ export default {
       return convertWeekNumberAndYearToDate(this.weekYearTo);
     },
     bodyPartTotals() {
+      if (!this.exerciseVolume) return undefined;
       return calculateBodyPartTotals(this.exerciseVolume);
+    },
+    bodyPartName() {
+      return this.getBodyPartName(this.selectedBodyPart);
     }
   },
   watch: {
