@@ -23,7 +23,7 @@ export function buildWorkoutVolumeByWeek(instance) {
     const weekNumber = getWeek(workoutDate, getWeekOptions);
     const year = getYear(workoutDate);
     const weekYear = weekNumber + '-' + year;
-    if (idx >= 1) {
+    if (idx > 0) {
       const lastWorkoutDate = new Date(workouts[idx - 1].WorkoutDate);
       const lastYear = getYear(lastWorkoutDate);
       const lastWeek = getWeek(lastWorkoutDate, getWeekOptions);

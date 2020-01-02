@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <p class="has-text-centered is-size-4 has-text-weight-semibold">
-      Number of Hard Sets By Week Number
+      Number of Hard Sets By Week Number for {{ bodyPartName }}
     </p>
     <apexchart
       v-if="showChart"

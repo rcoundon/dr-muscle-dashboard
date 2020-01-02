@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <p class="has-text-centered is-size-4 has-text-weight-semibold">
-      {{ `Total Weight Lifted (${units}) by Week Number` }}
+      {{ `Total Weight Lifted (${units}) by Week Number for ${bodyPartName}` }}
     </p>
     <apexchart
       v-if="showChart"
