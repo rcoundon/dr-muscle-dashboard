@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy:aws": "NODE_ENV=production gulp && webpack --config build/webpack.config.prod.js && s3-deploy './dist/**' --cwd './dist/' --region eu-west-2 --bucket dr-muscle-dashboard --distId EUAZ7DLYBVI5N --invalidate '/*'"
   },
   "repository": {
     "type": "git",
