@@ -1,6 +1,6 @@
 {
   "name": "dr-muscle-dashboard",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -23,7 +23,7 @@
     "axios": "^0.19.1",
     "buefy": "^0.8.9",
     "core-js": "^3.6.2",
-    "date-fns": "^2.8.1",
+    "date-fns": "^2.9.0",
     "fast-copy": "^2.0.4",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
