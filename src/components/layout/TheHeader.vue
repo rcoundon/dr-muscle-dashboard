@@ -51,11 +51,17 @@ export default {
     }
   },
   methods: {
-    ...mapActions('storeAuth', ['setToken', 'setUsername', 'setExpiresIn']),
+    ...mapActions('storeAuth', [
+      'setToken',
+      'setUsername',
+      'setExpiresIn',
+      'setIsAuthenticated'
+    ]),
     logout() {
       this.setToken(undefined);
       this.setUsername(undefined);
       this.setExpiresIn(0);
+      this.setIsAuthenticated(false);
       this.$router
         .push({
           name: 'login'
