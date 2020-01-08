@@ -74,7 +74,12 @@ export default {
   },
   created() {},
   methods: {
-    ...mapActions('storeAuth', ['setToken', 'setUsername', 'setExpiresIn']),
+    ...mapActions('storeAuth', [
+      'setToken',
+      'setUsername',
+      'setExpiresIn',
+      'setIsAuthenticated'
+    ]),
     async onSubmit() {
       this.isLoading = true;
       try {
@@ -83,6 +88,7 @@ export default {
         await this.setToken(token.access_token);
         await this.setUsername(this.email);
         await this.setExpiresIn(token.expires_in);
+        await this.setIsAuthenticated(true);
         this.$router
           .push({
             name: 'home'
@@ -92,6 +98,7 @@ export default {
       } catch (err) {
         console.error(err);
         this.loginError = err?.response?.data?.error_description;
+        await this.setIsAuthenticated(false);
       } finally {
         this.isLoading = false;
       }

@@ -8,7 +8,8 @@ export default {
   state: {
     token: undefined,
     username: undefined,
-    expiresIn: 0
+    expiresIn: 0,
+    isAuthenticated: false
   },
   mutations: {
     SET_TOKEN(state, token) {
@@ -22,6 +23,9 @@ export default {
     },
     SET_EXPIRES_IN(state, expiresIn) {
       state.expiresIn = expiresIn;
+    },
+    SET_IS_AUTHENTICATED(state, isAuthenticated) {
+      state.isAuthenticated = isAuthenticated;
     }
   },
   actions: {
@@ -33,11 +37,15 @@ export default {
     },
     setExpiresIn({ commit }, expiresIn) {
       commit('SET_EXPIRES_IN', expiresIn);
+    },
+    setIsAuthenticated({ commit }, isAuthenticated) {
+      commit('SET_IS_AUTHENTICATED', isAuthenticated);
     }
   },
   getters: {
     token: state => state.token,
     username: state => state.username,
-    expiresIn: state => state.expiresIn
+    expiresIn: state => state.expiresIn,
+    isAuthenticated: state => state.isAuthenticated
   }
 };
