@@ -38,7 +38,7 @@
       <br>
     </form>
     <p class="has-text-center">
-      This is open source software and is not produced by the Dr Muscle team. <br>As such these dashboards are provided without warranty under the <a
+      This is open source software and is <b><i>not</i></b> produced by the Dr Muscle team. <br>As such these dashboards are provided without warranty under the <a
         class="has-text-weight-semibold"
         href="https://opensource.org/licenses/MIT"
       >MIT licence</a>.
