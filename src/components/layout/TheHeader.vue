@@ -1,10 +1,6 @@
 <template>
-  <nav
-    class="navbar"
-    role="navigation"
-    aria-label="main navigation"
-  >
-    <div class="navbar-brand">
+  <b-navbar>
+    <template slot="brand">
       <a
         class="navbar-item"
         href="https://dr-muscle.com/"
@@ -15,6 +11,8 @@
           style="max-height: 5em"
         >
       </a>
+    </template>
+    <template slot="end">
       <div
         v-if="showLogout"
         class="navbar-item"
@@ -37,49 +35,9 @@
         aria-expanded="false"
         data-target="navbarBasicExample"
         @click="showMenu"
-      >
-        <span aria-hidden="true" />
-        <span aria-hidden="true" />
-        <span aria-hidden="true" />
-      </a>
-    </div>
-
-    <div
-      id="navbarBasicExample"
-      ref="navbarMenu"
-      class="navbar-menu"
-    >
-      <div class="navbar-start">
-        <!-- <a class="navbar-item">
-        Home
-      </a> -->
-
-        <!-- <a class="navbar-item">
-        Documentation
-      </a> -->
-
-        <div class="navbar-item has-dropdown is-hoverable">
-          <div class="navbar-dropdown">
-            <a class="navbar-item">
-              About
-            </a>
-            <a class="navbar-item">
-              Jobs
-            </a>
-            <a class="navbar-item">
-              Contact
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item">
-              Report an issue
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="navbar-end" />
-    </div>
-  </nav>
+      />
+    </template>
+  </b-navbar>
 </template>
 
 <script>
