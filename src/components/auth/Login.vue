@@ -43,6 +43,14 @@
         href="https://opensource.org/licenses/MIT"
       >MIT licence</a>.
     </p>
+    <p class="has-text-center">
+      If there's anything you think that's not working properly or you want to contribute head over to <a
+        class="has-text-weight-semibold"
+        target="_new"
+        href="https://github.com/rcoundon/dr-muscle-dashboard/issues"
+      >Github</a>.
+    </p>
+
     <div v-if="loginError">
       <span
         :class="{ help: true, 'is-danger': true, 'has-text-weight-bold': true }"
