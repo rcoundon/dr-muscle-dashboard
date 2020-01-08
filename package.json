@@ -1,12 +1,13 @@
 {
   "name": "dr-muscle-dashboard",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
     "lint": "vue-cli-service lint",
-    "deploy:aws": "NODE_ENV=production npm run build && s3-deploy './dist/**' --cwd './dist/' --region eu-west-2 --bucket dr-muscle-dashboard --distId EUAZ7DLYBVI5N --invalidate '/*'"
+    "deploy:aws": "NODE_ENV=production npm run build && s3-deploy './dist/**' --cwd './dist/' --region eu-west-2 --bucket dr-muscle-dashboard --distId EUAZ7DLYBVI5N --invalidate '/*'",
+    "release": "RELEASE=release gulp"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,7 @@
     "axios": "^0.19.1",
     "buefy": "^0.8.9",
     "core-js": "^3.6.2",
-    "date-fns": "^2.8.1",
+    "date-fns": "^2.9.0",
     "fast-copy": "^2.0.4",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
