@@ -11,6 +11,9 @@ const devBuild =
   (process.env.NODE_ENV || 'development').trim().toLowerCase() ===
   'development';
 
+const customer = process.env.CUSTOMER;
+console.log(color(`Customer is ${customer}`, 'GREEN'));
+
 const release =
   (process.env.RELEASE || 'deploy').trim().toLowerCase() === 'release';
 console.log(
