@@ -1,4 +1,4 @@
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import sortWeekAndYear from '@/services/sortWeekAndYear';
 import { differenceInDays } from 'date-fns';
 import { buildWorkoutVolumeByWeek } from '@/services/buildWorkoutVolumeByWeek';
@@ -8,21 +8,18 @@ import convertWeekNumberAndYearToDate from '@/services/convertWeekNumberAndYearT
 import getBodyPartName from '@/services/getBodyPartName';
 
 export default {
-  mounted() {
-    this.buildAllWorkoutVolumes();
-  },
+  ...mapGetters('storeExercises', ['exerciseHistory']),
   computed: {
     showChart() {
       return this?.series[0]?.data?.length > 0;
     },
     bodyPartData() {
-      if (!this.bodyPartTotals || !this.bodyPartTotals.bodyPartVolumes)
-        return [];
-      return this.bodyPartTotals.bodyPartVolumes[this.selectedBodyPart];
+      if (!this.exerciseHistory) return [];
+      return this.exerciseHistory[this.selectedBodyPart];
     },
     xValues() {
-      if (!this.bodyPartData) return [];
-      return Object.keys(this.bodyPartData);
+      if (!this.exerciseHistory) return [];
+      return this.exerciseHistory[this.selectedBodyPart].weeks;
     },
     sortedXValues() {
       if (!this.xValues || this.xValues.length === 0) return [];
@@ -60,8 +57,8 @@ export default {
       return convertWeekNumberAndYearToDate(this.weekYearTo);
     },
     bodyPartTotals() {
-      if (!this.exerciseVolume) return undefined;
-      return calculateBodyPartTotals(this.exerciseVolume);
+      if (!this.exerciseHistory) return [];
+      return this.exerciseHistory[this.selectedBodyPart];
     },
     bodyPartName() {
       return this.getBodyPartName(this.selectedBodyPart);
@@ -83,9 +80,9 @@ export default {
       return getExerciseName(this.exerciseData, id);
     },
     buildAllWorkoutVolumes() {
-      this.exerciseVolume = this.exerciseHistory.map(exercise => {
-        return buildWorkoutVolumeByWeek(exercise);
-      });
+      // this.exerciseVolume = this.exerciseHistory.map(exercise => {
+      return buildWorkoutVolumeByWeek();
+      // });
     }
   }
 };

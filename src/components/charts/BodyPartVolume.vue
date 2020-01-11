@@ -11,7 +11,7 @@
       :series="series"
       :options="chartOptions"
     />
-    <b-table
+    <!-- <b-table
       :data="exerciseTotals"
       :default-sort-direction="'desc'"
       default-sort="count.totalHardSets"
@@ -46,7 +46,7 @@
           </div>
         </section>
       </template>
-    </b-table>
+    </b-table> -->
   </div>
 </template>
 
@@ -65,9 +65,16 @@ export default {
       default: () => []
     },
     exerciseHistory: {
-      type: Array,
+      type: Object,
       required: true,
-      default: () => []
+      default: () => {
+        return {
+          setVolume: [],
+          weeks: [],
+          weightVolumeKg: [],
+          weightVolumeLb: []
+        };
+      }
     },
     selectedBodyPart: {
       type: Number,
@@ -136,11 +143,7 @@ export default {
       };
     },
     yHardSetValues() {
-      const hardSetValues = [];
-      this.filteredXValues.forEach(week => {
-        hardSetValues.push(parseFloat(this.bodyPartData[week].totalHardSets));
-      });
-      return hardSetValues;
+      return this.exerciseHistory[this.selectedBodyPart].setVolume;
     },
     yFitValues() {
       return getFitLine(this.yHardSetValues);
@@ -156,34 +159,34 @@ export default {
           data: this.yFitValues
         }
       ];
-    },
-    tableData() {
-      return this.exerciseVolume.filter((exercise, idx) => {
-        return idx === this.selectedBodyPart;
-      });
-    },
-    exerciseTotals() {
-      if (
-        !this.selectedBodyPart ||
-        !this.bodyPartTotals ||
-        !this.bodyPartTotals.exerciseTotals ||
-        !this.bodyPartTotals.exerciseTotals[+this.selectedBodyPart]
-      ) {
-        return [];
-      }
-      const exerciseIds = Object.keys(
-        this.bodyPartTotals.exerciseTotals[+this.selectedBodyPart]
-      );
-      return exerciseIds.map(exercise => {
-        const exerciseName = this.getExerciseName(+exercise);
-        return {
-          exerciseName,
-          count: this.bodyPartTotals.exerciseTotals[+this.selectedBodyPart][
-            +exercise
-          ]
-        };
-      });
     }
+    // tableData() {
+    //   return this.exerciseVolume.filter((exercise, idx) => {
+    //     return idx === this.selectedBodyPart;
+    //   });
+    // }
+    // exerciseTotals() {
+    //   if (
+    //     !this.selectedBodyPart ||
+    //     !this.bodyPartTotals ||
+    //     !this.bodyPartTotals.exerciseTotals ||
+    //     !this.bodyPartTotals.exerciseTotals[+this.selectedBodyPart]
+    //   ) {
+    //     return [];
+    //   }
+    //   const exerciseIds = Object.keys(
+    //     this.bodyPartTotals.exerciseTotals[+this.selectedBodyPart]
+    //   );
+    //   return exerciseIds.map(exercise => {
+    //     const exerciseName = this.getExerciseName(+exercise);
+    //     return {
+    //       exerciseName,
+    //       count: this.bodyPartTotals.exerciseTotals[+this.selectedBodyPart][
+    //         +exercise
+    //       ]
+    //     };
+    //   });
+    // }
   }
 };
 </script>

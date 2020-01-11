@@ -105,7 +105,7 @@
           </b-field>
         </b-field>
 
-        <div v-if="exercises && exerciseHistory.length > 0 && selectedBodyPart">
+        <div v-if="exercises && exerciseHistory && selectedBodyPart">
           <body-part-volume
             :exercise-data="exercises"
             :exercise-history="exerciseHistory"
@@ -114,14 +114,14 @@
             :week-year-to="weekTo"
             style="margin-bottom: 1rem"
           />
-          <body-part-weight-lifted
+          <!-- <body-part-weight-lifted
             :exercise-data="exercises"
             :exercise-history="exerciseHistory"
             :selected-body-part="selectedBodyPart"
             :week-year-from="weekFrom"
             :week-year-to="weekTo"
             :units="weightUnits"
-          />
+          /> -->
         </div>
         <total-exercise-count @selectedExercise="setSelectedExercise" />
         <OneRepMax
@@ -153,14 +153,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import { compareAsc } from 'date-fns';
 import TotalExerciseCount from '@/components/charts/TotalExerciseCount';
 import BodyPartVolume from '@/components/charts/BodyPartVolume';
-import BodyPartWeightLifted from '@/components/charts/BodyPartWeightLifted';
+// import BodyPartWeightLifted from '@/components/charts/BodyPartWeightLifted';
 import OneRepMax from '@/components/charts/Exercise1RM';
 import getExerciseHistory from '@/services/getExerciseHistory';
 import buildOneRepMaxes from '@/services/buildOneRepMaxes';
+import { buildWorkoutVolumeByWeek } from '@/services/buildWorkoutVolumeByWeek';
 import bodyPartsObj from '../codes/bodyPartId';
 
 // import testData from '../../test-data/volume-over-time.json';
@@ -170,7 +171,7 @@ export default {
   components: {
     TotalExerciseCount,
     BodyPartVolume,
-    BodyPartWeightLifted,
+    // BodyPartWeightLifted,
     OneRepMax
   },
   data() {
@@ -178,7 +179,6 @@ export default {
       weightUnits: 'kg',
       selectedExercise: undefined,
       selectedMuscleGroup: '',
-      exerciseHistory: [],
       exerciseMaxes: [],
       isLoading: false,
       selectedBodyPart: 2,
@@ -187,7 +187,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('storeExercises', ['exercises', 'weekNumbers']),
+    ...mapGetters('storeExercises', [
+      'exercises',
+      'weekNumbers',
+      'exerciseHistory'
+    ]),
     ...mapGetters('storeAuth', ['token']),
     selectedExerciseName() {
       if (!this.exercises) return '';
@@ -208,30 +212,37 @@ export default {
     }
   },
   watch: {
-    exercises: {
-      handler: async function() {
-        this.buildHistory();
-      }
-    }
+    // exercises: {
+    //   handler: async function() {
+    //     this.buildHistory();
+    //   }
+    // }
+  },
+  async mounted() {
+    let { data } = await this.buildHistory();
+    console.log('history result', data);
+    const volumeByWeek = buildWorkoutVolumeByWeek(data);
+    this.setExerciseHistory(volumeByWeek);
   },
   methods: {
+    ...mapActions('storeExercises', ['setExerciseHistory']),
     async setSelectedExercise(evt) {
       try {
         this.isLoading = true;
         if (evt && this?.exercises[evt]?.id) {
           this.selectedExercise = this.exercises[evt].id;
-          const data = await getExerciseHistory(
-            this.$axios,
-            this.token,
-            this.selectedExercise,
-            undefined
-          );
-          const oneRepMaxData = buildOneRepMaxes(data, this.selectedExercise);
-          this.exerciseMaxes = oneRepMaxData.sort((workoutA, workoutB) => {
-            const workoutDateA = new Date(workoutA.workoutDate);
-            const workoutDateB = new Date(workoutB.workoutDate);
-            return compareAsc(workoutDateA, workoutDateB);
-          });
+          // const data = await getExerciseHistory(
+          //   this.$axios,
+          //   this.token,
+          //   this.selectedExercise,
+          //   undefined
+          // );
+          // const oneRepMaxData = buildOneRepMaxes(data, this.selectedExercise);
+          // this.exerciseMaxes = oneRepMaxData.sort((workoutA, workoutB) => {
+          //   const workoutDateA = new Date(workoutA.workoutDate);
+          //   const workoutDateB = new Date(workoutB.workoutDate);
+          //   return compareAsc(workoutDateA, workoutDateB);
+          // });
         }
       } catch (err) {
         console.error(err);
@@ -244,20 +255,12 @@ export default {
       try {
         this.isLoading = true;
         // Retrieve history data for all exercises performed
-        const responsePromises = this.exercises.map(exercise => {
-          return getExerciseHistory(
-            this.$axios,
-            this.token,
-            exercise.id,
-            undefined
-          ).then(data => {
-            return {
-              exerciseId: exercise.id,
-              data
-            };
-          });
-        });
-        this.exerciseHistory = await Promise.all(responsePromises);
+        return getExerciseHistory(
+          this.$axios,
+          this.token,
+          undefined,
+          undefined
+        );
       } catch (err) {
         console.error(err);
       } finally {
