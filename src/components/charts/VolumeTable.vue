@@ -8,16 +8,31 @@
       :per-page="5"
     >
       <template slot-scope="props">
-        <b-table-column field="date" label="Date">
+        <b-table-column
+          field="date"
+          label="Date"
+        >
           {{ props.row.date }}
         </b-table-column>
-        <b-table-column field="weight" label="Weight" numeric>
+        <b-table-column
+          field="weight"
+          label="Weight"
+          numeric
+        >
           {{ props.row.weight }}
         </b-table-column>
-        <b-table-column field="reps" label="Reps" numeric>
+        <b-table-column
+          field="reps"
+          label="Reps"
+          numeric
+        >
           {{ props.row.reps }}
         </b-table-column>
-        <b-table-column field="volume" label="Set Volume" numeric>
+        <b-table-column
+          field="volume"
+          label="Set Volume"
+          numeric
+        >
           {{ props.row.volume }}
         </b-table-column>
       </template>

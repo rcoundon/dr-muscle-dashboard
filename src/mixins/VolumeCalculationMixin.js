@@ -48,6 +48,29 @@ export default {
       }
       return returnVal;
     },
+    // filteredYValues() {
+    //   let returnVal;
+    //   if (this.weekYearFrom && this.weekYearTo) {
+    //     returnVal = this.sortedYValues.filter(week => {
+    //       const thisWeek = convertWeekNumberAndYearToDate(week);
+    //       const differenceFromToTest = differenceInDays(
+    //         this.dateFrom,
+    //         thisWeek
+    //       );
+    //       const differenceTestToTo = differenceInDays(thisWeek, this.dateTo);
+
+    //       if (differenceFromToTest <= 0) {
+    //         if (differenceTestToTo <= 0) {
+    //           return true;
+    //         }
+    //       }
+    //       return false;
+    //     });
+    //   } else {
+    //     returnVal = [...this.sortedXValues];
+    //   }
+    //   return returnVal;
+    // },
     dateFrom() {
       if (!this.weekYearFrom) return undefined;
       return convertWeekNumberAndYearToDate(this.weekYearFrom);
