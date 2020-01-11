@@ -143,7 +143,7 @@ export default {
       };
     },
     yHardSetValues() {
-      return this.exerciseHistory[this.selectedBodyPart].setVolume;
+      return this.filteredYSetValues;
     },
     yFitValues() {
       return getFitLine(this.yHardSetValues);

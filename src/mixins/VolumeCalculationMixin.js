@@ -48,29 +48,70 @@ export default {
       }
       return returnVal;
     },
-    // filteredYValues() {
-    //   let returnVal;
-    //   if (this.weekYearFrom && this.weekYearTo) {
-    //     returnVal = this.sortedYValues.filter(week => {
-    //       const thisWeek = convertWeekNumberAndYearToDate(week);
-    //       const differenceFromToTest = differenceInDays(
-    //         this.dateFrom,
-    //         thisWeek
-    //       );
-    //       const differenceTestToTo = differenceInDays(thisWeek, this.dateTo);
-
-    //       if (differenceFromToTest <= 0) {
-    //         if (differenceTestToTo <= 0) {
-    //           return true;
-    //         }
-    //       }
-    //       return false;
-    //     });
-    //   } else {
-    //     returnVal = [...this.sortedXValues];
-    //   }
-    //   return returnVal;
-    // },
+    weekRange() {
+      let returnVal = [];
+      if (this.weekYearFrom && this.weekYearTo) {
+        this.sortedXValues.forEach((week, idx) => {
+          const thisWeek = convertWeekNumberAndYearToDate(week);
+          const differenceFromToTest = differenceInDays(
+            this.dateFrom,
+            thisWeek
+          );
+          const differenceTestToTo = differenceInDays(thisWeek, this.dateTo);
+          if (differenceFromToTest <= 0) {
+            if (differenceTestToTo <= 0) {
+              returnVal.push(idx);
+            }
+          }
+        });
+      }
+      return returnVal;
+    },
+    filteredYSetValues() {
+      let returnVal;
+      let yValues = this.exerciseHistory[this.selectedBodyPart].setVolume;
+      if (this.weekYearFrom && this.weekYearTo) {
+        returnVal = yValues.filter((week, idx) => {
+          if (this.weekRange.includes(idx)) {
+            return true;
+          }
+          return false;
+        });
+      } else {
+        returnVal = [...yValues];
+      }
+      return returnVal;
+    },
+    filteredYKgValues() {
+      let returnVal;
+      let yValues = this.exerciseHistory[this.selectedBodyPart].weightVolumeKg;
+      if (this.weekYearFrom && this.weekYearTo) {
+        returnVal = yValues.filter((week, idx) => {
+          if (this.weekRange.includes(idx)) {
+            return true;
+          }
+          return false;
+        });
+      } else {
+        returnVal = [...yValues];
+      }
+      return returnVal;
+    },
+    filteredYLbValues() {
+      let returnVal;
+      let yValues = this.exerciseHistory[this.selectedBodyPart].weightVolumeLb;
+      if (this.weekYearFrom && this.weekYearTo) {
+        returnVal = yValues.filter((week, idx) => {
+          if (this.weekRange.includes(idx)) {
+            return true;
+          }
+          return false;
+        });
+      } else {
+        returnVal = [...yValues];
+      }
+      return returnVal;
+    },
     dateFrom() {
       if (!this.weekYearFrom) return undefined;
       return convertWeekNumberAndYearToDate(this.weekYearFrom);
