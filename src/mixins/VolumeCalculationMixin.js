@@ -18,7 +18,12 @@ export default {
       return this.exerciseHistory[this.selectedBodyPart];
     },
     xValues() {
-      if (!this.exerciseHistory) return [];
+      if (
+        !this.exerciseHistory ||
+        !this.selectedBodyPart ||
+        !this.exerciseHistory[this.selectedBodyPart]
+      )
+        return [];
       return this.exerciseHistory[this.selectedBodyPart].weeks;
     },
     sortedXValues() {
@@ -27,6 +32,7 @@ export default {
     },
     filteredXValues() {
       let returnVal;
+      if (!this.sortedXValues) return [];
       if (this.weekYearFrom && this.weekYearTo) {
         returnVal = this.sortedXValues.filter(week => {
           const thisWeek = convertWeekNumberAndYearToDate(week);
@@ -69,6 +75,12 @@ export default {
     },
     filteredYSetValues() {
       let returnVal;
+      if (
+        !this.exerciseHistory ||
+        !this.selectedBodyPart ||
+        !this.exerciseHistory[this.selectedBodyPart]
+      )
+        return [];
       let yValues = this.exerciseHistory[this.selectedBodyPart].setVolume;
       if (this.weekYearFrom && this.weekYearTo) {
         returnVal = yValues.filter((week, idx) => {
@@ -83,6 +95,12 @@ export default {
       return returnVal;
     },
     filteredYWeightValues() {
+      if (
+        !this.exerciseHistory ||
+        !this.selectedBodyPart ||
+        !this.exerciseHistory[this.selectedBodyPart]
+      )
+        return [];
       let returnVal;
       let weightUnit = '';
       if (this.units === 'lb') {
