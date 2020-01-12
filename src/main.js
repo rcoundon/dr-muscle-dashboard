@@ -7,6 +7,8 @@ import bugsnagVue from '@bugsnag/plugin-vue';
 import Vue from 'vue';
 import VueApexCharts from 'vue-apexcharts';
 
+import VueScrollTo from 'vue-scrollto';
+
 import Buefy from 'buefy';
 import 'buefy/dist/buefy.css';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -53,6 +55,8 @@ library.add(
 );
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);
+
+Vue.use(VueScrollTo);
 
 Vue.use(Buefy, {
   defaultIconComponent: 'vue-fontawesome',

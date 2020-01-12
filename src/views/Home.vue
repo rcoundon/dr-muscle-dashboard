@@ -126,9 +126,13 @@
         <total-exercise-count @selectedExercise="setSelectedExercise" />
         <OneRepMax
           v-if="exerciseMaxes && exerciseMaxes.length > 0"
+          id="oneRepMax"
+          ref="oneRepMax"
           :exercise-maxes="exerciseMaxes"
           :exercise-name="selectedExerciseName"
           :units="weightUnits"
+          @hook:mounted="scrollToOneRepMax"
+          @oneRepMaxUpdated="scrollToOneRepMax"
         />
         <div
           v-if="isLoading"
@@ -163,7 +167,7 @@ import getExerciseHistory from '@/services/getExerciseHistory';
 import buildOneRepMaxes from '@/services/buildOneRepMaxes';
 import { buildWorkoutVolumeByWeek } from '@/services/buildWorkoutVolumeByWeek';
 import bodyPartsObj from '../codes/bodyPartId';
-
+import VueScrollTo from 'vue-scrollto';
 // import testData from '../../test-data/volume-over-time.json';
 
 export default {
@@ -225,6 +229,10 @@ export default {
   },
   methods: {
     ...mapActions('storeExercises', ['setExerciseHistory']),
+    scrollToOneRepMax() {
+      console.log('scrolling to', this.$refs.oneRepMax);
+      this.$scrollTo('#oneRepMax', 1000);
+    },
     async setSelectedExercise(evt) {
       try {
         this.isLoading = true;
