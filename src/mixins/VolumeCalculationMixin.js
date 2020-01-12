@@ -139,9 +139,7 @@ export default {
       return getExerciseName(this.exerciseData, id);
     },
     buildAllWorkoutVolumes() {
-      // this.exerciseVolume = this.exerciseHistory.map(exercise => {
       return buildWorkoutVolumeByWeek();
-      // });
     }
   }
 };
