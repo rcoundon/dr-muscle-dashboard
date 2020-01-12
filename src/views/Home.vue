@@ -67,7 +67,7 @@
         <b-field grouped>
           <b-field
             style="padding-left: 1em"
-            label="Date From"
+            label="Week From"
             label-position="on-border"
           >
             <b-select
@@ -86,7 +86,7 @@
           </b-field>
           <b-field
             style="padding-left: 1em"
-            label="Date To"
+            label="Week To"
             label-position="on-border"
           >
             <b-select
