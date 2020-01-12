@@ -81,6 +81,7 @@ export default {
       immediate: true,
       handler() {
         this.buildChartData();
+        this.$emit('oneRepMaxUpdated');
       }
     }
   },
