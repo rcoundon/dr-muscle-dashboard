@@ -1,9 +1,11 @@
 import { setWeek, setYear, setDate, compareAsc } from 'date-fns';
+import copy from 'fast-copy';
 import convertWeekNumberAndYearToDate from './convertWeekNumberAndYearToDate';
 
 export default function sortWeekAndYear(keys) {
   if (!keys) return [];
-  return keys.sort((keyA, keyB) => {
+  let keyCopy = copy(keys);
+  return keyCopy.sort((keyA, keyB) => {
     const splitKeyA = keyA.split('-');
     const splitKeyB = keyB.split('-');
 

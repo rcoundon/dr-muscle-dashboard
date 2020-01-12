@@ -105,7 +105,7 @@
           </b-field>
         </b-field>
 
-        <div v-if="exercises && exerciseHistory.length > 0 && selectedBodyPart">
+        <div v-if="exercises && exerciseHistory && selectedBodyPart">
           <body-part-volume
             :exercise-data="exercises"
             :exercise-history="exerciseHistory"
@@ -153,7 +153,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import { compareAsc } from 'date-fns';
 import TotalExerciseCount from '@/components/charts/TotalExerciseCount';
 import BodyPartVolume from '@/components/charts/BodyPartVolume';
@@ -161,6 +161,7 @@ import BodyPartWeightLifted from '@/components/charts/BodyPartWeightLifted';
 import OneRepMax from '@/components/charts/Exercise1RM';
 import getExerciseHistory from '@/services/getExerciseHistory';
 import buildOneRepMaxes from '@/services/buildOneRepMaxes';
+import { buildWorkoutVolumeByWeek } from '@/services/buildWorkoutVolumeByWeek';
 import bodyPartsObj from '../codes/bodyPartId';
 
 // import testData from '../../test-data/volume-over-time.json';
@@ -178,7 +179,6 @@ export default {
       weightUnits: 'kg',
       selectedExercise: undefined,
       selectedMuscleGroup: '',
-      exerciseHistory: [],
       exerciseMaxes: [],
       isLoading: false,
       selectedBodyPart: 2,
@@ -187,7 +187,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('storeExercises', ['exercises', 'weekNumbers']),
+    ...mapGetters('storeExercises', [
+      'exercises',
+      'weekNumbers',
+      'exerciseHistory'
+    ]),
     ...mapGetters('storeAuth', ['token']),
     selectedExerciseName() {
       if (!this.exercises) return '';
@@ -207,20 +211,26 @@ export default {
       return bodyParts;
     }
   },
-  watch: {
-    exercises: {
-      handler: async function() {
-        this.buildHistory();
-      }
+  async mounted() {
+    try {
+      this.isLoading = true;
+      let { data } = await this.buildHistory();
+      const volumeByWeek = buildWorkoutVolumeByWeek(data);
+      this.setExerciseHistory(volumeByWeek);
+    } catch (err) {
+      console.error('Error building history', err);
+    } finally {
+      this.isLoading = false;
     }
   },
   methods: {
+    ...mapActions('storeExercises', ['setExerciseHistory']),
     async setSelectedExercise(evt) {
       try {
         this.isLoading = true;
         if (evt && this?.exercises[evt]?.id) {
           this.selectedExercise = this.exercises[evt].id;
-          const data = await getExerciseHistory(
+          const { data } = await getExerciseHistory(
             this.$axios,
             this.token,
             this.selectedExercise,
@@ -244,20 +254,12 @@ export default {
       try {
         this.isLoading = true;
         // Retrieve history data for all exercises performed
-        const responsePromises = this.exercises.map(exercise => {
-          return getExerciseHistory(
-            this.$axios,
-            this.token,
-            exercise.id,
-            undefined
-          ).then(data => {
-            return {
-              exerciseId: exercise.id,
-              data
-            };
-          });
-        });
-        this.exerciseHistory = await Promise.all(responsePromises);
+        return getExerciseHistory(
+          this.$axios,
+          this.token,
+          undefined,
+          undefined
+        );
       } catch (err) {
         console.error(err);
       } finally {

@@ -15,6 +15,5 @@ export default async function getExerciseHistory(
       Authorization: `Bearer ${token}`
     }
   };
-  const { data } = await axiosInstance(options);
-  return data;
+  return axiosInstance(options);
 }

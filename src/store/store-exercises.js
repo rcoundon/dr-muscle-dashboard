@@ -7,7 +7,13 @@ export default {
   namespaced: true,
   state: {
     exercises: [],
-    weekNumbers: []
+    weekNumbers: [],
+    exerciseHistory: {
+      setVolume: [],
+      weeks: [],
+      weightVolumeKg: [],
+      weightVolumeLb: []
+    }
   },
   mutations: {
     SET_EXERCISES(state, exercises) {
