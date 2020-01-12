@@ -220,7 +220,6 @@ export default {
   },
   async mounted() {
     let { data } = await this.buildHistory();
-    console.log('history result', data);
     const volumeByWeek = buildWorkoutVolumeByWeek(data);
     this.setExerciseHistory(volumeByWeek);
   },
