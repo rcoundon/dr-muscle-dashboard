@@ -127,6 +127,19 @@ export default {
         },
         subtitle: {
           text: 'x-axis label format is #Week-year'
+        },
+        toolbar: {
+          show: true,
+          tools: {
+            download: true,
+            selection: true,
+            zoom: true,
+            zoomin: true,
+            zoomout: true,
+            pan: true,
+            reset: true
+          },
+          autoSelected: 'zoom'
         }
       };
       return {
