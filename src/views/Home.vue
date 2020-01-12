@@ -215,7 +215,7 @@ export default {
       return bodyParts;
     }
   },
-  async mounted() {
+  async created() {
     try {
       this.isLoading = true;
       let { data } = await this.buildHistory();

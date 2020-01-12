@@ -151,7 +151,7 @@ export default {
       }
     }
   },
-  async mounted() {
+  async created() {
     await this.getExerciseCountData();
   },
   methods: {
