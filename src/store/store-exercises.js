@@ -8,7 +8,12 @@ export default {
   state: {
     exercises: [],
     weekNumbers: [],
-    exerciseHistory: []
+    exerciseHistory: {
+      setVolume: [],
+      weeks: [],
+      weightVolumeKg: [],
+      weightVolumeLb: []
+    }
   },
   mutations: {
     SET_EXERCISES(state, exercises) {

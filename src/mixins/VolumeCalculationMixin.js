@@ -82,24 +82,19 @@ export default {
       }
       return returnVal;
     },
-    filteredYKgValues() {
+    filteredYWeightValues() {
       let returnVal;
-      let yValues = this.exerciseHistory[this.selectedBodyPart].weightVolumeKg;
-      if (this.weekYearFrom && this.weekYearTo) {
-        returnVal = yValues.filter((week, idx) => {
-          if (this.weekRange.includes(idx)) {
-            return true;
-          }
-          return false;
-        });
+      let weightUnit = '';
+      if (this.units === 'lb') {
+        weightUnit = 'weightVolumeLb';
       } else {
-        returnVal = [...yValues];
+        weightUnit = 'weightVolumeKg';
       }
-      return returnVal;
-    },
-    filteredYLbValues() {
-      let returnVal;
-      let yValues = this.exerciseHistory[this.selectedBodyPart].weightVolumeLb;
+      const yValues = this.exerciseHistory[this.selectedBodyPart][
+        weightUnit
+      ].map(val => {
+        return val.toFixed(1);
+      });
       if (this.weekYearFrom && this.weekYearTo) {
         returnVal = yValues.filter((week, idx) => {
           if (this.weekRange.includes(idx)) {

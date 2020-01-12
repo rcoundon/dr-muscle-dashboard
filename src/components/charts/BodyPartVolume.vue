@@ -142,17 +142,14 @@ export default {
         }
       };
     },
-    yHardSetValues() {
-      return this.filteredYSetValues;
-    },
     yFitValues() {
-      return getFitLine(this.yHardSetValues);
+      return getFitLine(this.filteredYSetValues);
     },
     series() {
       return [
         {
           name: 'Hard Sets',
-          data: this.yHardSetValues
+          data: this.filteredYSetValues
         },
         {
           name: 'Trend',

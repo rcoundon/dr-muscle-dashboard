@@ -114,14 +114,14 @@
             :week-year-to="weekTo"
             style="margin-bottom: 1rem"
           />
-          <!-- <body-part-weight-lifted
+          <body-part-weight-lifted
             :exercise-data="exercises"
             :exercise-history="exerciseHistory"
             :selected-body-part="selectedBodyPart"
             :week-year-from="weekFrom"
             :week-year-to="weekTo"
             :units="weightUnits"
-          /> -->
+          />
         </div>
         <total-exercise-count @selectedExercise="setSelectedExercise" />
         <OneRepMax
@@ -157,7 +157,7 @@ import { mapGetters, mapActions } from 'vuex';
 import { compareAsc } from 'date-fns';
 import TotalExerciseCount from '@/components/charts/TotalExerciseCount';
 import BodyPartVolume from '@/components/charts/BodyPartVolume';
-// import BodyPartWeightLifted from '@/components/charts/BodyPartWeightLifted';
+import BodyPartWeightLifted from '@/components/charts/BodyPartWeightLifted';
 import OneRepMax from '@/components/charts/Exercise1RM';
 import getExerciseHistory from '@/services/getExerciseHistory';
 import buildOneRepMaxes from '@/services/buildOneRepMaxes';
@@ -171,7 +171,7 @@ export default {
   components: {
     TotalExerciseCount,
     BodyPartVolume,
-    // BodyPartWeightLifted,
+    BodyPartWeightLifted,
     OneRepMax
   },
   data() {

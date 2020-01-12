@@ -28,9 +28,16 @@ export default {
       default: () => []
     },
     exerciseHistory: {
-      type: Array,
+      type: Object,
       required: true,
-      default: () => []
+      default: () => {
+        return {
+          setVolume: [],
+          weeks: [],
+          weightVolumeKg: [],
+          weightVolumeLb: []
+        };
+      }
     },
     selectedBodyPart: {
       type: Number,
@@ -50,11 +57,6 @@ export default {
       type: String,
       default: 'kg'
     }
-  },
-  data() {
-    return {
-      exerciseVolume: []
-    };
   },
   computed: {
     chartOptions() {
@@ -102,36 +104,20 @@ export default {
         }
       };
     },
-    yTotalWeightValues() {
-      const yVals = [];
-      this.filteredXValues.forEach(week => {
-        const yValue =
-          this.units === 'kg'
-            ? parseFloat(this.bodyPartData[week].totalKgLifted).toFixed(1)
-            : parseFloat(this.bodyPartData[week].totalLbLifted).toFixed(1);
-        yVals.push(yValue);
-      });
-      return yVals;
-    },
     yFitValues() {
-      return getFitLine(this.yTotalWeightValues);
+      return getFitLine(this.filteredYWeightValues);
     },
     series() {
       return [
         {
           name: `Total ${this.units} Lifted`,
-          data: this.yTotalWeightValues
+          data: this.filteredYWeightValues
         },
         {
           name: 'Trend',
           data: this.yFitValues
         }
       ];
-    },
-    tableData() {
-      return this.exerciseVolume.filter((exercise, idx) => {
-        return idx === this.selectedBodyPart;
-      });
     }
   }
 };
