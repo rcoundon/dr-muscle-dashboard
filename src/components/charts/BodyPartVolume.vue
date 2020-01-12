@@ -157,11 +157,6 @@ export default {
         }
       ];
     }
-    // tableData() {
-    //   return this.exerciseVolume.filter((exercise, idx) => {
-    //     return idx === this.selectedBodyPart;
-    //   });
-    // }
     // exerciseTotals() {
     //   if (
     //     !this.selectedBodyPart ||

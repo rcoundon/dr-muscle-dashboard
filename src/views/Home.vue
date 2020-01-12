@@ -211,17 +211,17 @@ export default {
       return bodyParts;
     }
   },
-  watch: {
-    // exercises: {
-    //   handler: async function() {
-    //     this.buildHistory();
-    //   }
-    // }
-  },
   async mounted() {
-    let { data } = await this.buildHistory();
-    const volumeByWeek = buildWorkoutVolumeByWeek(data);
-    this.setExerciseHistory(volumeByWeek);
+    try {
+      this.isLoading = true;
+      let { data } = await this.buildHistory();
+      const volumeByWeek = buildWorkoutVolumeByWeek(data);
+      this.setExerciseHistory(volumeByWeek);
+    } catch (err) {
+      console.error('Error building history', err);
+    } finally {
+      this.isLoading = false;
+    }
   },
   methods: {
     ...mapActions('storeExercises', ['setExerciseHistory']),
