@@ -230,7 +230,6 @@ export default {
   methods: {
     ...mapActions('storeExercises', ['setExerciseHistory']),
     scrollToOneRepMax() {
-      console.log('scrolling to', this.$refs.oneRepMax);
       this.$scrollTo('#oneRepMax', 1000);
     },
     async setSelectedExercise(evt) {
