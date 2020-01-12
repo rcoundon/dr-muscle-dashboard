@@ -231,18 +231,18 @@ export default {
         this.isLoading = true;
         if (evt && this?.exercises[evt]?.id) {
           this.selectedExercise = this.exercises[evt].id;
-          // const data = await getExerciseHistory(
-          //   this.$axios,
-          //   this.token,
-          //   this.selectedExercise,
-          //   undefined
-          // );
-          // const oneRepMaxData = buildOneRepMaxes(data, this.selectedExercise);
-          // this.exerciseMaxes = oneRepMaxData.sort((workoutA, workoutB) => {
-          //   const workoutDateA = new Date(workoutA.workoutDate);
-          //   const workoutDateB = new Date(workoutB.workoutDate);
-          //   return compareAsc(workoutDateA, workoutDateB);
-          // });
+          const { data } = await getExerciseHistory(
+            this.$axios,
+            this.token,
+            this.selectedExercise,
+            undefined
+          );
+          const oneRepMaxData = buildOneRepMaxes(data, this.selectedExercise);
+          this.exerciseMaxes = oneRepMaxData.sort((workoutA, workoutB) => {
+            const workoutDateA = new Date(workoutA.workoutDate);
+            const workoutDateB = new Date(workoutB.workoutDate);
+            return compareAsc(workoutDateA, workoutDateB);
+          });
         }
       } catch (err) {
         console.error(err);
