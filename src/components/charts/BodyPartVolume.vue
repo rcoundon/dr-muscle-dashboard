@@ -1,16 +1,23 @@
 <template>
   <div class="card">
-    <p class="has-text-centered is-size-4 has-text-weight-semibold">
-      Number of Hard Sets By Week Number for {{ bodyPartName }}
-    </p>
-    <apexchart
-      v-if="showChart"
-      ref="bodypartvolumechart"
-      type="line"
-      height="300em"
-      :series="series"
-      :options="chartOptions"
-    />
+    <div v-if="!showChart">
+      <p class="is-size-4 processing">
+        Loading set data for {{ bodyPartName }}<span>.</span><span>.</span><span>.</span>
+      </p>
+    </div>
+    <div v-if="showChart">
+      <p class="has-text-centered is-size-4 has-text-weight-semibold">
+        Number of Hard Sets By Week Number for {{ bodyPartName }}
+      </p>
+      <apexchart
+        v-if="showChart"
+        ref="bodypartvolumechart"
+        type="line"
+        height="300em"
+        :series="series"
+        :options="chartOptions"
+      />
+    </div>
     <!-- <b-table
       :data="exerciseTotals"
       :default-sort-direction="'desc'"
@@ -91,11 +98,6 @@ export default {
       default: ''
     }
   },
-  data() {
-    return {
-      exerciseVolume: []
-    };
-  },
   computed: {
     chartOptions() {
       let baseOptions = {
@@ -125,6 +127,19 @@ export default {
         },
         subtitle: {
           text: 'x-axis label format is #Week-year'
+        },
+        toolbar: {
+          show: true,
+          tools: {
+            download: true,
+            selection: true,
+            zoom: true,
+            zoomin: true,
+            zoomout: true,
+            pan: true,
+            reset: true
+          },
+          autoSelected: 'zoom'
         }
       };
       return {

@@ -233,23 +233,25 @@ export default {
       this.$scrollTo('#oneRepMax', 1000);
     },
     async setSelectedExercise(evt) {
+      console.log(evt);
+      if (evt === undefined || evt === null) return;
       try {
         this.isLoading = true;
-        if (evt && this?.exercises[evt]?.id) {
-          this.selectedExercise = this.exercises[evt].id;
-          const { data } = await getExerciseHistory(
-            this.$axios,
-            this.token,
-            this.selectedExercise,
-            undefined
-          );
-          const oneRepMaxData = buildOneRepMaxes(data, this.selectedExercise);
-          this.exerciseMaxes = oneRepMaxData.sort((workoutA, workoutB) => {
-            const workoutDateA = new Date(workoutA.workoutDate);
-            const workoutDateB = new Date(workoutB.workoutDate);
-            return compareAsc(workoutDateA, workoutDateB);
-          });
-        }
+        this.selectedExercise = this.exercises[evt].id;
+        if (!this.selectedExercise) return;
+        const { data } = await getExerciseHistory(
+          this.$axios,
+          this.token,
+          this.selectedExercise,
+          undefined
+        );
+        debugger;
+        const oneRepMaxData = buildOneRepMaxes(data, this.selectedExercise);
+        this.exerciseMaxes = oneRepMaxData.sort((workoutA, workoutB) => {
+          const workoutDateA = new Date(workoutA.workoutDate);
+          const workoutDateB = new Date(workoutB.workoutDate);
+          return compareAsc(workoutDateA, workoutDateB);
+        });
       } catch (err) {
         console.error(err);
       } finally {
@@ -283,69 +285,5 @@ body {
   background: grey;
   font-family: helvetica;
   font-size: 72px;
-}
-@keyframes blink {
-  /**
-     * At the start of the animation the dot
-     * has an opacity of .2
-     */
-  0% {
-    opacity: 0.2;
-  }
-  /**
-     * At 20% the dot is fully visible and
-     * then fades out slowly
-     */
-  20% {
-    opacity: 1;
-  }
-  /**
-     * Until it reaches an opacity of .2 and
-     * the animation can start again
-     */
-  100% {
-    opacity: 0.2;
-  }
-}
-
-.processing span {
-  /**
-     * Use the blink animation, which is defined above
-     */
-  animation-name: blink;
-  /**
-     * The animation should take 1.4 seconds
-     */
-  animation-duration: 1.4s;
-  /**
-     * It will repeat itself forever
-     */
-  animation-iteration-count: infinite;
-  /**
-     * This makes sure that the starting style (opacity: .2)
-     * of the animation is applied before the animation starts.
-     * Otherwise we would see a short flash or would have
-     * to set the default styling of the dots to the same
-     * as the animation. Same applies for the ending styles.
-     */
-  animation-fill-mode: both;
-}
-
-.processing span:nth-child(2) {
-  /**
-     * Starts the animation of the third dot
-     * with a delay of .2s, otherwise all dots
-     * would animate at the same time
-     */
-  animation-delay: 0.2s;
-}
-
-.processing span:nth-child(3) {
-  /**
-     * Starts the animation of the third dot
-     * with a delay of .4s, otherwise all dots
-     * would animate at the same time
-     */
-  animation-delay: 0.4s;
 }
 </style>
