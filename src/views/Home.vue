@@ -233,7 +233,6 @@ export default {
       this.$scrollTo('#oneRepMax', 1000);
     },
     async setSelectedExercise(evt) {
-      console.log(evt);
       if (evt === undefined || evt === null) return;
       try {
         this.isLoading = true;
@@ -245,7 +244,6 @@ export default {
           this.selectedExercise,
           undefined
         );
-        debugger;
         const oneRepMaxData = buildOneRepMaxes(data, this.selectedExercise);
         this.exerciseMaxes = oneRepMaxData.sort((workoutA, workoutB) => {
           const workoutDateA = new Date(workoutA.workoutDate);
