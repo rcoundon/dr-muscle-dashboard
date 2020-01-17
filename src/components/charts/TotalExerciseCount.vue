@@ -134,7 +134,12 @@ export default {
     exercises: {
       handler: function(newVal) {
         const newOptions = fastCopy(this.chartOptions);
-        newOptions.xaxis.categories = newVal;
+        newOptions.xaxis = {
+          hideOverlappingLabels: false,
+          rotateAlways: true,
+          categories: newVal
+        };
+        // newOptions.xaxis.categories = newVal;
         this.chartOptions = newOptions;
       }
     },
