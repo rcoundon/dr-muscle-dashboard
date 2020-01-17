@@ -16,6 +16,7 @@ module.exports = {
   // }
   configureWebpack: {
     optimization: {
+      moduleIds: 'hashed',
       splitChunks: {
         minSize: 50000,
         maxSize: 250000
