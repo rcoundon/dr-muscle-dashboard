@@ -1,6 +1,6 @@
 {
   "name": "dr-muscle-dashboard",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -19,7 +19,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@fortawesome/vue-fontawesome": "^0.1.9",
-    "apexcharts": "^3.15.0",
+    "apexcharts": "^3.15.2",
     "axios": "^0.19.1",
     "buefy": "^0.8.9",
     "core-js": "^3.6.4",
@@ -31,7 +31,7 @@
     "vue": "^2.6.11",
     "vue-apexcharts": "^1.5.2",
     "vue-fontawesome": "0.0.2",
-    "vue-router": "^3.1.4",
+    "vue-router": "^3.1.5",
     "vue-scrollto": "^2.17.1",
     "vuex": "^3.1.2",
     "vuex-persistedstate": "^2.7.0"
@@ -53,7 +53,7 @@
     "gulp-color": "0.0.2",
     "gulp-git": "^2.10.0",
     "gulp-rename": "^2.0.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "s3-deploy": "^1.4.0",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11",
