@@ -26,15 +26,22 @@
           icon="key"
         />
       </b-field>
-      <div class="control">
-        <button
+      <b-field>
+        <b-button
           type="submit"
           :class="{ button: true, 'is-info': true, 'is-loading': isLoading }"
           @click.prevent="onSubmit()"
         >
           Login
-        </button>
-      </div>
+        </b-button>
+        <GoogleLogin
+          style="padding-left: 1em"
+          :params="params"
+          :render-params="renderParams"
+          :on-success="onSuccess"
+          :on-failure="onFailure"
+        />
+      </b-field>
       <br>
     </form>
     <p class="has-text-center">
@@ -62,14 +69,21 @@
 </template>
 
 <script>
-// import { eventBus } from '@/events/events';
+import GoogleLogin from 'vue-google-login';
+import { LoaderPlugin } from 'vue-google-login';
+import Vue from 'vue';
+Vue.use(LoaderPlugin, {
+  client_id:
+    '192118200020-vsq4sik0vgh57h5453s76het5rlhneqr.apps.googleusercontent.com'
+});
 import AuthContainer from './AuthContainer';
 import login from '@/services/login.js';
 import { mapActions } from 'vuex';
 
 export default {
   components: {
-    AuthContainer
+    AuthContainer,
+    GoogleLogin
   },
   data() {
     return {
@@ -77,10 +91,24 @@ export default {
       email: '',
       password: '',
       loginSuccess: null,
-      loginError: null
+      loginError: null,
+      params: {
+        client_id:
+          '192118200020-vsq4sik0vgh57h5453s76het5rlhneqr.apps.googleusercontent.com'
+      },
+      // only needed if you want to render the button with the google ui
+      renderParams: {
+        width: 180,
+        height: 36,
+        longtitle: true
+      }
     };
   },
-  created() {},
+  created() {
+    Vue.GoogleAuth.then(auth2 => {
+      console.log(auth2.isSignedIn.get());
+    });
+  },
   methods: {
     ...mapActions('storeAuth', [
       'setToken',
@@ -88,6 +116,28 @@ export default {
       'setExpiresIn',
       'setIsAuthenticated'
     ]),
+    async onSuccess(googleUser) {
+      const profile = googleUser.getBasicProfile();
+      const auth = await googleUser.getAuthResponse(true);
+      const email = profile.getEmail(); // This is null if the 'email' scope is not present.
+      this.setToken(auth.access_token);
+      this.setIsAuthenticated(true);
+      this.setUsername(email);
+      this.setExpiresIn(auth.expires_in);
+      this.redirectToHome();
+    },
+    redirectToHome() {
+      console.log('sending to home');
+      this.$router
+        .push({
+          name: 'home'
+        })
+        // eslint-disable-next-line no-unused-vars
+        .catch(err => {});
+    },
+    onFailure() {
+      this.loginError = 'Sorry, Google login failed';
+    },
     async onSubmit() {
       this.isLoading = true;
       try {
@@ -97,12 +147,7 @@ export default {
         await this.setUsername(this.email);
         await this.setExpiresIn(token.expires_in);
         await this.setIsAuthenticated(true);
-        this.$router
-          .push({
-            name: 'home'
-          })
-          // eslint-disable-next-line no-unused-vars
-          .catch(err => {});
+        this.redirectToHome();
       } catch (err) {
         console.error(err);
         this.loginError = err?.response?.data?.error_description;
