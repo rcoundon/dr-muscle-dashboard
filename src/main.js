@@ -6,7 +6,12 @@ import bugsnagVue from '@bugsnag/plugin-vue';
 
 import Vue from 'vue';
 import VueApexCharts from 'vue-apexcharts';
+import { LoaderPlugin } from 'vue-google-login';
 
+Vue.use(LoaderPlugin, {
+  client_id:
+    '707210235326-ldcslmjtnjib5bklf23efrhp8u9qrpq3.apps.googleusercontent.com'
+});
 import VueScrollTo from 'vue-scrollto';
 
 import Buefy from 'buefy';

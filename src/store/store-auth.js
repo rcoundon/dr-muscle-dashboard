@@ -9,7 +9,10 @@ export default {
     token: undefined,
     username: undefined,
     expiresIn: 0,
-    isAuthenticated: false
+    isAuthenticated: false,
+    authType: undefined,
+    email: undefined,
+    name: undefined
   },
   mutations: {
     SET_TOKEN(state, token) {
@@ -26,6 +29,15 @@ export default {
     },
     SET_IS_AUTHENTICATED(state, isAuthenticated) {
       state.isAuthenticated = isAuthenticated;
+    },
+    SET_AUTH_TYPE(state, authType) {
+      state.authType = authType;
+    },
+    SET_EMAIL(state, email) {
+      state.email = email;
+    },
+    SET_NAME(state, name) {
+      state.name = name;
     }
   },
   actions: {
@@ -40,12 +52,24 @@ export default {
     },
     setIsAuthenticated({ commit }, isAuthenticated) {
       commit('SET_IS_AUTHENTICATED', isAuthenticated);
+    },
+    setAuthType({ commit }, authType) {
+      commit('SET_AUTH_TYPE', authType);
+    },
+    setEmail({ commit }, email) {
+      commit('SET_EMAIL', email);
+    },
+    setName({ commit }, name) {
+      commit('SET_NAME', name);
     }
   },
   getters: {
     token: state => state.token,
     username: state => state.username,
     expiresIn: state => state.expiresIn,
-    isAuthenticated: state => state.isAuthenticated
+    isAuthenticated: state => state.isAuthenticated,
+    authType: state => state => state.authType,
+    email: state => state => state.email,
+    name: state => state => state.name
   }
 };

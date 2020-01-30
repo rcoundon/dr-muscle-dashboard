@@ -72,10 +72,7 @@
 import GoogleLogin from 'vue-google-login';
 import { LoaderPlugin } from 'vue-google-login';
 import Vue from 'vue';
-Vue.use(LoaderPlugin, {
-  client_id:
-    '192118200020-vsq4sik0vgh57h5453s76het5rlhneqr.apps.googleusercontent.com'
-});
+
 import AuthContainer from './AuthContainer';
 import login from '@/services/login.js';
 import { mapActions } from 'vuex';
@@ -94,7 +91,8 @@ export default {
       loginError: null,
       params: {
         client_id:
-          '192118200020-vsq4sik0vgh57h5453s76het5rlhneqr.apps.googleusercontent.com'
+          // '192118200020-vsq4sik0vgh57h5453s76het5rlhneqr.apps.googleusercontent.com',
+          '707210235326-ldcslmjtnjib5bklf23efrhp8u9qrpq3.apps.googleusercontent.com'
       },
       // only needed if you want to render the button with the google ui
       renderParams: {
@@ -114,17 +112,27 @@ export default {
       'setToken',
       'setUsername',
       'setExpiresIn',
-      'setIsAuthenticated'
+      'setIsAuthenticated',
+      'setAuthType',
+      'setName',
+      'setEmail'
     ]),
     async onSuccess(googleUser) {
-      const profile = googleUser.getBasicProfile();
       const auth = await googleUser.getAuthResponse(true);
-      const email = profile.getEmail(); // This is null if the 'email' scope is not present.
+      const profile = googleUser.getBasicProfile();
+      debugger;
+      this.setEmail(profile.getEmail()); // This is null if the 'email' scope is not present.
+      this.setName(profile.getName() || profile.getEmail());
+      this.setAuthType('google');
       this.setToken(auth.access_token);
-      this.setIsAuthenticated(true);
+      // this.setIsAuthenticated(profile.isSignedIn);
       this.setUsername(email);
-      this.setExpiresIn(auth.expires_in);
+      this.setExpiresIn(profile.expires_in);
+      // if (profile.isSignedIn()) {
       this.redirectToHome();
+      // } else {
+      //   this.error = 'Google authentication failed';
+      // }
     },
     redirectToHome() {
       console.log('sending to home');
@@ -135,14 +143,19 @@ export default {
         // eslint-disable-next-line no-unused-vars
         .catch(err => {});
     },
-    onFailure() {
+    onFailure(evt) {
+      console.log(evt);
       this.loginError = 'Sorry, Google login failed';
     },
     async onSubmit() {
       this.isLoading = true;
       try {
         this.loginError = undefined;
-        const token = await login(this.$axios, this.email, this.password);
+        const token = await login(this.$axios, {
+          authType: 'email',
+          email: this.email,
+          password: this.password
+        });
         await this.setToken(token.access_token);
         await this.setUsername(this.email);
         await this.setExpiresIn(token.expires_in);
