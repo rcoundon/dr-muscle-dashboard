@@ -1,25 +1,28 @@
 {
   "name": "dr-muscle-dashboard",
-  "version": "0.1.17",
+  "version": "0.1.16",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
     "lint": "vue-cli-service lint",
     "deploy:aws": "NODE_ENV=production npm run build && s3-deploy './dist/**' --cwd './dist/' --region eu-west-2 --bucket dr-muscle-dashboard --distId EUAZ7DLYBVI5N --invalidate '/*'",
-    "release": "RELEASE=release gulp"
+    "release": "RELEASE=release gulp",
+    "snyk": "SNYK_TOKEN=61416a06-8668-4d53-8c1c-662a236c64ac snyk test",
+    "snyk:wizard": "SNYK_TOKEN=61416a06-8668-4d53-8c1c-662a236c64ac snyk wizard",
+    "snyk:monitor": "SNYK_TOKEN=61416a06-8668-4d53-8c1c-662a236c64ac snyk monitor"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/rcoundon/dr-muscle-dashboard.git"
   },
   "dependencies": {
-    "@bugsnag/js": "^6.5.0",
+    "@bugsnag/js": "^6.5.2",
     "@bugsnag/plugin-vue": "^6.5.0",
-    "@fortawesome/fontawesome-svg-core": "^1.2.26",
-    "@fortawesome/free-solid-svg-icons": "^5.12.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.27",
+    "@fortawesome/free-solid-svg-icons": "^5.12.1",
     "@fortawesome/vue-fontawesome": "^0.1.9",
-    "apexcharts": "^3.15.3",
+    "apexcharts": "^3.15.5",
     "axios": "^0.19.2",
     "buefy": "^0.8.10",
     "core-js": "^3.6.4",
@@ -27,14 +30,14 @@
     "fast-copy": "^2.0.4",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "simple-statistics": "^7.0.7",
+    "simple-statistics": "^7.0.8",
     "vue": "^2.6.11",
     "vue-apexcharts": "^1.5.2",
     "vue-fontawesome": "0.0.2",
     "vue-router": "^3.1.5",
     "vue-scrollto": "^2.17.1",
     "vuex": "^3.1.2",
-    "vuex-persistedstate": "^2.7.0"
+    "vuex-persistedstate": "^2.7.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.8.3",
@@ -58,7 +61,7 @@
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.41.5",
-    "webpack-bugsnag-plugins": "^1.4.2"
+    "webpack-bugsnag-plugins": "^1.4.3"
   },
   "eslintConfig": {
     "root": true,
