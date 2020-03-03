@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import VolumeCalculationMixin from '@/mixins/VolumeCalculationMixin.js';
 import { getFitLine } from '@/services/calculateTrendLine';
 

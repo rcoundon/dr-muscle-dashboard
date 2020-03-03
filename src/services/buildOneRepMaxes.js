@@ -1,3 +1,4 @@
+
 export default function buildOneRepMaxes(data, exerciseId) {
   const exerciseMaxes = [];
   data.Result.forEach(workout => {

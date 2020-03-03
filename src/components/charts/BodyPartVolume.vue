@@ -58,7 +58,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import VolumeCalculationMixin from '@/mixins/VolumeCalculationMixin.js';
 import { getExerciseName } from '@/services/getExerciseName';
 import { getFitLine } from '@/services/calculateTrendLine';

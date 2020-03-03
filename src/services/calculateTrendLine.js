@@ -18,7 +18,6 @@ function getLineDrawer(data) {
 export function getFitLine(data) {
   const lineDrawer = getLineDrawer(data);
   return data.map((item, idx) => {
-    const point = lineDrawer(idx + 1).toFixed(1);
-    return point;
+    return lineDrawer(idx + 1).toFixed(1);
   });
 }
