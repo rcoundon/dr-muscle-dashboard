@@ -24,7 +24,7 @@
     "core-js": "^3.6.5",
     "date-fns": "^2.14.0",
     "fast-copy": "^2.0.5",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.26.0",
     "simple-statistics": "^7.1.0",
     "vue": "^2.6.11",
