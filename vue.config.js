@@ -45,16 +45,7 @@ module.exports = {
         test: /\.js(\?.*)?$/i,
         filename: '[path].gz[query]',
         algorithm: 'gzip'
-      }),
-      new BugsnagBuildReporterPlugin(
-        {
-          apiKey: 'edc6bef4ba5072a2d6781cd94c75be7c',
-          appVersion: version
-        },
-        {
-          /* opts */
-        }
-      )
+      })
     ]
   }
 };

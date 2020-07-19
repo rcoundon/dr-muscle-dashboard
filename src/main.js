@@ -1,8 +1,8 @@
 // Polyfilling for older browsers
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import bugsnag from '@bugsnag/js';
-import bugsnagVue from '@bugsnag/plugin-vue';
+import Bugsnag from '@bugsnag/js';
+import BugsnagPluginVue from '@bugsnag/plugin-vue';
 
 import Vue from 'vue';
 import VueApexCharts from 'vue-apexcharts';
@@ -71,11 +71,10 @@ import App from './App.vue';
 import router from './router';
 import store from './store/store-modules';
 
-const bugsnagClient = bugsnag({
-  appVersion: version,
-  apiKey: 'edc6bef4ba5072a2d6781cd94c75be7c'
+Bugsnag.start({
+  apiKey: process.env.VUE_APP_BUGSNAG,
+  plugins: [new BugsnagPluginVue(Vue)]
 });
-bugsnagClient.use(bugsnagVue, Vue);
 
 Vue.config.productionTip = false;
 
