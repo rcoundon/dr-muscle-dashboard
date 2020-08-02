@@ -13,8 +13,8 @@
     "snyk:wizard": "SNYK_TOKEN=61416a06-8668-4d53-8c1c-662a236c64ac snyk wizard"
   },
   "dependencies": {
-    "@bugsnag/js": "^7.2.0",
-    "@bugsnag/plugin-vue": "^7.2.0",
+    "@bugsnag/js": "^7.2.1",
+    "@bugsnag/plugin-vue": "^7.2.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/vue-fontawesome": "^0.1.10",
@@ -31,12 +31,12 @@
     "vue-apexcharts": "^1.6.0",
     "vue-fontawesome": "0.0.2",
     "vue-router": "^3.3.4",
-    "vue-scrollto": "^2.18.1",
+    "vue-scrollto": "^2.18.2",
     "vuex": "^3.5.1",
     "vuex-persistedstate": "^3.0.1"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "^7.10.4",
+    "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@vue/cli-plugin-babel": "~4.4.6",
     "@vue/cli-plugin-eslint": "~4.4.6",
     "@vue/cli-plugin-router": "~4.4.6",
@@ -45,7 +45,7 @@
     "babel-eslint": "^10.1.0",
     "compression-webpack-plugin": "^4.0.0",
     "conventional-github-releaser": "^3.1.5",
-    "eslint": "^7.5.0",
+    "eslint": "^7.6.0",
     "eslint-plugin-vue": "^6.2.2",
     "gulp": "^4.0.2",
     "gulp-bump": "^3.2.0",
@@ -56,7 +56,7 @@
     "s3-deploy": "^1.4.0",
     "sass-loader": "^9.0.2",
     "vue-template-compiler": "^2.6.11",
-    "webpack": "^4.43.0",
+    "webpack": "^4.44.1",
     "webpack-bugsnag-plugins": "^1.4.3"
   },
   "eslintConfig": {
