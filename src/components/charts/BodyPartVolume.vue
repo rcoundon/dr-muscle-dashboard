@@ -2,7 +2,8 @@
   <div class="card">
     <div v-if="!showChart">
       <p class="is-size-4 processing">
-        Loading set data for {{ bodyPartName }}<span>.</span><span>.</span><span>.</span>
+        Loading set data for {{ bodyPartName }}<span>.</span><span>.</span
+        ><span>.</span>
       </p>
     </div>
     <div v-if="showChart">
@@ -18,42 +19,6 @@
         :options="chartOptions"
       />
     </div>
-    <!-- <b-table
-      :data="exerciseTotals"
-      :default-sort-direction="'desc'"
-      default-sort="count.totalHardSets"
-    >
-      <template slot-scope="props">
-        <b-table-column
-          sortable
-          field="exerciseName"
-          label="Exercise"
-        >
-          {{ props.row.exerciseName }}
-        </b-table-column>
-        <b-table-column
-          sortable
-          field="count.totalWorkouts"
-          label="Appeared in # Workouts"
-        >
-          {{ props.row.count.totalWorkouts }}
-        </b-table-column>
-        <b-table-column
-          sortable
-          field="count.totalHardSets"
-          label="Total Hard Sets"
-        >
-          {{ props.row.count.totalHardSets }}
-        </b-table-column>
-      </template>
-      <template slot="empty">
-        <section class="section">
-          <div class="content has-text-grey has-text-centered">
-            <p>Nothing here yet...</p>
-          </div>
-        </section>
-      </template>
-    </b-table> -->
   </div>
 </template>
 
@@ -68,7 +33,7 @@ export default {
     exerciseData: {
       type: Array,
       required: true,
-      default: () => []
+      default: () => [],
     },
     exerciseHistory: {
       type: Object,
@@ -78,54 +43,54 @@ export default {
           setVolume: [],
           weeks: [],
           weightVolumeKg: [],
-          weightVolumeLb: []
+          weightVolumeLb: [],
         };
-      }
+      },
     },
     selectedBodyPart: {
       type: Number,
-      required: true
+      required: true,
     },
     weekYearFrom: {
       type: String,
       required: false,
-      default: ''
+      default: '',
     },
     weekYearTo: {
       type: String,
       required: false,
-      default: ''
-    }
+      default: '',
+    },
   },
   computed: {
     chartOptions() {
       let baseOptions = {
         chart: {
-          id: 'bodypartvolumechart'
+          id: 'bodypartvolumechart',
         },
         dataLabels: {
-          enabled: true
+          enabled: true,
         },
         xaxis: {
           labels: {
             show: true,
-            hideOverlappingLabels: true
+            hideOverlappingLabels: true,
           },
           title: {
-            text: 'Training Week'
-          }
+            text: 'Training Week',
+          },
         },
         yaxis: {
           title: {
-            text: 'Number of Sets'
-          }
+            text: 'Number of Sets',
+          },
         },
         stroke: {
           width: 3,
-          curve: 'smooth'
+          curve: 'smooth',
         },
         subtitle: {
-          text: 'x-axis label format is #Week-year'
+          text: 'x-axis label format is #Week-year',
         },
         toolbar: {
           show: true,
@@ -136,10 +101,10 @@ export default {
             zoomin: true,
             zoomout: true,
             pan: true,
-            reset: true
+            reset: true,
           },
-          autoSelected: 'zoom'
-        }
+          autoSelected: 'zoom',
+        },
       };
       return {
         ...baseOptions,
@@ -147,13 +112,13 @@ export default {
           xaxis: {
             categories: this.filteredXValues,
             title: {
-              text: 'Training Week'
+              text: 'Training Week',
             },
             labels: {
-              show: true
-            }
-          }
-        }
+              show: true,
+            },
+          },
+        },
       };
     },
     yFitValues() {
@@ -163,14 +128,14 @@ export default {
       return [
         {
           name: 'Hard Sets',
-          data: this.filteredYSetValues
+          data: this.filteredYSetValues,
         },
         {
           name: 'Trend',
-          data: this.yFitValues
-        }
+          data: this.yFitValues,
+        },
       ];
-    }
+    },
     // exerciseTotals() {
     //   if (
     //     !this.selectedBodyPart ||
@@ -193,6 +158,6 @@ export default {
     //     };
     //   });
     // }
-  }
+  },
 };
 </script>

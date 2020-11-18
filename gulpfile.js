@@ -18,7 +18,7 @@ const release =
   (process.env.RELEASE || 'deploy').trim().toLowerCase() === 'release';
 console.log(
   color('Creating release', 'GREEN'),
-  color(release.toString(), 'RED')
+  color(release.toString(), 'RED'),
 );
 
 function setupConfig(done) {
@@ -55,14 +55,14 @@ function githubRelease(done) {
   const AUTH = {
     type: 'oauth',
     token: process.env.GITHUB_KEY,
-    url: 'https://api.github.com'
+    url: 'https://api.github.com',
   };
   conventionalGithubReleaser(
     AUTH,
     {
-      preset: '' // Or to any other commit message convention you use.
+      preset: '', // Or to any other commit message convention you use.
     },
-    done
+    done,
   );
 }
 
@@ -79,7 +79,7 @@ function createNewTag(done) {
     return;
   }
   let version = getPackageJsonVersion();
-  git.tag(version, 'Created Tag for version: ' + version, function(error) {
+  git.tag(version, 'Created Tag for version: ' + version, function (error) {
     if (error) {
       return done(error);
     }
@@ -87,9 +87,9 @@ function createNewTag(done) {
       'origin',
       'master',
       {
-        args: '--tags'
+        args: '--tags',
       },
-      done
+      done,
     );
   });
 }
@@ -104,8 +104,8 @@ function bumpVersion(done) {
   src('./package.json')
     .pipe(
       bump({
-        type: process.env.RELEASE_TYPE ? process.env.RELEASE_TYPE : 'patch'
-      })
+        type: process.env.RELEASE_TYPE ? process.env.RELEASE_TYPE : 'patch',
+      }),
     )
     .pipe(dest('./'));
   return Promise.resolve('version bumped');
@@ -117,5 +117,5 @@ exports.default = series(
   commitChanges,
   pushChanges,
   createNewTag,
-  githubRelease
+  githubRelease,
 );

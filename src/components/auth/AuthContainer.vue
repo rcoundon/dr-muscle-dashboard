@@ -9,10 +9,7 @@
         <div class="tile is-parent">
           <div class="has-text-centered tile is-ancestor">
             <div class="tile is-parent" />
-            <div
-              id="signup"
-              class="tile is-parent"
-            >
+            <div id="signup" class="tile is-parent">
               <div class="signin-form box">
                 <slot name="authForm" />
               </div>
@@ -34,7 +31,7 @@ export default {
       email: '',
       password: '',
       loginSuccess: null,
-      loginError: null
+      loginError: null,
     };
   },
   created() {},
@@ -43,18 +40,18 @@ export default {
       this.isLoading = true;
       const formData = {
         email: this.email,
-        password: this.password
+        password: this.password,
       };
       try {
         await this.$store.dispatch('storeAuth/login', {
           email: formData.email,
-          password: formData.password
+          password: formData.password,
         });
       } finally {
         this.isLoading = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

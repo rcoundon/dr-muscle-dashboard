@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="card"
-    style="padding-top: 1em"
-  >
+  <div class="card" style="padding-top: 1em">
     <b-loading
       :is-full-page="false"
       :active.sync="isLoading"
@@ -43,8 +40,8 @@ export default {
     width: {
       required: false,
       type: String,
-      default: '20em'
-    }
+      default: '20em',
+    },
   },
   data() {
     // bind this for use inside chart options click handler
@@ -59,49 +56,49 @@ export default {
             enabled: true,
             fill: {
               color: '#24292e',
-              opacity: 0.1
-            }
+              opacity: 0.1,
+            },
           },
           type: 'bar',
           events: {
-            click: function(event, chartContext, config) {
+            click: function (event, chartContext, config) {
               if (config.dataPointIndex === -1) return;
-              self.$emit('selectedExercise', config.dataPointIndex);
-            }
-          }
+              self.$emit('selected-exercise', config.dataPointIndex);
+            },
+          },
         },
         dataLabels: {
           enabled: true,
-          formatter: val => {
+          formatter: (val) => {
             return ((val * 100) / this.totalSets).toFixed(1) + '%';
           },
           offsetY: -20,
           style: {
             fontSize: '12px',
-            colors: ['#304758']
-          }
+            colors: ['#304758'],
+          },
         },
         plotOptions: {
           bar: {
             dataLabels: {
-              position: 'top' // top, center, bottom
-            }
-          }
+              position: 'top', // top, center, bottom
+            },
+          },
         },
         xaxis: {
           categories: this.exercises,
           labels: {
             show: true,
             rotate: -45,
-            rotateAlways: true
-          }
+            rotateAlways: true,
+          },
         },
         yaxis: {
           title: {
-            text: 'Number of times performed'
-          }
-        }
-      }
+            text: 'Number of times performed',
+          },
+        },
+      },
     };
   },
   computed: {
@@ -113,48 +110,48 @@ export default {
     },
     series() {
       if (!this.rawData) return [];
-      const data = this.rawData.map(item => {
+      const data = this.rawData.map((item) => {
         return item.NoOfTimePerform;
       });
       return [
         {
           name: 'Times Performed',
-          data
-        }
+          data,
+        },
       ];
     },
     exercises() {
       if (!this.rawData) return [];
-      return this.rawData.map(item => {
+      return this.rawData.map((item) => {
         return item.Label;
       });
-    }
+    },
   },
   watch: {
     exercises: {
-      handler: function(newVal) {
+      handler: function (newVal) {
         const newOptions = fastCopy(this.chartOptions);
         newOptions.xaxis = {
           hideOverlappingLabels: false,
           rotateAlways: true,
-          categories: newVal
+          categories: newVal,
         };
         // newOptions.xaxis.categories = newVal;
         this.chartOptions = newOptions;
-      }
+      },
     },
     rawData: {
-      handler: function(newResults) {
+      handler: function (newResults) {
         if (!newResults || newResults.length === 0) return;
-        const exerciseArray = newResults.map(exercise => {
+        const exerciseArray = newResults.map((exercise) => {
           return {
             id: exercise.Id,
-            Label: exercise.Label
+            Label: exercise.Label,
           };
         });
         this.setExercises(exerciseArray);
-      }
-    }
+      },
+    },
   },
   async created() {
     await this.getExerciseCountData();
@@ -170,7 +167,7 @@ export default {
           this.$axios,
           this.token,
           undefined,
-          undefined
+          undefined,
         );
         this.rawData = result.Result;
       } catch (err) {
@@ -179,8 +176,8 @@ export default {
         console.timeEnd('getExerciseCountData');
         this.isLoading = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

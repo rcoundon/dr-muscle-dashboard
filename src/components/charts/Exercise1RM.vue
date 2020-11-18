@@ -23,67 +23,67 @@ export default {
     exerciseMaxes: {
       type: Array,
       required: true,
-      default: () => []
+      default: () => [],
     },
     exerciseName: {
       type: String,
-      required: true
+      required: true,
     },
     units: {
       type: String,
       required: false,
-      default: 'kg'
-    }
+      default: 'kg',
+    },
   },
   data() {
     return {
       chartOptions: {
         chart: {
-          id: '1rmmaxchart'
+          id: '1rmmaxchart',
         },
         dataLabels: {
-          enabled: true
+          enabled: true,
         },
         xaxis: {
           labels: {
             show: true,
-            rotateAlways: true
+            rotateAlways: true,
           },
           title: {
-            text: 'Workout Date'
-          }
+            text: 'Workout Date',
+          },
         },
         yaxis: {
           title: {
-            text: `1RM (${this.units})`
-          }
+            text: `1RM (${this.units})`,
+          },
         },
         stroke: {
           width: 3,
-          curve: 'smooth'
-        }
+          curve: 'smooth',
+        },
       },
       series: [
         {
           name: this.exerciseName,
-          data: []
-        }
-      ]
+          data: [],
+        },
+      ],
     };
   },
   watch: {
     units: {
       handler() {
         this.buildChartData();
-      }
+      },
     },
     exerciseMaxes: {
       immediate: true,
       handler() {
         this.buildChartData();
-        this.$emit('oneRepMaxUpdated');
-      }
-    }
+        this.$emit('one-rep-max-updated');
+      },
+    },
   },
   methods: {
     buildChartData() {
@@ -92,7 +92,7 @@ export default {
       const xValues = [];
       const yValues = [];
 
-      this.exerciseMaxes.forEach(records => {
+      this.exerciseMaxes.forEach((records) => {
         const yValue =
           this.units === 'kg' ? records.oneRepMaxKg : records.oneRepMaxKg * 2.2;
         yValues.push(yValue.toFixed(1));
@@ -105,12 +105,12 @@ export default {
       this.series = [
         {
           name: `1RM (${this.units})`,
-          data: yValues
+          data: yValues,
         },
         {
           name: 'Trend',
-          data: yFitValues
-        }
+          data: yFitValues,
+        },
       ];
 
       this.chartOptions = {
@@ -120,17 +120,17 @@ export default {
             categories: xValues,
             labels: {
               show: true,
-              rotateAlways: true
-            }
+              rotateAlways: true,
+            },
           },
           yaxis: {
             title: {
-              text: `1RM (${this.units})`
-            }
-          }
-        }
+              text: `1RM (${this.units})`,
+            },
+          },
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>

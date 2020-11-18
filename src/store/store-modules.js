@@ -10,7 +10,7 @@ Vue.use(Vuex);
 
 let store = new Vuex.Store({
   plugins: [createPersistedState({ storage: window.sessionStorage })],
-  modules: modules
+  modules: modules,
 });
 
 export default store;

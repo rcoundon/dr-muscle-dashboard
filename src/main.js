@@ -19,7 +19,7 @@ import axios from 'axios';
 const version = require('../package.json').version;
 
 const instance = axios.create({
-  baseURL: 'https://drmuscle.azurewebsites.net/'
+  baseURL: 'https://drmuscle.azurewebsites.net/',
 });
 
 Vue.prototype.$axios = instance;
@@ -36,7 +36,7 @@ import {
   faLongArrowAltRight,
   faChild,
   faWeight,
-  faCalendar
+  faCalendar,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -51,21 +51,21 @@ library.add(
   faLongArrowAltRight,
   faChild,
   faWeight,
-  faCalendar
+  faCalendar,
 );
 
-Vue.component('vue-fontawesome', FontAwesomeIcon);
+Vue.component('VueFontawesome', FontAwesomeIcon);
 
 Vue.use(VueScrollTo);
 
 Vue.use(Buefy, {
   defaultIconComponent: 'vue-fontawesome',
-  defaultIconPack: 'fas'
+  defaultIconPack: 'fas',
 });
 
 // Setup global apexchart component availability
 Vue.use(VueApexCharts);
-Vue.component('apexchart', VueApexCharts);
+Vue.component('Apexchart', VueApexCharts);
 
 import App from './App.vue';
 import router from './router';
@@ -73,7 +73,7 @@ import store from './store/store-modules';
 
 Bugsnag.start({
   apiKey: process.env.VUE_APP_BUGSNAG,
-  plugins: [new BugsnagPluginVue(Vue)]
+  plugins: [new BugsnagPluginVue(Vue)],
 });
 
 Vue.config.productionTip = false;
@@ -81,5 +81,5 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount('#app');

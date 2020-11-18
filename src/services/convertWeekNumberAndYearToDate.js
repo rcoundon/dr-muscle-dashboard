@@ -1,6 +1,6 @@
 import { setWeek, setYear, setDate } from 'date-fns';
 
-export default weekAndYear => {
+export default (weekAndYear) => {
   const splitWeekAndYear = weekAndYear.split('-');
 
   const week = parseInt(splitWeekAndYear[0]);

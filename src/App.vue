@@ -13,8 +13,8 @@ import TheFooter from '@/components/layout/TheFooter';
 export default {
   components: {
     TheHeader,
-    TheFooter
-  }
+    TheFooter,
+  },
 };
 </script>
 
@@ -122,5 +122,4 @@ $icon-svg-height: auto;
      */
   animation-delay: 0.4s;
 }
-
 </style>

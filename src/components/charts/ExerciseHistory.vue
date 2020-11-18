@@ -9,10 +9,7 @@
       {{ name }} Weight (kg) Volume
     </p>
 
-    <p
-      v-if="error"
-      class="is-danger"
-    >
+    <p v-if="error" class="is-danger">
       {{ error }}
     </p>
     <apexchart
@@ -34,13 +31,13 @@ export default {
   props: {
     exerciseId: {
       type: Number,
-      required: true
+      required: true,
     },
     exerciseName: {
       type: String,
       required: false,
-      default: 'Exercise'
-    }
+      default: 'Exercise',
+    },
   },
   data() {
     return {
@@ -51,38 +48,38 @@ export default {
       displayExercise: undefined,
       chartOptions: {
         chart: {
-          id: 'training-data1'
+          id: 'training-data1',
         },
         dataLabels: {
-          enabled: true
+          enabled: true,
         },
         xaxis: {
           labels: {
             show: true,
             rotate: -45,
             rotateAlways: true,
-            minHeight: '120'
+            minHeight: '120',
           },
           title: {
-            text: 'Training Date'
-          }
+            text: 'Training Date',
+          },
         },
         yaxis: {
           title: {
-            text: 'Volume (kg)'
-          }
+            text: 'Volume (kg)',
+          },
         },
         stroke: {
           width: 3,
-          curve: 'smooth'
-        }
+          curve: 'smooth',
+        },
       },
       series: [
         {
           name: this?.displayExercise?.exercise,
-          data: this.displayExercise
-        }
-      ]
+          data: this.displayExercise,
+        },
+      ],
     };
   },
   computed: {
@@ -93,11 +90,11 @@ export default {
       const overallVolume = {};
       let volume = 0;
       let include = false;
-      this.displayExercise.forEach(workoutDateItem => {
+      this.displayExercise.forEach((workoutDateItem) => {
         include = false;
         volume = 0;
-        workoutDateItem.Exercises.forEach(exercise => {
-          exercise.Sets.forEach(cur => {
+        workoutDateItem.Exercises.forEach((exercise) => {
+          exercise.Sets.forEach((cur) => {
             volume += cur.Reps * cur.Weight.Kg;
           });
           if (volume > 0) {
@@ -110,22 +107,22 @@ export default {
         }
       });
       return overallVolume;
-    }
+    },
   },
   watch: {
     exerciseId: {
       immediate: true,
-      handler: function(newVal) {
+      handler: function (newVal) {
         this.getData(newVal);
-      }
+      },
     },
     exerciseHistory: {
       immediate: true,
-      handler: function() {
+      handler: function () {
         const newData = [];
         newData.push({
           data: Object.values(this.exerciseHistory),
-          name: this?.displayExercise?.exercise
+          name: this?.displayExercise?.exercise,
         });
 
         this.series = newData;
@@ -140,23 +137,23 @@ export default {
                 show: true,
                 rotate: -45,
                 rotateAlways: true,
-                minHeight: '120'
+                minHeight: '120',
               },
               title: {
-                text: 'Training Date'
-              }
-            }
-          }
+                text: 'Training Date',
+              },
+            },
+          },
         };
-      }
-    }
+      },
+    },
   },
   methods: {
     ...mapActions('storeExercise', ['setExercise']),
     buildCategories() {
       if (!this.exerciseHistory) return [];
       const dates = Object.keys(this.exerciseHistory);
-      return dates.map(workoutDate => {
+      return dates.map((workoutDate) => {
         return moment(workoutDate).format('DD-MMM-YY');
       });
     },
@@ -168,11 +165,11 @@ export default {
         const data = await getExerciseHistory(
           this.$axios,
           this.token,
-          exerciseId
+          exerciseId,
         );
         await this.setExercise({
           id: exerciseId,
-          data
+          data,
         });
         this.displayExercise = this.exercise(this.exerciseId);
         this.name = this.exerciseName;
@@ -181,8 +178,8 @@ export default {
       } finally {
         this.isLoading = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -11,11 +11,11 @@ export function calculateBodyPartTotals(exerciseVolume) {
   // categorised by body part
   const output = {
     bodyPartVolumes: [],
-    exerciseTotals: {}
+    exerciseTotals: {},
   };
   const bodyPartVolumes = {};
-  exerciseVolume.forEach(exerciseGroup => {
-    exerciseGroup.forEach(exercise => {
+  exerciseVolume.forEach((exerciseGroup) => {
+    exerciseGroup.forEach((exercise) => {
       const bodyPartKeys = Object.keys(bodyPartVolumes);
 
       // We haven't seen this body part before so create object to represent it
@@ -67,7 +67,7 @@ export function calculateBodyPartTotals(exerciseVolume) {
       if (!output.exerciseTotals[exercise.bodyPartId][exercise.exerciseId]) {
         output.exerciseTotals[exercise.bodyPartId][exercise.exerciseId] = {
           totalWorkouts: 1,
-          totalHardSets: exercise.totalHardSets
+          totalHardSets: exercise.totalHardSets,
         };
       } else {
         // We've seen this body part/exercise combination before, so add the hard sets to the existing value

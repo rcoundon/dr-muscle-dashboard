@@ -1,10 +1,10 @@
 <template>
   <apexchart
+    ref="volumechart"
     :width="width"
     type="line"
     :series="series"
     :options="chartOptions"
-    ref="volumechart"
   />
 </template>
 
@@ -14,43 +14,43 @@ export default {
     weight: {
       required: true,
       type: Array,
-      default: () => []
+      default: () => [],
     },
     height: {
       required: false,
       type: String,
-      default: '20em'
+      default: '20em',
     },
     reps: {
       required: true,
       type: Array,
-      default: () => []
+      default: () => [],
     },
     dates: {
       required: true,
       type: Array,
-      default: () => []
+      default: () => [],
     },
     exercise: {
       required: true,
       type: String,
-      default: 'Unknown'
+      default: 'Unknown',
     },
     width: {
       required: false,
       type: String,
-      default: '100%'
-    }
+      default: '100%',
+    },
   },
   data() {
     return {
       chartOptions: {
         chart: {
-          id: 'training-data'
+          id: 'training-data',
         },
         stroke: {
           width: 3,
-          curve: 'smooth'
+          curve: 'smooth',
         },
         xaxis: {
           categories: this.dates,
@@ -58,36 +58,36 @@ export default {
             show: true,
             rotate: -45,
             rotateAlways: true,
-            minHeight: '120'
+            minHeight: '120',
           },
           title: {
-            text: 'Training Date'
-          }
+            text: 'Training Date',
+          },
         },
         yaxis: {
           title: {
-            text: 'Volume'
-          }
-        }
+            text: 'Volume',
+          },
+        },
       },
       series: [
         {
           name: this.exercise,
-          data: this.trainingData
-        }
-      ]
+          data: this.trainingData,
+        },
+      ],
     };
-  },
-  created() {
-    this.buildChartData();
   },
   watch: {
     reps: {
-      handler: function() {
+      handler: function () {
         this.buildChartData();
         this.$forceUpdate();
-      }
-    }
+      },
+    },
+  },
+  created() {
+    this.buildChartData();
   },
   methods: {
     buildChartData() {
@@ -100,12 +100,12 @@ export default {
       let newData = [];
       newData.push({
         data,
-        name: this.exercise
+        name: this.exercise,
       });
       this.series = newData;
       this.$forceUpdate();
-    }
-  }
+    },
+  },
 };
 </script>
 

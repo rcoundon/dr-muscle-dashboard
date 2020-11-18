@@ -1,32 +1,16 @@
 <template>
   <b-navbar>
     <template slot="brand">
-      <a
-        class="navbar-item"
-        href="https://dr-muscle.com/"
-        target="_new"
-      >
-        <img
-          src="Dr.-Muscle-logo.png"
-          style="max-height: 5em"
-        >
+      <a class="navbar-item" href="https://dr-muscle.com/" target="_new">
+        <img src="Dr.-Muscle-logo.png" style="max-height: 5em" />
       </a>
     </template>
     <template slot="end">
-      <div
-        v-if="showLogout"
-        class="navbar-item"
-      >
+      <div v-if="showLogout" class="navbar-item">
         <div class="buttons">
-          <a
-            class="button is-primary"
-            @click="logout"
-          >
-            Logout
-          </a>
+          <a class="button is-primary" @click="logout"> Logout </a>
         </div>
       </div>
-
 
       <a
         role="button"
@@ -48,14 +32,14 @@ export default {
     ...mapGetters('storeAuth', ['username']),
     showLogout() {
       return this.$route.name !== 'login';
-    }
+    },
   },
   methods: {
     ...mapActions('storeAuth', [
       'setToken',
       'setUsername',
       'setExpiresIn',
-      'setIsAuthenticated'
+      'setIsAuthenticated',
     ]),
     logout() {
       this.setToken(undefined);
@@ -64,10 +48,10 @@ export default {
       this.setIsAuthenticated(false);
       this.$router
         .push({
-          name: 'login'
+          name: 'login',
         })
         // eslint-disable-next-line no-unused-vars
-        .catch(err => {});
+        .catch((err) => {});
     },
     showMenu() {
       // const nav = this.$refs.navbarMenu;
@@ -77,8 +61,8 @@ export default {
       // } else {
       //   nav.className = 'nav-right nav-menu';
       // }
-    }
-  }
+    },
+  },
 };
 </script>
 

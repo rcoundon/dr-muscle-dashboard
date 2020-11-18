@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="content has-text-centered">
       <slot />
-      <br>
+      <br />
       <p
         v-if="isAuthenticated"
         class="has-text-weight-semibold has-text-primary"
@@ -21,10 +21,9 @@ export default {
     ...mapGetters('storeAuth', ['isAuthenticated']),
     version() {
       return packageJson.version;
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -8,7 +8,7 @@ export default {
   state: {
     exercises: [],
     weekNumbers: [],
-    exerciseHistory: {}
+    exerciseHistory: {},
   },
   mutations: {
     SET_EXERCISES(state, exercises) {
@@ -19,7 +19,7 @@ export default {
     },
     SET_WEEK_NUMBERS(state, weekNumbers) {
       state.weekNumbers = weekNumbers;
-    }
+    },
   },
   actions: {
     setExercises({ commit }, exercises) {
@@ -30,11 +30,11 @@ export default {
     },
     setWeekNumbers({ commit }, weekNumbers) {
       commit('SET_WEEK_NUMBERS', weekNumbers);
-    }
+    },
   },
   getters: {
-    exercises: state => state.exercises,
-    exerciseHistory: state => state.exerciseHistory,
-    weekNumbers: state => state.weekNumbers
-  }
+    exercises: (state) => state.exercises,
+    exerciseHistory: (state) => state.exerciseHistory,
+    weekNumbers: (state) => state.weekNumbers,
+  },
 };

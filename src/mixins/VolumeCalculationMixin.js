@@ -34,11 +34,11 @@ export default {
       let returnVal;
       if (!this.sortedXValues) return [];
       if (this.weekYearFrom && this.weekYearTo) {
-        returnVal = this.sortedXValues.filter(week => {
+        returnVal = this.sortedXValues.filter((week) => {
           const thisWeek = convertWeekNumberAndYearToDate(week);
           const differenceFromToTest = differenceInDays(
             this.dateFrom,
-            thisWeek
+            thisWeek,
           );
           const differenceTestToTo = differenceInDays(thisWeek, this.dateTo);
 
@@ -61,7 +61,7 @@ export default {
           const thisWeek = convertWeekNumberAndYearToDate(week);
           const differenceFromToTest = differenceInDays(
             this.dateFrom,
-            thisWeek
+            thisWeek,
           );
           const differenceTestToTo = differenceInDays(thisWeek, this.dateTo);
           if (differenceFromToTest <= 0) {
@@ -110,7 +110,7 @@ export default {
       }
       const yValues = this.exerciseHistory[this.selectedBodyPart][
         weightUnit
-      ].map(val => {
+      ].map((val) => {
         return val.toFixed(1);
       });
       if (this.weekYearFrom && this.weekYearTo) {
@@ -139,14 +139,14 @@ export default {
     },
     bodyPartName() {
       return this.getBodyPartName(this.selectedBodyPart);
-    }
+    },
   },
   watch: {
     sortedXValues: {
-      handler: function(newVal) {
+      handler: function (newVal) {
         this.setWeekNumbers(newVal);
-      }
-    }
+      },
+    },
   },
   methods: {
     ...mapActions('storeExercises', ['setWeekNumbers']),
@@ -158,6 +158,6 @@ export default {
     },
     buildAllWorkoutVolumes() {
       return buildWorkoutVolumeByWeek();
-    }
-  }
+    },
+  },
 };

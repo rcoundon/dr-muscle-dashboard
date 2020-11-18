@@ -6,23 +6,23 @@ Vue.use(Vuex);
 export default {
   namespaced: true,
   state: {
-    performedExercises: {}
+    performedExercises: {},
   },
   mutations: {
     SET_EXERCISE(state, exercise) {
       state.performedExercises[exercise.id] = exercise.data.Result;
-    }
+    },
   },
   actions: {
     setExercise({ commit }, exercise) {
       commit('SET_EXERCISE', exercise);
-    }
+    },
   },
   getters: {
     exercise(state) {
-      return id => {
+      return (id) => {
         return state.performedExercises[id];
       };
-    }
-  }
+    },
+  },
 };

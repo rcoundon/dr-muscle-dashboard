@@ -12,8 +12,8 @@ const routes = [
     name: 'home',
     component: Home,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
     name: 'login',
@@ -21,8 +21,8 @@ const routes = [
     component: LoginPage,
     props: true,
     meta: {
-      title: 'Login'
-    }
+      title: 'Login',
+    },
   },
   {
     path: '/about',
@@ -31,26 +31,26 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+      import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
 ];
 
 const router = new VueRouter({
   mode: 'history',
-  routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
-  let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  let requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
   const token = store.getters['storeAuth/token'];
 
   if (requiresAuth && !token) {
     router
       .push({
-        name: 'login'
+        name: 'login',
       })
       // eslint-disable-next-line no-unused-vars
-      .catch(err => {});
+      .catch((err) => {});
   }
   next();
 });

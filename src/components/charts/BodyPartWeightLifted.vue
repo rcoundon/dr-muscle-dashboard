@@ -2,12 +2,15 @@
   <div class="card">
     <div v-if="!showChart">
       <p class="is-size-4 processing">
-        Loading weight data for {{ bodyPartName }}<span>.</span><span>.</span><span>.</span>
+        Loading weight data for {{ bodyPartName }}<span>.</span><span>.</span
+        ><span>.</span>
       </p>
     </div>
     <div v-if="showChart">
       <p class="has-text-centered is-size-4 has-text-weight-semibold">
-        {{ `Total Weight Lifted (${units}) by Week Number for ${bodyPartName}` }}
+        {{
+          `Total Weight Lifted (${units}) by Week Number for ${bodyPartName}`
+        }}
       </p>
       <apexchart
         v-if="showChart"
@@ -31,7 +34,7 @@ export default {
     exerciseData: {
       type: Array,
       required: true,
-      default: () => []
+      default: () => [],
     },
     exerciseHistory: {
       type: Object,
@@ -41,59 +44,59 @@ export default {
           setVolume: [],
           weeks: [],
           weightVolumeKg: [],
-          weightVolumeLb: []
+          weightVolumeLb: [],
         };
-      }
+      },
     },
     selectedBodyPart: {
       type: Number,
-      required: true
+      required: true,
     },
     weekYearFrom: {
       type: String,
       required: false,
-      default: ''
+      default: '',
     },
     weekYearTo: {
       type: String,
       required: false,
-      default: ''
+      default: '',
     },
     units: {
       type: String,
-      default: 'kg'
-    }
+      default: 'kg',
+    },
   },
   computed: {
     chartOptions() {
       let baseOptions = {
         chart: {
-          id: 'bodypartvolumechart'
+          id: 'bodypartvolumechart',
         },
         dataLabels: {
-          enabled: true
+          enabled: true,
         },
         xaxis: {
           labels: {
             show: true,
-            hideOverlappingLabels: true
+            hideOverlappingLabels: true,
           },
           title: {
-            text: 'Training Week'
-          }
+            text: 'Training Week',
+          },
         },
         yaxis: {
           title: {
-            text: `Volume (${this.units})`
-          }
+            text: `Volume (${this.units})`,
+          },
         },
         stroke: {
           width: 3,
-          curve: 'smooth'
+          curve: 'smooth',
         },
         subtitle: {
-          text: 'x-axis label format is #Week-year'
-        }
+          text: 'x-axis label format is #Week-year',
+        },
       };
       return {
         ...baseOptions,
@@ -101,13 +104,13 @@ export default {
           xaxis: {
             categories: this.filteredXValues,
             title: {
-              text: 'Training Week'
+              text: 'Training Week',
             },
             labels: {
-              show: true
-            }
-          }
-        }
+              show: true,
+            },
+          },
+        },
       };
     },
     yFitValues() {
@@ -117,14 +120,14 @@ export default {
       return [
         {
           name: `Total ${this.units} Lifted`,
-          data: this.filteredYWeightValues
+          data: this.filteredYWeightValues,
         },
         {
           name: 'Trend',
-          data: this.yFitValues
-        }
+          data: this.yFitValues,
+        },
       ];
-    }
-  }
+    },
+  },
 };
 </script>

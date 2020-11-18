@@ -9,7 +9,7 @@ export default {
     token: undefined,
     username: undefined,
     expiresIn: 0,
-    isAuthenticated: false
+    isAuthenticated: false,
   },
   mutations: {
     SET_TOKEN(state, token) {
@@ -26,7 +26,7 @@ export default {
     },
     SET_IS_AUTHENTICATED(state, isAuthenticated) {
       state.isAuthenticated = isAuthenticated;
-    }
+    },
   },
   actions: {
     setToken({ commit }, token) {
@@ -40,12 +40,12 @@ export default {
     },
     setIsAuthenticated({ commit }, isAuthenticated) {
       commit('SET_IS_AUTHENTICATED', isAuthenticated);
-    }
+    },
   },
   getters: {
-    token: state => state.token,
-    username: state => state.username,
-    expiresIn: state => state.expiresIn,
-    isAuthenticated: state => state.isAuthenticated
-  }
+    token: (state) => state.token,
+    username: (state) => state.username,
+    expiresIn: (state) => state.expiresIn,
+    isAuthenticated: (state) => state.isAuthenticated,
+  },
 };

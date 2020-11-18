@@ -7,35 +7,18 @@
       :paginated="true"
       :per-page="5"
     >
-      <template slot-scope="props">
-        <b-table-column
-          field="date"
-          label="Date"
-        >
-          {{ props.row.date }}
-        </b-table-column>
-        <b-table-column
-          field="weight"
-          label="Weight"
-          numeric
-        >
-          {{ props.row.weight }}
-        </b-table-column>
-        <b-table-column
-          field="reps"
-          label="Reps"
-          numeric
-        >
-          {{ props.row.reps }}
-        </b-table-column>
-        <b-table-column
-          field="volume"
-          label="Set Volume"
-          numeric
-        >
-          {{ props.row.volume }}
-        </b-table-column>
-      </template>
+      <b-table-column v-slot="props" field="date" label="Date">
+        {{ props.row.date }}
+      </b-table-column>
+      <b-table-column v-slot="props" field="weight" label="Weight" numeric>
+        {{ props.row.weight }}
+      </b-table-column>
+      <b-table-column v-slot="props" field="reps" label="Reps" numeric>
+        {{ props.row.reps }}
+      </b-table-column>
+      <b-table-column v-slot="props" field="volume" label="Set Volume" numeric>
+        {{ props.row.volume }}
+      </b-table-column>
     </b-table>
   </span>
 </template>
@@ -46,23 +29,23 @@ export default {
     weight: {
       required: true,
       type: Array,
-      default: () => []
+      default: () => [],
     },
     reps: {
       required: true,
       type: Array,
-      default: () => []
+      default: () => [],
     },
     dates: {
       required: true,
       type: Array,
-      default: () => []
+      default: () => [],
     },
     exercise: {
       required: true,
       type: String,
-      default: 'Unknown'
-    }
+      default: 'Unknown',
+    },
   },
   data() {
     return {
@@ -71,32 +54,32 @@ export default {
         {
           field: 'date',
           label: 'Date',
-          numeric: false
+          numeric: false,
         },
         {
           field: 'weight',
           label: 'Weight',
-          numeric: true
+          numeric: true,
         },
         {
           field: 'reps',
           label: 'Reps',
-          numeric: true
+          numeric: true,
         },
         {
           field: 'volume',
           label: 'Volume',
-          numeric: true
-        }
-      ]
+          numeric: true,
+        },
+      ],
     };
   },
   watch: {
     weight: {
-      handler: function() {
+      handler: function () {
         this.buildTableData();
-      }
-    }
+      },
+    },
   },
   created() {
     this.buildTableData();
@@ -109,13 +92,13 @@ export default {
           reps: repValue,
           weight: this.weight[idx],
           date: this.dates[idx],
-          volume: (repValue * this.weight[idx]).toFixed(1)
+          volume: (repValue * this.weight[idx]).toFixed(1),
         };
         data.push(item);
       });
       this.tableData = data;
-    }
-  }
+    },
+  },
 };
 </script>
 

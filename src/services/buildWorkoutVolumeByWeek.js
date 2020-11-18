@@ -2,7 +2,7 @@ import { compareAsc, getWeek, getYear } from 'date-fns';
 
 function getWeekAndYearFromDate(date) {
   const getWeekOptions = {
-    weekStartsOn: 1
+    weekStartsOn: 1,
   };
   const weekNumber = getWeek(date, getWeekOptions);
   const year = getYear(date);
@@ -18,10 +18,10 @@ function sortWorkouts(workoutA, workoutB) {
 
 export function buildWorkoutVolumeByWeek(data) {
   // debugger;
-  const refactoredData = data.Result.map(workout => {
+  const refactoredData = data.Result.map((workout) => {
     const workoutDate = new Date(workout.WorkoutDate);
     const weekYear = getWeekAndYearFromDate(workoutDate);
-    const exerciseArray = workout.Exercises.map(exercise => {
+    const exerciseArray = workout.Exercises.map((exercise) => {
       const exerciseSummary = {
         exerciseId: exercise.Sets[0].Exercice.Id,
         label: exercise.Sets[0].Exercice.Label,
@@ -29,7 +29,7 @@ export function buildWorkoutVolumeByWeek(data) {
         bodyPartId: exercise.Sets[0].Exercice.BodyPartId,
         totalWeightKg: exercise.TotalWeight.Kg,
         totalWeightLb: exercise.TotalWeight.Lb,
-        totalSets: exercise.Sets?.length || 0
+        totalSets: exercise.Sets?.length || 0,
       };
       return exerciseSummary;
     });
@@ -37,7 +37,7 @@ export function buildWorkoutVolumeByWeek(data) {
     const workoutSummary = {
       exerciseSummary: exerciseArray,
       workoutDate,
-      weekNumber: weekYear
+      weekNumber: weekYear,
     };
     return workoutSummary;
   }).sort(sortWorkouts);
@@ -46,25 +46,25 @@ export function buildWorkoutVolumeByWeek(data) {
   const weekNumbers = [];
   const volume = [];
 
-  refactoredData.forEach(workout => {
-    workout.exerciseSummary.forEach(exercise => {
+  refactoredData.forEach((workout) => {
+    workout.exerciseSummary.forEach((exercise) => {
       let bodyPartKeys = Object.keys(bodyPartVolume);
       if (!bodyPartKeys.includes('' + exercise.bodyPartId)) {
         bodyPartVolume['' + exercise.bodyPartId] = {
           weeks: [],
           setVolume: [],
           weightVolumeKg: [],
-          weightVolumeLb: []
+          weightVolumeLb: [],
         };
         bodyPartVolume['' + exercise.bodyPartId].weeks.push(workout.weekNumber);
         bodyPartVolume['' + exercise.bodyPartId].setVolume.push(
-          exercise.totalSets
+          exercise.totalSets,
         );
         bodyPartVolume['' + exercise.bodyPartId].weightVolumeKg.push(
-          exercise.totalWeightKg
+          exercise.totalWeightKg,
         );
         bodyPartVolume['' + exercise.bodyPartId].weightVolumeLb.push(
-          exercise.totalWeightLb
+          exercise.totalWeightLb,
         );
       } else {
         let oldValueIdx = bodyPartVolume[
@@ -92,16 +92,16 @@ export function buildWorkoutVolumeByWeek(data) {
             oldLbValue + exercise.totalWeightLb;
         } else {
           bodyPartVolume['' + exercise.bodyPartId].weeks.push(
-            workout.weekNumber
+            workout.weekNumber,
           );
           bodyPartVolume['' + exercise.bodyPartId].setVolume.push(
-            exercise.totalSets
+            exercise.totalSets,
           );
           bodyPartVolume['' + exercise.bodyPartId].weightVolumeKg.push(
-            exercise.totalWeightKg
+            exercise.totalWeightKg,
           );
           bodyPartVolume['' + exercise.bodyPartId].weightVolumeLb.push(
-            exercise.totalWeightLb
+            exercise.totalWeightLb,
           );
         }
       }
@@ -193,7 +193,7 @@ function findIdsFromSets(sets) {
   if (!sets || sets.length === 0) {
     return {
       bodyPartId,
-      exerciseId
+      exerciseId,
     };
   }
   for (let i = 0; i < sets.length; i++) {
@@ -205,6 +205,6 @@ function findIdsFromSets(sets) {
   }
   return {
     bodyPartId,
-    exerciseId
+    exerciseId,
   };
 }

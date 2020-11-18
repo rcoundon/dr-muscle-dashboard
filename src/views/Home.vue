@@ -9,17 +9,12 @@
       <div class="column">
         <p
           class="has-text-left has-text-weight-semibold"
-          style="padding-left: 1em; "
+          style="padding-left: 1em"
         >
           Select a body part to display your specific training volume
         </p>
-        <b-field
-          grouped
-          style="padding-top: 1em"
-        >
-          <b-field
-            style="padding-left: 1em"
-          >
+        <b-field grouped style="padding-top: 1em">
+          <b-field style="padding-left: 1em">
             <b-select
               v-model="selectedBodyPart"
               placeholder="Select a body part"
@@ -34,27 +29,14 @@
               </option>
             </b-select>
           </b-field>
-          <b-field
-
-            style="padding-left: 1em"
-          >
+          <b-field style="padding-left: 1em">
             <b-select
               v-model="weightUnits"
               placeholder="Kg or Lb?"
               icon="weight"
             >
-              <option
-                key="kg"
-                value="kg"
-              >
-                kg
-              </option>
-              <option
-                key="lb"
-                value="lb"
-              >
-                lb
-              </option>
+              <option key="kg" value="kg">kg</option>
+              <option key="lb" value="lb">lb</option>
             </b-select>
           </b-field>
         </b-field>
@@ -62,7 +44,8 @@
           class="has-text-left has-text-weight-semibold"
           style="padding-left: 1em; padding-bottom: 1em"
         >
-          Select the start and end dates to be displayed in the charts.  Format is WeekNumber-Year
+          Select the start and end dates to be displayed in the charts. Format
+          is WeekNumber-Year
         </p>
         <b-field grouped>
           <b-field
@@ -123,7 +106,7 @@
             :units="weightUnits"
           />
         </div>
-        <total-exercise-count @selectedExercise="setSelectedExercise" />
+        <total-exercise-count @selected-exercise="setSelectedExercise" />
         <OneRepMax
           v-if="exerciseMaxes && exerciseMaxes.length > 0"
           id="oneRepMax"
@@ -132,19 +115,14 @@
           :exercise-name="selectedExerciseName"
           :units="weightUnits"
           @hook:mounted="scrollToOneRepMax"
-          @oneRepMaxUpdated="scrollToOneRepMax"
+          @one-rep-max-updated="scrollToOneRepMax"
         />
-        <div
-          v-if="isLoading"
-          style="padding-top: 1em"
-        >
+        <div v-if="isLoading" style="padding-top: 1em">
           <p class="is-size-4 is-primary has-text-weight-semibold">
             Loading the detail of your workout history...
           </p>
-          <p class="is-size-4 is-primary ">
-            If you've been working out a while
-          </p>
-          <p class="is-size-4 is-primary ">
+          <p class="is-size-4 is-primary">If you've been working out a while</p>
+          <p class="is-size-4 is-primary">
             this could take around a minute (but it's worth it!)
           </p>
           <p class="is-size-4 processing">
@@ -176,7 +154,7 @@ export default {
     TotalExerciseCount,
     BodyPartVolume,
     BodyPartWeightLifted,
-    OneRepMax
+    OneRepMax,
   },
   data() {
     return {
@@ -187,33 +165,33 @@ export default {
       isLoading: false,
       selectedBodyPart: 2,
       weekFrom: '',
-      weekTo: ''
+      weekTo: '',
     };
   },
   computed: {
     ...mapGetters('storeExercises', [
       'exercises',
       'weekNumbers',
-      'exerciseHistory'
+      'exerciseHistory',
     ]),
     ...mapGetters('storeAuth', ['token']),
     selectedExerciseName() {
       if (!this.exercises) return '';
-      const exercise = this.exercises.filter(exercise => {
+      const exercise = this.exercises.filter((exercise) => {
         return exercise.id === this.selectedExercise;
       });
       return exercise[0] ? exercise[0].Label : '';
     },
     bodyParts() {
       const bodyPartKeys = Object.keys(bodyPartsObj);
-      const bodyParts = bodyPartKeys.map(key => {
+      const bodyParts = bodyPartKeys.map((key) => {
         return {
           id: +key,
-          bodyPart: bodyPartsObj[key]
+          bodyPart: bodyPartsObj[key],
         };
       });
       return bodyParts;
-    }
+    },
   },
   async created() {
     try {
@@ -242,7 +220,7 @@ export default {
           this.$axios,
           this.token,
           this.selectedExercise,
-          undefined
+          undefined,
         );
         const oneRepMaxData = buildOneRepMaxes(data, this.selectedExercise);
         this.exerciseMaxes = oneRepMaxData.sort((workoutA, workoutB) => {
@@ -265,7 +243,7 @@ export default {
           this.$axios,
           this.token,
           undefined,
-          undefined
+          undefined,
         );
       } catch (err) {
         console.error(err);
@@ -273,8 +251,8 @@ export default {
         console.timeEnd('buildHistory');
         this.isLoading = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
