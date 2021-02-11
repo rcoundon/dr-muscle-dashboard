@@ -18,7 +18,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/vue-fontawesome": "^2.0.2",
-    "apexcharts": "^3.23.0",
+    "apexcharts": "^3.24.0",
     "axios": "^0.21.1",
     "brotli-webpack-plugin": "^1.1.0",
     "buefy": "^0.9.4",
