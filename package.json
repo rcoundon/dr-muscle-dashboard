@@ -1,6 +1,6 @@
 {
   "name": "dr-muscle-dashboard",
-  "version": "0.1.30",
+  "version": "0.1.31",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --production",
@@ -46,7 +46,7 @@
     "@vue/cli-service": "~4.5.12",
     "@vue/eslint-config-prettier": "^6.0.0",
     "babel-eslint": "^10.1.0",
-    "compression-webpack-plugin": "^7.1.2",
+    "compression-webpack-plugin": "^6.1.1",
     "conventional-github-releaser": "^3.1.5",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
