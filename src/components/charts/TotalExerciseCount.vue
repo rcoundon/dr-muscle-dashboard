@@ -10,7 +10,12 @@
     </p>
     <p
       v-if="!isLoading"
-      class="is-italic has-text-primary has-text-centered is-size-5 has-text-weight-semibold"
+      class="
+        is-italic
+        has-text-primary has-text-centered
+        is-size-5
+        has-text-weight-semibold
+      "
     >
       Tap on an exercise for your 1RM history
     </p>
